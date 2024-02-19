@@ -92,7 +92,7 @@ Well, you can turn off questions and use the daily claim feature, so people can'
 # Discord Bot:
 
 ## Cool Modified Stats UI
-![image](https://github.com/hypervortex/Bombsuqad-Modded-Server-Files/assets/75498823/250b1511-627d-44ab-b397-98077c27246b)
+### ![image](https://github.com/hypervortex/Bombsuqad-Modded-Server-Files/assets/75498823/250b1511-627d-44ab-b397-98077c27246b)
 
 * You can easily add admin, VIP, owner, custom tags, effects, staff, and mods directly from your Discord server.
 * Efficient Server Management using Discord commands. You can do everything from Discord, like adding effects, muting, tags, roles, restarting server, getting player info such as rank, * * * score, device id, IP, and many more data. To get more details, set up the bot and try v!help.
