@@ -1,0 +1,132 @@
+{
+    "whitelist": false,
+    "useV2Account": false,
+    "Anti-IdRevealer": false,
+    "ChatCommands": {
+  	  "BrodcastCommand": true
+    },
+    "textonmap": {
+        "top watermark": " ",
+        "bottom left watermark": "      \ue043[,👑] |VORTEX SERVER| [👑]          \n____________________________________\n\n\n____________________________________\n",
+        "center highlights":{
+            "color":[1,0,0],
+            "randomColor":true,
+            "msg":[
+                "\ue048WELCOME TO VORTEX & ROCKY OFFICIAL\ue048",
+                "\ue043JOIN OUR DISCORD : VH PARADISE :)\ue043",
+                "\ue043TYPE END TO START END VOTE\ue043",
+                "\ue046START MSG WITH PREFIX .(dot) TO SEND IN GAME POPUP MSG\ue046",
+                "\ue048TYPE NV TO START NV VOTE\ue048",
+                "\ue049START MSG WITH PREFIX ,(comma) TO SEND MSG TO TEAMMATES\ue049",
+                "\ue043PLEASE RESPECT OTHER PLAYERS\ue043",
+                "\ue049JOIN OUR DISCORD SERVER BY CLICKING ON STATS BUTTON\ue049",
+                "\ue046DO NOT TEAMING WITH ANY PLAYER OR YOU WILL BE PUNISHED\ue046"
+                ]
+        }
+    },
+    "ScoreScreenAnnouncement":{
+        "enable": true,
+        "msg": ["Click stats button to join discord", "Respect your fellow mates!","Join discord server to write a complaint!"]
+    },
+    "statsResetAfterDays":70,
+    "leaderboard":{
+        "enable":true,
+        "barsBehindName":true
+    },
+    "autoNightMode":{
+        "enable":false,
+        "startTime":"18:30",
+        "endTime":"06:00",
+        "fireflies":false,
+        "fireflies_random_color":false
+    },
+    "colorfullMap":false,
+    "playlists":{
+        "team":12345,
+        "ffa":412175,
+        "elim":412172,
+        "soccer":412160,
+        "smash":412151,
+        "ffasmash":412179,
+        "epic":412173
+    },
+    "coopModeWithLessPlayers":{
+        "enable":false,
+        "minPlayerToExitCoop":0
+    },
+    "mikirogQuickTurn":{
+        "enable":false
+    },
+    "colorful_explosions":{
+        "enable":true
+    },
+    "ballistica_web": {
+        "enable":false
+    },
+    "character_chooser":{
+        "enable":true
+    },
+    "custom_characters": {
+        "enable":true
+    },
+    "StumbledScoreScreen":true,
+    "elPatronPowerups":{
+        "enable":true,
+        "settings":{"Powers Gravity": true,
+            "Tank Shield PTG": 96,
+            "Healing Damage PTG": 72,
+            "Powerup Style": "Auto",
+            "Powerup Scale": 1.0,
+            "Powerup Name": true,
+            "Powerup With Shield": false,
+            "Powerup Time": true},
+        "Quantity":{ "Shield": 0,
+             "Punch": 0, "Mine Bombs": 2,
+            "Impact Bombs": 3, "Ice Bombs": 3, "Triple": 3,
+            "Sticky Bombs": 3, "Curse": 5, "Health": 1,
+            "Speed": 2, "Healing Damage": 1, "Goodbye": 2,
+            "Ice Man": 1,"Tank Shield": 0, "Impairment Bombs": 2,
+            "Fire Bombs": 3, "Fly Bombs": 2}
+    },
+    "discordbot":{
+        "enable": true,
+        "token":"ODc3MDY4NTQ3OTM3OTM1MzYw.GnTlHv.MV3YA-UxOGfjH8coZorOAk5Wjb0pFjuxaqQitE",
+        "liveChat":true,
+        "liveStatsChannelID":1079019991694839818,
+        "logsChannelID":1083080361711505508
+    },
+    "afk_remover":{
+        "enable":true,
+        "ingame_idle_time_in_secs":300,
+        "kick_idle_from_lobby":true,
+        "lobby_idle_time_in_secs":20
+    },
+    "allowTeamChat":true,
+    "allowEndVote":true,
+    "allowInGameChat":true,
+    "sameCharacterForTeam":false,
+    "newResultBoard":true,
+    "HostDeviceName":"V-ROCKY v1.4",
+    "HostName":"R-VORTEX",
+    "ShowKickVoteStarterName":true,
+    "KickVoteMsgType":"chat",
+    "minAgeToChatInHours":78,
+    "minAgeToJoinInHours":24,
+    "maxWarnCount":3,
+    "WarnCooldownMinutes":5,
+    "maxAccountPerIP":3,
+    "maxPlayersPerDevice":3,
+    "warnMsg":"WARNING !!!",
+    "afterWarnKickMsg":"Enough warnings, Goodbye have a nice day :)",
+    "firstTimeJoinMsg":"Welcome to VORTEX vs ROCKY BANG!!! Lets goo..",
+    "regularWelcomeMsg":"Welcome Back boiii..!",
+    "contributeData": false,
+    "enabletags": true,
+    "enablehptag": true,
+    "enablerank": true,
+    "enablestats": true,
+    "enableHitTexts": true,
+    "enableeffects": true,
+    "enableTop5effects": true,
+    "enableTagAnimation":true
+}

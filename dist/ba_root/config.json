@@ -1,0 +1,653 @@
+{
+ "Account V2 State": "Lp564HjMgcI2W5Gvu+R58hzHjwmHbEE=",
+ "Achievements": {
+  "Boom Goes the Dynamite": {
+   "Complete": true
+  },
+  "Boxer": {
+   "Complete": true
+  },
+  "Dual Wielding": {
+   "Complete": false
+  },
+  "Flawless Victory": {
+   "Complete": false
+  },
+  "Free Loader": {
+   "Complete": true
+  },
+  "Gold Miner": {
+   "Complete": false
+  },
+  "Got the Moves": {
+   "Complete": false
+  },
+  "In Control": {
+   "Complete": false
+  },
+  "Last Stand God": {
+   "Complete": true
+  },
+  "Last Stand Master": {
+   "Complete": true
+  },
+  "Last Stand Wizard": {
+   "Complete": true
+  },
+  "Mine Games": {
+   "Complete": true
+  },
+  "Off You Go Then": {
+   "Complete": true
+  },
+  "Onslaught God": {
+   "Complete": false
+  },
+  "Onslaught Master": {
+   "Complete": false
+  },
+  "Onslaught Training Victory": {
+   "Complete": true
+  },
+  "Onslaught Wizard": {
+   "Complete": false
+  },
+  "Precision Bombing": {
+   "Complete": true
+  },
+  "Pro Boxer": {
+   "Complete": false
+  },
+  "Pro Football Shutout": {
+   "Complete": true
+  },
+  "Pro Football Victory": {
+   "Complete": true
+  },
+  "Pro Onslaught Victory": {
+   "Complete": true
+  },
+  "Pro Runaround Victory": {
+   "Complete": true
+  },
+  "Rookie Football Shutout": {
+   "Complete": true
+  },
+  "Rookie Football Victory": {
+   "Complete": true
+  },
+  "Rookie Onslaught Victory": {
+   "Complete": true
+  },
+  "Runaround God": {
+   "Complete": false
+  },
+  "Runaround Master": {
+   "Complete": false
+  },
+  "Runaround Wizard": {
+   "Complete": false
+  },
+  "Sharing is Caring": {
+   "Complete": false
+  },
+  "Stayin' Alive": {
+   "Complete": true
+  },
+  "Super Mega Punch": {
+   "Complete": true
+  },
+  "Super Punch": {
+   "Complete": true
+  },
+  "TNT Terror": {
+   "Complete": true
+  },
+  "Team Player": {
+   "Complete": true
+  },
+  "The Great Wall": {
+   "Complete": true
+  },
+  "The Wall": {
+   "Complete": true
+  },
+  "Uber Football Shutout": {
+   "Complete": true
+  },
+  "Uber Football Victory": {
+   "Complete": true
+  },
+  "Uber Onslaught Victory": {
+   "Complete": true
+  },
+  "Uber Runaround Victory": {
+   "Complete": true
+  }
+ },
+ "Auto Account State": "Server",
+ "Auto Balance Teams": true,
+ "Bear Coin": 8400,
+ "Bear Store": {
+  "Buy Firebombs": false,
+  "Buy Option": false,
+  "Buy Percentage": false,
+  "Promo Code": {
+   "B-0mB3RYT2z": [
+    true,
+    910
+   ],
+   "B-Asd14mON9G0D": [
+    true,
+    910
+   ],
+   "D-rAcK0cJ23": [
+    true,
+    910
+   ],
+   "E-Am54igO42Os": [
+    true,
+    600
+   ],
+   "E-M4uN3K34XB": [
+    true,
+    840
+   ],
+   "E-a27ZO6f3Y": [
+    true,
+    600
+   ],
+   "G-Am54igO42Os": [
+    true,
+    1100
+   ],
+   "P-tRo8nM8dZ": [
+    true,
+    2800
+   ],
+   "PM-731ClcAF": [
+    true,
+    50000
+   ],
+   "Y-tU2B3S": [
+    true,
+    500
+   ]
+  }
+ },
+ "Campaigns": {},
+ "Custom Team Colors": [
+  [
+   0.8,
+   0.0,
+   0.6
+  ],
+  [
+   0.0,
+   1.0,
+   0.8
+  ]
+ ],
+ "Custom Team Names": [
+  "vortex",
+  "sara"
+ ],
+ "Default Player Profiles": {
+  "Client Input Device #1": "__account__",
+  "Client Input Device #2": "__account__"
+ },
+ "Fleet Zone Pings": {
+  "prod": {
+   "bahrain": 35.611586179584265,
+   "delhi": 21.073729265481234,
+   "dubai": 29.10695457831025,
+   "hyderabad": 20.942341070622206,
+   "kolkata": 32.773362938314676,
+   "mumbai": 0.45976415276527405
+  }
+ },
+ "Free-for-All Max Players": 25,
+ "Free-for-All Playlist Randomize": true,
+ "Free-for-All Playlist Selection": "__default__",
+ "Free-for-All Playlists": {},
+ "Idle Exit Minutes": null,
+ "Local Account Name": "Server7611774",
+ "PPM Settings": {
+  "Healing Damage PTG": 72,
+  "Powers Gravity": true,
+  "Powerup Name": true,
+  "Powerup Scale": 1.0,
+  "Powerup Style": "Auto",
+  "Powerup Time": true,
+  "Powerup With Shield": false,
+  "Powerups": {
+   "Champion": 2,
+   "Curse": 1,
+   "ExtraLyfe": 2,
+   "False Bombs": 2,
+   "Fire Bombs": 3,
+   "Fly Bombs": 312,
+   "Goodbye": 2,
+   "Healing Damage": 1,
+   "Health": 1,
+   "Ice Bombs": 3,
+   "Ice Man": 1,
+   "Impact Bombs": 3,
+   "Impairment Bombs": 2,
+   "Mine Bombs": 2,
+   "Multi Bomb": 2,
+   "PWP": 2,
+   "Punch": 0,
+   "Radius": 2,
+   "Shield": 0,
+   "Speed": 2,
+   "Spunch": 2,
+   "Sticky Bombs": 3,
+   "Tank Shield": 0,
+   "Triple": 3
+  },
+  "Tank Shield PTG": 96
+ },
+ "PSTR": 0,
+ "Player Profiles": {
+  "__account__": {
+   "character": "Spaz",
+   "color": [
+    0.5,
+    0.25,
+    1.0
+   ],
+   "highlight": [
+    0.5,
+    0.25,
+    1.0
+   ]
+  }
+ },
+ "Plugins": {
+  "custom_hooks.modSetup": {
+   "enabled": true
+  },
+  "plugins.Backflip.Sara": {
+   "enabled": true
+  },
+  "plugins.Init": {
+   "enabled": true
+  }
+ },
+ "Port": 43224,
+ "Region Pings": {
+  "af-south-1": 328.2357999996748,
+  "ap-northeast-1": 150.0941541948123,
+  "ap-northeast-2": 160.2201884064998,
+  "ap-south-1": 45.05286179925315,
+  "ap-southeast-1": 101.91129060697858,
+  "ap-southeast-2": 183.6228000029223,
+  "ca-central-1": 262.4569968022115,
+  "eu-central-1": 155.88790780561976,
+  "eu-north-1": 181.94498299446423,
+  "eu-south-1": 156.48616400256287,
+  "eu-west-1": 179.42955539320246,
+  "eu-west-2": 158.43393659518915,
+  "eu-west-3": 170.620519401622,
+  "me-south-1": 78.16982959693996,
+  "sa-east-1": 345.57150000182446,
+  "us-east-1": 238.92560360513744,
+  "us-east-2": 257.30932620124076,
+  "us-west-1": 255.34800000605173,
+  "us-west-2": 292.9734999925131
+ },
+ "Selected Coop Game": "Easy:Rookie Onslaught",
+ "Show Tutorial": false,
+ "Signed In Last Session": false,
+ "Team Game Max Player": 25,
+ "Team Game Max Players": 25,
+ "Team Tournament Playlist Randomize": true,
+ "Team Tournament Playlist Selection": "sara_full_epic_best_playlist",
+ "Team Tournament Playlists": {
+  "sara_full_epic_best_playlist": [
+   {
+    "settings": {
+     "Balance Total Lives": true,
+     "Epic Mode": true,
+     "Lives Per Player": 2,
+     "Respawn Times": 0.25,
+     "Solo Mode": false,
+     "Time Limit": 0,
+     "map": "Crag Castle"
+    },
+    "type": "bastd.game.elimination.EliminationGame"
+   },
+   {
+    "settings": {
+     "Enable Bottom Credit": false,
+     "Enable Punching": false,
+     "Enable Running": true,
+     "Epic Mode": true,
+     "Time Limit": 0,
+     "map": "Doom Shroom"
+    },
+    "type": "MusicalFlags.MFGame"
+   },
+   {
+    "settings": {
+     "Boxing Gloves": true,
+     "Epic Mode": true,
+     "Icy Floor": true,
+     "Respawn Times": 0.25,
+     "Score to Win": 6,
+     "Time Limit": 0,
+     "map": "Football Stadium"
+    },
+    "type": "soccer.HockeyGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Lives (0 = Unlimited)": 2,
+     "Respawn Times": 0.5,
+     "Time Limit": 0,
+     "map": "Step Right Up"
+    },
+    "type": "SuperSmash.SuperSmash"
+   },
+   {
+    "settings": {
+     "Balance Total Lives": true,
+     "Epic Mode": true,
+     "Lives Per Player": 2,
+     "Respawn Times": 0.25,
+     "Solo Mode": false,
+     "Time Limit": 0,
+     "map": "Monkey Face"
+    },
+    "type": "bastd.game.elimination.EliminationGame"
+   },
+   {
+    "settings": {
+     "Balance Total Lives": false,
+     "Epic Mode": true,
+     "Lives Per Player": 2,
+     "Players Per Team In Arena": 2,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Tip Top"
+    },
+    "type": "alliance_elimination.AllianceEliminationGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Lives (0 = Unlimited)": 2,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Courtyard"
+    },
+    "type": "SuperSmash.SuperSmash"
+   },
+   {
+    "settings": {
+     "Chosen One Gets Gloves": true,
+     "Chosen One Gets Shield": false,
+     "Chosen One Time": 20,
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Rampage"
+    },
+    "type": "bastd.game.chosenone.ChosenOneGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Score to Win": 2,
+     "Time Limit": 0,
+     "map": "Tip Top"
+    },
+    "type": "bastd.game.assault.AssaultGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Kills to Win Per Player": 5,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Bridgit"
+    },
+    "type": "bastd.game.deathmatch.DeathMatchGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Score to Win": 2,
+     "Time Limit": 0,
+     "map": "Rampage"
+    },
+    "type": "bastd.game.assault.AssaultGame"
+   },
+   {
+    "settings": {
+     "Chosen One Gets Gloves": true,
+     "Chosen One Gets Shield": false,
+     "Chosen One Time": 20,
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Tip Top"
+    },
+    "type": "bastd.game.chosenone.ChosenOneGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Score to Win": 3,
+     "Time Limit": 0,
+     "map": "Zigzag"
+    },
+    "type": "bastd.game.assault.AssaultGame"
+   },
+   {
+    "settings": {
+     "Balance Total Lives": true,
+     "Epic Mode": true,
+     "Lives Per Player": 2,
+     "Players Per Team In Arena": 4,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Doom Shroom"
+    },
+    "type": "alliance_elimination.AllianceEliminationGame"
+   },
+   {
+    "settings": {
+     "Chosen One Gets Gloves": true,
+     "Chosen One Gets Shield": false,
+     "Chosen One Time": 20,
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Football Stadium"
+    },
+    "type": "bastd.game.chosenone.ChosenOneGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Score to Win": 2,
+     "Time Limit": 0,
+     "map": "Courtyard"
+    },
+    "type": "bastd.game.assault.AssaultGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Zigzag"
+    },
+    "type": "bastd.game.conquest.ConquestGame"
+   },
+   {
+    "settings": {
+     "Bomb Spawning": 2000,
+     "Entire Team Must Finish": false,
+     "Epic Mode": true,
+     "Laps": 2,
+     "Mine Spawning": 4000,
+     "Time Limit": 0,
+     "map": "Big G"
+    },
+    "type": "bastd.game.race.RaceGame"
+   },
+   {
+    "settings": {
+     "Balance Total Lives": true,
+     "Epic Mode": true,
+     "Lives Per Player": 2,
+     "Players Per Team In Arena": 2,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "The Pad"
+    },
+    "type": "alliance_elimination.AllianceEliminationGame"
+   },
+   {
+    "settings": {
+     "Hold Time": 20,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "The Pad"
+    },
+    "type": "bastd.game.keepaway.KeepAwayGame"
+   },
+   {
+    "settings": {
+     "Respawn Times": 1.0,
+     "Score to Win": 1,
+     "Time Limit": 40,
+     "map": "Football Stadium"
+    },
+    "type": "EggGame.EggGame"
+   },
+   {
+    "settings": {
+     "Balance Total Lives": true,
+     "Epic Mode": true,
+     "Lives Per Player": 2,
+     "Players Per Team In Arena": 2,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Bridgit"
+    },
+    "type": "alliance_elimination.AllianceEliminationGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Step Right Up"
+    },
+    "type": "bastd.game.conquest.ConquestGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Score to Win": 3,
+     "Time Limit": 0,
+     "map": "Crag Castle"
+    },
+    "type": "bastd.game.assault.AssaultGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Kills to Win Per Player": 5,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Rampage"
+    },
+    "type": "Yeeting-party.BoxingGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Model Type": 1,
+     "Respawn Times": 0.25,
+     "TNT Hitpoints": 5000,
+     "Time Limit": 0,
+     "map": "Football Stadium"
+    },
+    "type": "Heist.TNTTeamGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Respawn Times": 0.25,
+     "Score to Win": 3,
+     "Time Limit": 0,
+     "map": "Step Right Up"
+    },
+    "type": "bastd.game.assault.AssaultGame"
+   },
+   {
+    "settings": {
+     "Balance Total Lives": true,
+     "Epic Mode": true,
+     "Lives Per Player": 1,
+     "Players Per Team In Arena": 3,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Football Stadium"
+    },
+    "type": "alliance_elimination.AllianceEliminationGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Flag Idle Return Time": 300,
+     "Flag Touch Return Time": 0,
+     "Respawn Times": 0.25,
+     "Score to Win": 2,
+     "Time Limit": 0,
+     "map": "Roundabout"
+    },
+    "type": "bastd.game.capturetheflag.CaptureTheFlagGame"
+   },
+   {
+    "settings": {
+     "Epic Mode": true,
+     "Kills to Win Per Player": 6,
+     "Respawn Times": 0.25,
+     "Time Limit": 0,
+     "map": "Rampage"
+    },
+    "type": "bastd.game.deathmatch.DeathMatchGame"
+   },
+   {
+    "settings": {
+     "Disable Bombs": false,
+     "Disable Punch": true,
+     "Enable Bottom Credits": false,
+     "Epic Mode": true,
+     "Icy Floor": true,
+     "Night Mode": true,
+     "Respawn Times": 0.25,
+     "Score to Win": 5,
+     "Time Limit": 0,
+     "map": "Open Field"
+    },
+    "type": "volleyball.VolleyBallGame"
+   }
+  ]
+ },
+ "launchCount": 2527,
+ "lc14173": 1,
+ "lc14292": 1
+}
