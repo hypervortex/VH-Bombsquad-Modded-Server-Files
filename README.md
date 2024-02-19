@@ -1,4 +1,4 @@
-![image](https://github.com/hypervortex/Bombsuqad-Modded-Server-Files/assets/75498823/4d2783fe-436c-4ddd-bd51-781931227cbb)ś# Bombsquad modder server files (bcs modified)
+# Bombsquad modder server files (bcs modified)
 
 Special Thanks to sara and PcModder..!
 
