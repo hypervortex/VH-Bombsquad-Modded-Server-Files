@@ -1,4 +1,4 @@
-# Bombsquad modder server files (bcs modified)
+# Bombsquad modder server files by VH (bcs modified)
 
 Special Thanks to sara and PcModder..!
 
