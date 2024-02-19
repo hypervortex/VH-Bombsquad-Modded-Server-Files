@@ -1,4 +1,4 @@
-# Bombsquad modder server files (bcs modified)
+![image](https://github.com/hypervortex/Bombsuqad-Modded-Server-Files/assets/75498823/4d2783fe-436c-4ddd-bd51-781931227cbb)ś# Bombsquad modder server files (bcs modified)
 
 Special Thanks to sara and PcModder..!
 
@@ -91,7 +91,9 @@ Well, you can turn off questions and use the daily claim feature, so people can'
 
 # Discord Bot:
 
-* Cool Modified Stats UI
+## Cool Modified Stats UI
+![image](https://github.com/hypervortex/Bombsuqad-Modded-Server-Files/assets/75498823/250b1511-627d-44ab-b397-98077c27246b)
+
 * You can easily add admin, VIP, owner, custom tags, effects, staff, and mods directly from your Discord server.
 * Efficient Server Management using Discord commands. You can do everything from Discord, like adding effects, muting, tags, roles, restarting server, getting player info such as rank, * * * score, device id, IP, and many more data. To get more details, set up the bot and try v!help.
 * Advanced banning system using MongoDB. If you are hosting multiple servers, then it's a very useful feature for you. Just ban once, and it will get banned in all servers, and even if you * lose server files data, your banlist is still safe.
