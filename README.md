@@ -23,17 +23,17 @@ git clone <github-link>
 it will download all required packages.
 Now you can edit rest files
 
-Update and install software-properties-common:
+## Update and install software-properties-common:
 
 sudo apt update; sudo apt install software-properties-common -y
 
-Add python Deadsnakes PPA:
+## Add python Deadsnakes PPA:
 sudo add-apt-repository ppa:deadsnakes/ppa
 
-Install Python 3.10:
+## Install Python 3.10:
 sudo apt install python3-pip python3.10-dev python3.10-venv
 
-Create a tmux session.
+## Create a tmux session.
 tmux new -s 43210
 
 cd Bombsquad-Ballistica-Modded-Server
