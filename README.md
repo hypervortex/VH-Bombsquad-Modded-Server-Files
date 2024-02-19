@@ -57,27 +57,27 @@ well this script inclues all bcs Features and more advanced features which are a
 To know bcs features visit https://github.com/imayushsaini/Bombsquad-Ballistica-Modded-Server
 
 ### The game cmds which we added : 
-zoommessage (zm)
-fall --
-speedon
-hug
-icy
-spaz
-top
-setscore
-zombieall
-boxall
-texall
-kickall
-ooh
-spazall
-acl (admin cmd list) 
-vcl ( vip cmd list ) 
-tint
-ac
-comp ( to file complaint agaist player, but u need to setup dc bot to use this cmd) 
-rainbow
-Playsound
+zoommessage (zm),
+fall,
+speedon,
+hug,
+icy,
+spaz,
+top,
+setscore,
+zombieall,
+boxall,
+texall,
+kickall,
+ooh,
+spazall,
+acl (admin cmd list) ,
+vcl ( vip cmd list ) ,
+tint,
+ac,
+comp ( to file complaint agaist player, but u need to setup dc bot to use this cmd),
+rainbow,
+Playsound,
 
  * Time and member count in textonmap 
  * Modified season reset count down which is fully visible
