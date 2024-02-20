@@ -16,7 +16,7 @@ This assumes you are on Ubuntu or an Ubuntu based distribution.
 Download server files.
 git clone <github-link>
 
-## well short way to download all required modules in one go :
+## INSTALLATION PROCESS :
 1. chmod 777 bs_requirement.sh
 2. sudo ./bs_requirement.sh
 
