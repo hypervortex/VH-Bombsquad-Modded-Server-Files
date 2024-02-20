@@ -20,21 +20,21 @@ Requires PYTHON 3.10.12
 Download server files.
 git clone <github-link>
 
-## INSTALLATION PROCESS - Automatic Installation:
+## ℐ𝒩𝒮𝒯𝒜ℒℒ𝒜𝒯ℐ𝒪𝒩 𝒫ℛ𝒪𝒞ℰ𝒮𝒮 - 𝒜𝓊𝓉𝑜𝓂𝒶𝓉𝒾𝒸 ℐ𝓃𝓈𝓉𝒶𝓁𝓁𝒶𝓉𝒾𝑜𝓃:
 1. chmod 777 bs_requirement.sh
 2. sudo ./bs_requirement.sh
 
 Required packages downloaded, for manual installation see below
 Now you can edit rest files
 
-## Manual Installation:
+## ℳ𝒶𝓃𝓊𝒶𝓁 ℐ𝓃𝓈𝓉𝒶𝓁𝓁𝒶𝓉𝒾𝑜𝓃:
 - Open terminal, run the followng commands:
 
   - sudo apt update; sudo apt install software-properties-common -y
   - sudo add-apt-repository ppa:deadsnakes/ppa
   - sudo apt install python3-pip python3.10-dev python3.10-venv
 
-## Create a tmux session:
+## 𝒞𝓇𝑒𝒶𝓉𝑒 𝒶 𝓉𝓂𝓊𝓍 𝓈𝑒𝓈𝓈𝒾𝑜𝓃:
 - How to run server:
 
   - tmux new -s 43210
@@ -47,10 +47,10 @@ Now you can edit rest files
   - Open dist/ba_root/mods/setting.json in your prefered editor and change values according to you.
   - Knowledge of BCS files and basic editing senses is expected.
 
-# Features
+# ℱ𝑒𝒶𝓉𝓊𝓇𝑒𝓈:
 Includes latest BCS-Server features and special features by me - vortex1555
 
-### Special VORTEX CMDS by ME: 
+### 𝒮𝓅𝑒𝒸𝒾𝒶𝓁 𝒱𝒪ℛ𝒯ℰ𝒳 𝒞ℳ𝒟𝒮 𝒷𝓎 ℳℰ:
 - zoommessage (zm),
 - fall,
 - speedon,
@@ -75,16 +75,16 @@ Includes latest BCS-Server features and special features by me - vortex1555
  * Time and member count in textonmap 
  * Modified season reset count down which is fully visible
 
-# Coinsystem - Special VH Feature:
+# 𝒞𝑜𝒾𝓃𝓈𝓎𝓈𝓉𝑒𝓂 - 𝒮𝓅𝑒𝒸𝒾𝒶𝓁 𝒱ℋ ℱ𝑒𝒶𝓉𝓊𝓇𝑒:
 
 1.Added a coins/tickets system and shop. Players can buy effects and tags with tickets. You can modify the expiry time of purchases. There's also a command to remove paid effects (/rpe 113) so players can correct their purchases.
 
 2.Introducing Daily Claim:
 Well, you can turn off questions and use the daily claim feature, so people can't use the auto-answer plugin, engaging players more to play daily.
 
-# Discord Bot:
+# 𝒟𝒾𝓈𝒸𝑜𝓇𝒹 ℬ𝑜𝓉:
 
-## Cool Modified Stats UI
+## 𝒞𝑜𝑜𝓁 ℳ𝑜𝒹𝒾𝒻𝒾𝑒𝒹 𝒮𝓉𝒶𝓉𝓈 𝒰ℐ
 ### ![image](https://github.com/hypervortex/Bombsuqad-Modded-Server-Files/assets/75498823/250b1511-627d-44ab-b397-98077c27246b)
 
 * You can easily add admin, VIP, owner, custom tags, effects, staff, and mods directly from your Discord server.
@@ -98,7 +98,7 @@ Well, you can turn off questions and use the daily claim feature, so people can'
 * Added autoadmin along with the score. So rank 1, 2, 3 with specified score will get admin and VIPs.
 * Check setting json for more settings. You can set up your bot prefix as you want.
 
-# TO WHOMSOEVER IT MAY CONCERN:
+# 𝒯𝒪 𝒲ℋ𝒪ℳ𝒮𝒪ℰ𝒱ℰℛ ℐ𝒯 ℳ𝒜𝒴 𝒞𝒪𝒩𝒞ℰℛ𝒩:
 
 𝘼𝙡𝙡 𝙧𝙞𝙜𝙝𝙩𝙨 𝙩𝙤 𝙑𝙤𝙧𝙩𝙚𝙭 𝙖𝙨 𝙩𝙝𝙚 𝙇𝙞𝙘𝙚𝙣𝙨𝙚 𝙨𝙩𝙖𝙩𝙚𝙨 𝙖𝙗𝙤𝙫𝙚
 
