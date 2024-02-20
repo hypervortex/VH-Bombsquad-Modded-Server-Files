@@ -71,8 +71,7 @@ Includes latest BCS-Server features and special features by me - vortex1555
 - ac,
 - comp ( to file complaint agaist player, but u need to setup dc bot to use this cmd),
 - rainbow,
-- Playsound,
-
+- Playsound
  * Time and member count in textonmap 
  * Modified season reset count down which is fully visible
 
