@@ -97,3 +97,14 @@ Well, you can turn off questions and use the daily claim feature, so people can'
 * Enhanced Custom Effects: Modified existing effects such as fairydust and sweat and added more beardmods(1.8) effects.
 * Added autoadmin along with the score. So rank 1, 2, 3 with specified score will get admin and VIPs.
 * Check setting json for more settings. You can set up your bot prefix as you want.
+
+# TO WHOMSOEVER IT MAY CONCERN:
+
+𝘼𝙡𝙡 𝙧𝙞𝙜𝙝𝙩𝙨 𝙩𝙤 𝙑𝙤𝙧𝙩𝙚𝙭 𝙖𝙨 𝙩𝙝𝙚 𝙇𝙞𝙘𝙚𝙣𝙨𝙚 𝙨𝙩𝙖𝙩𝙚𝙨 𝙖𝙗𝙤𝙫𝙚
+
+𝘾𝙧𝙚𝙖𝙩𝙚𝙙 𝙗𝙮 𝙑𝙊𝙍𝙏𝙀𝙓1555
+
+𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙩𝙝𝙖𝙣𝙠𝙨 𝙩𝙤 𝙋𝘾𝙈𝙊𝘿𝘿𝙀𝙍 𝙖𝙣𝙙 𝙎𝘼𝙍𝘼
+
+
+#To whom ever this may concern, All rights to VORTEX aka vortex1555 as the License states above.
