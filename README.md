@@ -1,6 +1,7 @@
 # VH~Bombsquad-Server-Files-1.7(BCS-Modified)
 
 Special Thanks to sara and PCModder..!
+All rights reserved to vortex1555 as the license states.
 
 Basic knowledge of Linux
 A VPS (e.g. Amazon Web Services, Microsoft Azure)
@@ -11,7 +12,7 @@ Python 3.10
 
 Getting Started
 
-Requires UBUNTU 22.04 
+Requires UBUNTU 22.04
 Requires PYTHON 3.10.12
 
 Download server files.
