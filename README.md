@@ -16,21 +16,21 @@ This assumes you are on Ubuntu or an Ubuntu based distribution.
 Download server files.
 git clone <github-link>
 
-## INSTALLATION PROCESS :
+## INSTALLATION PROCESS - Automatic Installation:
 1. chmod 777 bs_requirement.sh
 2. sudo ./bs_requirement.sh
 
-it will download all required packages.
+Required packages downloaded, for manual installation see below
 Now you can edit rest files
 
-## Update and install software-properties-common:
+## Update and install software-properties-common - Manual nstallation:
 
 sudo apt update; sudo apt install software-properties-common -y
 
-## Add python Deadsnakes PPA:
+## Add python Deadsnakes PPA - Manual Installation:
 sudo add-apt-repository ppa:deadsnakes/ppa
 
-## Install Python 3.10:
+## Install Python 3.10 - Manual Installation:
 sudo apt install python3-pip python3.10-dev python3.10-venv
 
 ## Create a tmux session.
