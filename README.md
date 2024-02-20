@@ -1,6 +1,6 @@
-# Bombsquad modder server files by VH (bcs modified)
+# VH~Bombsquad-Server-Files-1.7(BCS-Modified)
 
-Special Thanks to sara and PcModder..!
+Special Thanks to sara and PCModder..!
 
 Basic knowledge of Linux
 A VPS (e.g. Amazon Web Services, Microsoft Azure)
