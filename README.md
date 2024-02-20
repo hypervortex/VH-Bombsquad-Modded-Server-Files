@@ -28,7 +28,8 @@ Required packages downloaded, for manual installation see below
 Now you can edit rest files
 
 ## Manual Installation:
-- Open terminal, run the followng commands :
+- Open terminal, run the followng commands:
+
   - sudo apt update; sudo apt install software-properties-common -y
   - sudo add-apt-repository ppa:deadsnakes/ppa
   - sudo apt install python3-pip python3.10-dev python3.10-venv
