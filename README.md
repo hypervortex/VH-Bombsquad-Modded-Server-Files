@@ -33,6 +33,11 @@ Now you can edit rest files
   - sudo apt update; sudo apt install software-properties-common -y
   - sudo add-apt-repository ppa:deadsnakes/ppa
   - sudo apt install python3-pip python3.10-dev python3.10-venv
+  - install the pymongo and psutil
+  - sudo apt install python3-pip -y
+  - pip3 install pymongo --target=/usr/lib/python3.10
+  - pip3 install psutil --target=/usr/lib/python3.10
+
 
 ## 𝒞𝓇𝑒𝒶𝓉𝑒 𝒶 𝓉𝓂𝓊𝓍 𝓈𝑒𝓈𝓈𝒾𝑜𝓃:
 - How to run server:
