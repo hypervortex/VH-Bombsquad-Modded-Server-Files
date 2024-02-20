@@ -108,3 +108,6 @@ Well, you can turn off questions and use the daily claim feature, so people can'
 
 
 #To whom ever this may concern, All rights to VORTEX aka vortex1555 as the License states above.
+
+![VORTEX](https://github.com/hypervortex/Bombsuqad-Modded-Server-Files/assets/54455412/7e4329ac-6159-4beb-83b3-ea0bd3a90d66)
+
