@@ -11,7 +11,8 @@ Python 3.10
 
 Getting Started
 
-This assumes you are on Ubuntu or an Ubuntu based distribution.
+Requires UBUNTU 22.04 
+Requires PYTHON 3.10.12
 
 Download server files.
 git clone <github-link>
