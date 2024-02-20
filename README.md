@@ -1,6 +1,6 @@
 # VH~Bombsquad-Server-Files-1.7(BCS-Modified)
 
-Special Thanks to sara and [PCModder](https://github.com/mikahael)..!
+Special Thanks to sara and PCModder..!
 
 All rights reserved ![vortex1555]([https://github.com/hypervortex]) as the license states.
 
