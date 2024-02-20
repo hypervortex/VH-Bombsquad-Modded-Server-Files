@@ -8,8 +8,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import ba
-import random
-#import files.snowfall as sf
 from bastd.gameutils import SharedObjects
 
 if TYPE_CHECKING:
@@ -99,13 +97,12 @@ class HockeyStadium(ba.Map):
         gnode.floor_reflection = True
         gnode.debris_friction = 0.3
         gnode.debris_kill_height = -0.3
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.2, 1.3, 1.33)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.66, 0.67, 0.73)
         gnode.vignette_inner = (0.93, 0.93, 0.95)
         gnode.vr_camera_offset = (0, -0.8, -1.1)
         gnode.vr_near_clip = 0.5
-        sf.start_snowfall()
         self.is_hockey = True
 
 
@@ -159,13 +156,12 @@ class FootballStadium(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.3, 1.2, 1.0)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.57, 0.57, 0.57)
         gnode.vignette_inner = (0.9, 0.9, 0.9)
         gnode.vr_camera_offset = (0, -0.8, -1.1)
         gnode.vr_near_clip = 0.5
-        #sf.start_snowfall()
 
     def is_point_near_edge(self, point: ba.Vec3, running: bool = False) -> bool:
         box_position = self.defs.boxes['edge_box'][0:3]
@@ -274,11 +270,10 @@ class Bridgit(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.1, 1.2, 1.3)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.65, 0.6, 0.55)
         gnode.vignette_inner = (0.9, 0.9, 0.93)
-        #sf.start_snowfall()
 
 
 class BigG(ba.Map):
@@ -385,11 +380,10 @@ class BigG(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.1, 1.2, 1.3)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.65, 0.6, 0.55)
         gnode.vignette_inner = (0.9, 0.9, 0.93)
-        #sf.start_snowfall()
 
 
 class Roundabout(ba.Map):
@@ -489,12 +483,11 @@ class Roundabout(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.0, 1.05, 1.1)
         gnode.ambient_color = (5, 5, 5)
         gnode.shadow_ortho = True
         gnode.vignette_outer = (0.63, 0.65, 0.7)
         gnode.vignette_inner = (0.97, 0.95, 0.93)
-        #sf.start_snowfall()
 
 
 class MonkeyFace(ba.Map):
@@ -594,12 +587,11 @@ class MonkeyFace(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.1, 1.2, 1.2)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.60, 0.62, 0.66)
         gnode.vignette_inner = (0.97, 0.95, 0.93)
         gnode.vr_camera_offset = (-1.4, 0, 0)
-        #sf.start_snowfall()
 
 
 class ZigZag(ba.Map):
@@ -702,12 +694,11 @@ class ZigZag(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.0, 1.15, 1.15)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.57, 0.59, 0.63)
         gnode.vignette_inner = (0.97, 0.95, 0.93)
         gnode.vr_camera_offset = (-1.5, 0, 0)
-        #sf.start_snowfall()
 
 
 class ThePad(ba.Map):
@@ -792,11 +783,10 @@ class ThePad(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.1, 1.1, 1.0)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.7, 0.65, 0.75)
         gnode.vignette_inner = (0.95, 0.95, 0.93)
-        #sf.start_snowfall()
 
 
 class DoomShroom(ba.Map):
@@ -877,12 +867,11 @@ class DoomShroom(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (0.82, 1.10, 1.15)
         gnode.ambient_color = (5, 5, 5)
         gnode.shadow_ortho = False
         gnode.vignette_outer = (0.76, 0.76, 0.76)
         gnode.vignette_inner = (0.95, 0.95, 0.99)
-        #sf.start_snowfall()
 
     def is_point_near_edge(self, point: ba.Vec3, running: bool = False) -> bool:
         xpos = point.x
@@ -972,13 +961,12 @@ class LakeFrigid(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1, 1, 1)
         gnode.ambient_color = (5, 5, 5)
         gnode.shadow_ortho = True
         gnode.vignette_outer = (0.86, 0.86, 0.86)
         gnode.vignette_inner = (0.95, 0.95, 0.99)
         gnode.vr_near_clip = 0.5
-        #sf.start_snowfall()
         self.is_hockey = True
 
 
@@ -1053,11 +1041,10 @@ class TipTop(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (0.8, 0.9, 1.3)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.79, 0.79, 0.69)
         gnode.vignette_inner = (0.97, 0.97, 0.99)
-        #sf.start_snowfall()
 
 
 class CragCastle(ba.Map):
@@ -1146,12 +1133,11 @@ class CragCastle(ba.Map):
         gnode = ba.getactivity().globalsnode
         gnode.shadow_ortho = True
         gnode.shadow_offset = (0, 0, -5.0)
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.15, 1.05, 0.75)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.6, 0.65, 0.6)
         gnode.vignette_inner = (0.95, 0.95, 0.95)
         gnode.vr_near_clip = 1.0
-        #sf.start_snowfall()
 
 
 class TowerD(ba.Map):
@@ -1250,11 +1236,11 @@ class TowerD(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.15, 1.11, 1.03)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.7, 0.73, 0.7)
         gnode.vignette_inner = (0.95, 0.95, 0.95)
-        sf.start_snowfall()
+
     def is_point_near_edge(self, point: ba.Vec3, running: bool = False) -> bool:
         # see if we're within edge_box
         boxes = self.defs.boxes
@@ -1356,12 +1342,11 @@ class HappyThoughts(ba.Map):
         gnode = ba.getactivity().globalsnode
         gnode.happy_thoughts_mode = True
         gnode.shadow_offset = (0.0, 8.0, 5.0)
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.3, 1.23, 1.0)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.64, 0.59, 0.69)
         gnode.vignette_inner = (0.95, 0.95, 0.93)
         gnode.vr_near_clip = 1.0
-        #sf.start_snowfall()
         self.is_flying = True
 
         # throw out some tips on flying
@@ -1462,11 +1447,10 @@ class StepRightUp(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.2, 1.1, 1.0)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.7, 0.65, 0.75)
         gnode.vignette_inner = (0.95, 0.95, 0.93)
-        #sf.start_snowfall()
 
 
 class Courtyard(ba.Map):
@@ -1570,11 +1554,10 @@ class Courtyard(ba.Map):
                 },
             )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.2, 1.17, 1.1)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.6, 0.6, 0.64)
         gnode.vignette_inner = (0.95, 0.95, 0.93)
-        #sf.start_snowfall()
 
     def is_point_near_edge(self, point: ba.Vec3, running: bool = False) -> bool:
         # count anything off our ground level as safe (for our platforms)
@@ -1676,11 +1659,11 @@ class Rampage(ba.Map):
             },
         )
         gnode = ba.getactivity().globalsnode
-        gnode.tint = (0.6, 0.8, 0.8)
+        gnode.tint = (1.2, 1.1, 0.97)
         gnode.ambient_color = (5, 5, 5)
         gnode.vignette_outer = (0.62, 0.64, 0.69)
         gnode.vignette_inner = (0.97, 0.95, 0.93)
-        #sf.start_snowfall()
+
     def is_point_near_edge(self, point: ba.Vec3, running: bool = False) -> bool:
         box_position = self.defs.boxes['edge_box'][0:3]
         box_scale = self.defs.boxes['edge_box'][6:9]
