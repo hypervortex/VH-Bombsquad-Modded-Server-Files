@@ -8,7 +8,7 @@ Basic knowledge of Linux
 A VPS (e.g. Amazon Web Services, Microsoft Azure)
 Any Linux distribution.
 It is recommended to use Ubuntu.
-Python 3.10
+Python 3.10.12
 1 GB free Memory (Recommended 2 GB)
 
 Getting Started
