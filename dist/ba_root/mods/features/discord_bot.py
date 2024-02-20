@@ -2033,7 +2033,7 @@ async def refresh_stats():
         #embed.add_field(name="CPU STATUS:", value="\u200b", inline=False)
         embed.add_field(name="RAM", value=f"```\n{ram}%```", inline=True)
         embed.add_field(name="CPU", value=f"```\n{cpu}%```", inline=True)
-        embed.add_field(name="TOP 5 PLAYERS", value=f">>>1.{mystats.top5Name[0]}\n2.{mystats.top5Name[1]}\n3.{mystats.top5Name[2]}\n4.{mystats.top5Name[3]}\n5.{mystats.top5Name[4]}", inline=False)
+        embed.add_field(name="TOP 5 PLAYERS", value=f"1.{mystats.top5Name[0]}\n2.{mystats.top5Name[1]}\n3.{mystats.top5Name[2]}\n4.{mystats.top5Name[3]}\n5.{mystats.top5Name[4]}", inline=False)
         embed.set_footer(text="Auto updates every 10 seconds!", icon_url='https://cdn.discordapp.com/emojis/842886491533213717.gif?size=96&quality=lossless')
         await livestatsmsgs[0].edit(embed=embed)
         await asyncio.sleep(10)
