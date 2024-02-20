@@ -27,15 +27,11 @@ git clone <github-link>
 Required packages downloaded, for manual installation see below
 Now you can edit rest files
 
-## Update and install software-properties-common - Manual nstallation:
-
-sudo apt update; sudo apt install software-properties-common -y
-
-## Add python Deadsnakes PPA - Manual Installation:
-sudo add-apt-repository ppa:deadsnakes/ppa
-
-## Install Python 3.10 - Manual Installation:
-sudo apt install python3-pip python3.10-dev python3.10-venv
+## Manual Installation:
+- Open terminal, run the followng commands :
+  - sudo apt update; sudo apt install software-properties-common -y
+  - sudo add-apt-repository ppa:deadsnakes/ppa
+  - sudo apt install python3-pip python3.10-dev python3.10-venv
 
 ## Create a tmux session.
 tmux new -s 43210
