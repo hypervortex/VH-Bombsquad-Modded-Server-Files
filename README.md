@@ -34,56 +34,49 @@ Now you can edit rest files
   - sudo add-apt-repository ppa:deadsnakes/ppa
   - sudo apt install python3-pip python3.10-dev python3.10-venv
 
-## Create a tmux session.
-tmux new -s 43210
+## Create a tmux session:
+- How to run server:
 
-cd Bombsquad-Ballistica-Modded-Server
-
-Now edit config.yaml in root dir change server name, port, admins, playlist, team name etc.. Making the server files executable.
-
-chmod 777 bombsquad_server
-chmod 777 dist/bombsquad_headless
-Starting the server
-
-sudo ./bombsquad_server
-If ports are open, you can connect to your server now.
-
-More Configuration
-Open dist/ba_root/mods/setting.json in your prefered editor and change values according to you.
-
-This assumes that you already used bcs files, and you know how to edit server files like adding owner and other stuff.
+  - tmux new -s 43210
+  - cd (Your_folder_name)
+  - edit config.yaml ---> change server name, team names, team colors, etc
+  - chmod 777 bombsquad_server
+  - chmod 777 dist/bombsquad_headless
+  - start the server - sudo ./bombsquad_server
+  - More Configurations  --->
+  - Open dist/ba_root/mods/setting.json in your prefered editor and change values according to you.
+  - Knowledge of BCS files and basic editing senses is expected.
 
 # Features
-well this script inclues all bcs Features and more advanced features which are added by me.
-To know bcs features visit https://github.com/imayushsaini/Bombsquad-Ballistica-Modded-Server
+Includes latest BCS-Server features and special features by me - vortex1555
 
-### The game cmds which we added : 
-zoommessage (zm),
-fall,
-speedon,
-hug,
-icy,
-spaz,
-top,
-setscore,
-zombieall,
-boxall,
-texall,
-kickall,
-ooh,
-spazall,
-acl (admin cmd list) ,
-vcl ( vip cmd list ) ,
-tint,
-ac,
-comp ( to file complaint agaist player, but u need to setup dc bot to use this cmd),
-rainbow,
-Playsound,
+### Special VORTEX CMDS by ME: 
+- zoommessage (zm),
+- fall,
+- speedon,
+- hug,
+- icy,
+- spaz,
+- top,
+- setscore,
+- zombieall,
+- boxall,
+- texall,
+- kickall,
+- ooh,
+- spazall,
+- acl (admin cmd list) ,
+- vcl ( vip cmd list ) ,
+- tint,
+- ac,
+- comp ( to file complaint agaist player, but u need to setup dc bot to use this cmd),
+- rainbow,
+- Playsound,
 
  * Time and member count in textonmap 
  * Modified season reset count down which is fully visible
 
-# Coinsystem:
+# Coinsystem - Special VH Feature:
 
 1.Added a coins/tickets system and shop. Players can buy effects and tags with tickets. You can modify the expiry time of purchases. There's also a command to remove paid effects (/rpe 113) so players can correct their purchases.
 
