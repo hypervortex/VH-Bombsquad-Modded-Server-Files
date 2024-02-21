@@ -82,10 +82,12 @@ zoommessage (zm), fall, speedon, hug, icy, spaz, top, setscore, zombieall, boxal
 
 # 𝘾𝙤𝙞𝙣𝙨𝙮𝙨𝙩𝙚𝙢 - 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙑𝙃 𝙁𝙚𝙖𝙩𝙪𝙧𝙚:
 
-1.Added a coins/tickets system and shop. Players can buy effects and tags with tickets. You can modify the expiry time of purchases. There's also a command to remove paid effects (/rpe 113) so players can correct their purchases.
+```
+1. Added a coins/tickets system and shop. Players can buy effects and tags with tickets. You can modify the expiry time of purchases. There's also a command to remove paid effects (/rpe 113) so players can correct their purchases.
 
-2.Introducing Daily Claim:
+2. Introducing Daily Claim:
 Well, you can turn off questions and use the daily claim feature, so people can't use the auto-answer plugin, engaging players more to play daily.
+```
 
 # 𝘿𝙞𝙨𝙘𝙤𝙧𝙙 𝘽𝙤𝙩:
 
