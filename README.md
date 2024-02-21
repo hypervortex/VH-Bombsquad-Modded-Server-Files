@@ -17,6 +17,10 @@ Requires UBUNTU 22.04
 
 Requires PYTHON 3.10.12
 
+![](https://img.shields.io/github/forks/hypervortex/VH-Bombsquad-Modded-Server-Files?color=green&style=for-the-badge)
+![](https://img.shields.io/github/stars/hypervortex/VH-Bombsquad-Modded-Server-Files?color=green&style=for-the-badge)
+![](https://img.shields.io/github/license/hypervortex/VH-Bombsquad-Modded-Server-Files?color=green&style=for-the-badge)
+
 ## Download server files.
 
 Download files on terminal -
