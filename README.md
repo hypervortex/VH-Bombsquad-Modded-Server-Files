@@ -47,24 +47,24 @@ Now you can edit rest files
 ## 𝙈𝙖𝙣𝙪𝙖𝙡 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣:
 - Open terminal, run the followng commands:
 
-  - sudo apt update; sudo apt install software-properties-common -y
-  - sudo add-apt-repository ppa:deadsnakes/ppa
-  - sudo apt install python3-pip python3.10-dev python3.10-venv
+  - `sudo apt update; sudo apt install software-properties-common -y`
+  - `sudo add-apt-repository ppa:deadsnakes/ppa`
+  - `sudo apt install python3-pip python3.10-dev python3.10-venv`
   - install the pymongo and psutil
-  - sudo apt install python3-pip -y
-  - pip3 install pymongo --target=/usr/lib/python3.10
-  - pip3 install psutil --target=/usr/lib/python3.10
+  - `sudo apt install python3-pip -y`
+  - `pip3 install pymongo --target=/usr/lib/python3.10`
+  - `pip3 install psutil --target=/usr/lib/python3.10`
 
 
 ## 𝘾𝙧𝙚𝙖𝙩𝙚 𝙖 𝙏𝙈𝙐𝙓 𝙨𝙚𝙨𝙨𝙞𝙤𝙣:
 - How to run server:
 
-  - tmux new -s 43210
-  - cd (Your_folder_name)
+  - `tmux new -s 43210`
+  - `cd (Your_folder_name)`
   - edit config.yaml ---> change server name, team names, team colors, etc
-  - chmod 777 bombsquad_server
-  - chmod 777 dist/bombsquad_headless
-  - start the server - sudo ./bombsquad_server
+  - `chmod 777 bombsquad_server`
+  - `chmod 777 dist/bombsquad_headless`
+  - start the server - `sudo ./bombsquad_server`
   - More Configurations  --->
   - Open dist/ba_root/mods/setting.json in your prefered editor and change values according to you.
   - Knowledge of BCS files and basic editing senses is expected.
