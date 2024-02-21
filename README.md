@@ -21,6 +21,7 @@ Requires PYTHON 3.10.12
 - sudo git clone https://github.com/hypervortex/Bombsuqad-Modded-Server-Files.git
 
 ## 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣 𝙋𝙧𝙤𝙘𝙚𝙨𝙨 - 𝘼𝙪𝙩𝙤𝙢𝙖𝙩𝙞𝙘 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣:
+
 chmod 777 bs_requirements.sh
 ```
 sudo ./bs_requirements.sh
