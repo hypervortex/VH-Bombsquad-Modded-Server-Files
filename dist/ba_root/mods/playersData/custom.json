@@ -1,15 +1,17 @@
 {
     "customtag": {
-        "pb": "jh"
+        "pb-id": "smoothy",
+        "pb-45": "something",
+        "pb-IF4TVWwZUQ==": "proowner",
+        "pb-IF4BUlQBJw==": "\ud83d\udca5VORTEXXXX\ud83d\udca5"
     },
-    "customeffects": {},
+    "customeffects": {
+        "pb-IF4UUG4gMw==": "slime",
+        "pb-IF4BUlQBJw==": "stars",
+        "pb-JiNJARFeXENAVF5FEkFQXFVBGUJWTlVH": "ring",
+        "pb-IF4rU20MHQ==": "stars"
+    },
     "paideffects": {},
     "paidtags": {},
-    "coin_claim": {
-        "pb-IF4BUlQBJw==": {
-            "name": "\ue063V0RT3X",
-            "expiry": "21-02-2024 12:54:26"
-        }
-    },
     "complainter": {}
 }

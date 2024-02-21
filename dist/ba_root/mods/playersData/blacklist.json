@@ -31,12 +31,7 @@
             }
         }
     },
-    "muted-ids": {
-        "pb-IF5QUk4lNg==": {
-            "till": "2024-05-09 20:07:28",
-            "reason": "vortex_order"
-        }
-    },
+    "muted-ids": {},
     "complainter": {
         "45726190c674ff903b471ac1a05dd0c28666ba2b": {
             "expriy": "2023-11-25 10:27:05"
@@ -46,10 +41,6 @@
         "pb-JiNJARBaXEFBVF9HFkNXXF1EF0ZaRlZE": {
             "till": "2023-06-12 19:37:48",
             "reason": "manually from website"
-        },
-        "pb-IF5QUk4lNg==": {
-            "till": "2418-05-04 20:08:48",
-            "reason": "vortex_order"
         }
     }
 }

@@ -10,7 +10,7 @@
             "ALL"
         ],
         "ids": [
-            "pb-JiNJARFeXENAVF5FEkFQXFVBGUJWTlVH"
+            "pb-IF4BUlQBJw=="
         ]
     },
     "admin": {
@@ -21,11 +21,11 @@
             1
         ],
         "commands": [
-            "createrole",
-            "quit",
-            "ALL"
+            "createrole"
         ],
-        "ids": []
+        "ids": [
+            "pb-IF4TVWwZUQ=="
+        ]
     },
     "vip": {
         "tag": "vip",
@@ -34,12 +34,8 @@
             1,
             1
         ],
-        "commands": [
-            "ALL"
-        ],
-        "ids": [
-            "pb-IF4BUlQBJw=="
-        ]
+        "commands": [],
+        "ids": []
     },
     "smoothy": {
         "tag": "smoothy",
@@ -70,10 +66,10 @@
         ],
         "commands": [],
         "ids": [
-            "pb-IF4VAk4a",
-            "pb-IF4BUlQBJw==",
             "pb-JiNJARFeXENAVF5FEkFQXFVBGUJWTlVH",
-            "pb-IF4UUG4gMw=="
+            "pb-IF4wU00DEA==",
+            "pb-IF4sUHMOIw==",
+            "pb-IF4VAk4a"
         ]
     },
     "bypass-warn": {
@@ -91,15 +87,5 @@
             "pb-IF4vNnMJ",
             "pb-IF4TVWwZUQ=="
         ]
-    },
-    "lol": {
-        "tag": "lol",
-        "tagcolor": [
-            1,
-            1,
-            1
-        ],
-        "commands": [],
-        "ids": []
     }
 }
