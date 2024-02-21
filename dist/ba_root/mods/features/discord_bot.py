@@ -117,21 +117,7 @@ async def joined_player(pbid, devices_string, time):
     await channel.send(message)
     #print(f"{devices_string}... Notification send Successfully!")
 
-def log_command(user_id, user_name, command):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
-    logs_data = pdata.get_DiscordCmds()
-    
-    logs_data.append([
-        f"user_id - {user_id}",
-        f"user_name - {user_name}",
-        f"command - {command}",
-        f"timestamp - {timestamp}"
-    ])
-    
-    # Update logs data
-    pdata.update_DiscordCmdLogs()
-    
+from features import dccmdlogs as dcl
 @client.event
 async def on_message(message):
     global channel
@@ -161,10 +147,10 @@ async def on_message(message):
             cmd = commands_prefix            
             servers = _ba.app.server._config.party_name
             m = message.content[2:].split()
-            command = m[0:]
+            command = message.content
             userid = message.author.id
             username = message.author.name
-            log_command(userid, username, command)  
+            dcl.log_command(userid, username, command)
             if m[0] == 'bsunban': #unban in all server xD
                 if len(m) == 2:
                     pb_id_to_unban = m[1]                	
@@ -1899,40 +1885,7 @@ async def on_message(message):
                         await message.channel.send(f">>> :arrow_right:**{m[1]} Not played in {servers} yet**")   
                 else:
                     await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}{1}dinfodata <pbid>`**".format(prefix, commands_prefix))                                     
-
-           #bandata cmd to check all ids
-            elif m[0] == 'bandata':
-                player_info = mongo.playerinfo.find_one() or {'pinfo': {'pbid': [], 'name': [], 'deviceid': [], 'ip': [], 'linkedaccount': [], 'accountage': []}}
-                if player_info and 'pinfo' in player_info:
-                    p_ids = player_info['pinfo']['pbid']
-                    p_name = player_info['pinfo']['name']
-                    p_deviceid = player_info['pinfo']['deviceid']
-                    p_ip = player_info['pinfo']['ip']
-                    p_linkedaccount = player_info['pinfo']['linkedaccount']
-                    p_account_age = player_info['pinfo']['accountage']
-
-                    if len(m) == 2: 
-                        pb_id_to_check = m[1]
-                        if pb_id_to_check in p_ids:
-                            index = p_ids.index(pb_id_to_check)
-                            name = p_name[index]
-                            deviceid = p_deviceid[index]
-                            ip = p_ip[index]
-                            linkedaccount = p_linkedaccount[index]
-                            accountage = p_account_age[index]
-                            player_message = (               
-                                   f">>> :arrow_right:**:reminder_ribbon:|| Name: {name} **\n"
-                                   f":arrow_right:**:reminder_ribbon:|| Account ID: {pb_id_to_check} **\n"
-                                   f":arrow_right:**:reminder_ribbon:|| IP: {ip} \n**"
-                                   f":arrow_right:**:reminder_ribbon:|| Device-id: {deviceid} **\n"
-                                   f":arrow_right:**:reminder_ribbon:|| Linked Account: {linkedaccount} **\n"
-                                   f":arrow_right:**:reminder_ribbon:|| Account-Age: {accountage} **"
-                            )
-                            await message.channel.send(player_message)
-                        else:
-                            await message.channel.send(f">>> :arrow_right:**{m[1]} Not played in {servers} yet**")   
-                    else:
-                        await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}bandata <pbid>`**".format(prefix))                                     
+                                     
 
             # get top 10 player list xD
             elif m[0] == (cmd +'top10'):
@@ -2003,6 +1956,7 @@ async def on_message(message):
                     await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}userremove <userid>`**".format(prefix))
 
 
+            
 
 
 
