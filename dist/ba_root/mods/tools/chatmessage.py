@@ -1,11 +1,6 @@
 import json
 import os
 import _ba
-import setting
-
-# Load settings
-settings = setting.get_settings_data()
-lm = settings["discordbot"]["lastmsg"]
 
 # Define the directory path using the new_member_count variable
 directory_path = os.path.join(_ba.env()["python_directory_user"], "tools")
@@ -15,7 +10,7 @@ if not os.path.exists(directory_path):
     os.makedirs(directory_path)
 
 # Define the file path within the directory
-file_path = os.path.join(directory_path, f"{lm}_messages.txt")  # Adjust the file name and path as needed
+file_path = os.path.join(directory_path, f"last_messages.txt")  # Adjust the file name and path as needed
 
 def last_message_count(msg):
     # Create or append to the new file with the message

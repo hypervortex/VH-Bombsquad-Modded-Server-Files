@@ -264,8 +264,6 @@ def on_player_join_server(pbid, player_data, ip, device_id):
                               color=(0.60, 0.8, 0.6), transient=True,
                               clients=[clid])
             jc.join_claim(device_string, clid, pbid)
-           # cc.register_main_bs_number(pbid, device_string)
-           # cc.player_main_on_map(pbid, device_string)
             pinfo.update_player_info(device_string, pbid, device_id, ip)
             pdata.player_count(pbid)
             notification_manager.player_joined(pbid)
