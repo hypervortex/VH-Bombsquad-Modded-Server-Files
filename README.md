@@ -71,6 +71,8 @@ Now you can edit rest files
 # 𝙁𝙚𝙖𝙩𝙪𝙧𝙚𝙨
 Includes latest BCS-Server features and special features by me - vortex1555
 
+Join our Discord Server ---> [VORTEX](https://discord.com/invite/MUj97D2QMZ)
+
 ### 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙑𝙊𝙍𝙏𝙀𝙓 𝘾𝙈𝘿𝙎 𝙗𝙮 𝙈𝙚:
 
 Special Commands
