@@ -18,12 +18,19 @@ Requires UBUNTU 22.04
 Requires PYTHON 3.10.12
 
 ## Download server files.
-- sudo git clone https://github.com/hypervortex/Bombsuqad-Modded-Server-Files.git
+
+Download files on terminal -
+```
+sudo git clone https://github.com/hypervortex/Bombsuqad-Modded-Server-Files.git
+```
 
 ## 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣 𝙋𝙧𝙤𝙘𝙚𝙨𝙨 - 𝘼𝙪𝙩𝙤𝙢𝙖𝙩𝙞𝙘 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣:
 
+Run the perms - 
 ```
 chmod 777 bs_requirements.sh
+```
+Run the file
 ```
 sudo ./bs_requirements.sh
 ```
