@@ -1,4 +1,4 @@
-# ADVANCED LOGGING BOT SYSTEM BY VORTEXXXXXX & ROCKY
+# ADVANCED LOGGING BOT SYSTEM BY ROCKY AND VORTEXXXXXX
 from re import A
 import discord, requests, asyncio ,ba, _ba, ba.internal, json, psutil, _thread
 from threading import Thread
@@ -13,7 +13,7 @@ from chatHandle.ChatCommands.commands import CoinCmds as cc
 from bacommon.servermanager import ServerConfig
 from features import complaints as c
 import members.members as mid
-import datetime
+from datetime import datetime, timedelta
 from stats import mystats
 import os
 intents = discord.Intents().all()
@@ -25,8 +25,6 @@ logsChannelID = 859519868838608970
 liveStatsChannelID = 1079019991694839818
 whitelisted_servers = 1168272029280112673
 whitelisted_users = 123456789012345678
-Notify_channel_id=1209532711673528413
-complaintChannelID=1209532711673528413
 prefix = ''
 commands_prefix = ''
 liveChat = True
@@ -81,15 +79,15 @@ async def send_message_chunks(channel, messages):
     max_message_length = 2000
     chunks = [messages[i:i+max_message_length] for i in range(0, len(messages), max_message_length)]
     for chunk in chunks:
-        await channel.send("".join(chunk))
+        await channel.send(" ".join(chunk))
 
 async def send_complaint_to_channel(server_name, time, myself, ign, useracid, fign, acid, linkedaccount, offender, complaint):
     # Replace YOUR_COMPLAINTS_CHANNEL_ID with the actual ID of your complaints channel
-    #channel_id = 1079019994802827284
-    channel = client.get_channel(complaintChannelID)
+    channel_id = 1079019994802827284
+    channel = client.get_channel(channel_id)
 
     if not channel:
-        print(f"Channel with ID {complaintChannelID} not found.")
+        print(f"Channel with ID {channel_id} not found.")
         return
     
     complaint_message = (
@@ -102,14 +100,14 @@ async def send_complaint_to_channel(server_name, time, myself, ign, useracid, fi
 
 
 async def joined_player(pbid, devices_string, time):
-    # Replace YOUR_NOTIFY_CHANNEL_ID with the actual ID of your complaints channel
-    #Notify_channel_id = 1201908867810730034
-    channel = client.get_channel(Notify_channel_id)
+    # Replace YOUR_COMPLAINTS_CHANNEL_ID with the actual ID of your complaints channel
+    channel_id = 1201908867810730034
+    channel = client.get_channel(channel_id)
     otheraccounts = pdata.get_detailed_pinfo(pbid)
     serverss = _ba.app.server._config.party_name
 
     if not channel:
-        print(f"Channel with ID {Notify_channel_id} not found.")
+        print(f"Channel with ID {channel_id} not found.")
         return
     
     message = (
@@ -124,12 +122,12 @@ def log_command(user_id, user_name, command):
     
     logs_data = pdata.get_DiscordCmds()
     
-    logs_data.append({
-        "user_id": user_id,
-        "user_name": user_name,
-        "command": command,
-        "timestamp": timestamp
-    })
+    logs_data.append([
+        f"user_id - {user_id}",
+        f"user_name - {user_name}",
+        f"command - {command}",
+        f"timestamp - {timestamp}"
+    ])
     
     # Update logs data
     pdata.update_DiscordCmdLogs()
@@ -161,13 +159,12 @@ async def on_message(message):
                 return
 
             cmd = commands_prefix            
-           # user_id = message.author.id
-           # user_name = message.author.name
-            #command = m[0]
-            #incomeplete, it has some errors fix if u can (so basically its logs dc cmd in json file)
-            #log_command(message.author.id, message.author.name, message.content)  
             servers = _ba.app.server._config.party_name
             m = message.content[2:].split()
+            command = m[0:]
+            userid = message.author.id
+            username = message.author.name
+            log_command(userid, username, command)  
             if m[0] == 'bsunban': #unban in all server xD
                 if len(m) == 2:
                     pb_id_to_unban = m[1]                	
@@ -193,7 +190,7 @@ async def on_message(message):
 
             # quit in all server :))))))
             elif m[0] == 'quit': 
-                await message.channel.send(">>> :arrow_right:**<a:correct:1178796582334898326>`Successfully restarted all servers` **")                  
+                await message.channel.send(">>> :arrow_right:**`Successfully restarted all servers` **")                  
                 ba.quit()
 
             # add player data whom notify you want in Discord server xD
@@ -415,7 +412,7 @@ async def on_message(message):
                 await message.channel.send(f">>> ## __(To find out server code type {prefix}sc) __\n:arrow_right:**__KICK AND KICK-VOTE COMMANDz:__**\n:arrow_right:`{prefix}(server-code)kick (pbid)` - To kick in-game player from a specific server.\n:arrow_right:`{prefix}dkickvote (pbid) (time in days) (reason no space)` - To disable server kick-vote for a player in all servers.\n:arrow_right:`{prefix}ekickvote (pbid)` - To enable server kick-vote for a player in all servers.\n:arrow_right:`{prefix}(server-code)dkickvote (pbid) (time in days) (reason no space)` - To disable server kick-vote for a player in a specific server.\n:arrow_right:`{prefix}(server-code)ekickvote (pbid)` - To enable server kick-vote for a player in a specific server.")
 
             elif m[0] == 'roleslc':
-                await message.channel.send(f">>> ## __(To find out server code type {prefix}sc) __\n:arrow_right:**__LIST & COUNT COMMANDz:__**\n:arrow_right:`{prefix}mbanlist` - Ascertain last 10 banned players of all servers.\n:arrow_right:`{prefix}(server-code)banlist` - Ascertain last 10 banned players of specific server.\n:arrow_right:`{prefix}complainlist` - Ascertain last 15 complain players & counts.\n:arrow_right:`{prefix}complaintslist` - Ascertain last 15 complaints players & counts.\n:arrow_right:`{prefix}(server-code)mutelist` - Find out muted players of specific server.\n:arrow_right:`{prefix}(server-code)roleslist` - Find out all roles of specific server.\n:arrow_right:`{prefix}(server-code)dkickvotelist` - Find out disable server kick-vote players of specific server.\n:arrow_right:`{prefix}(server-code)viplist` - Find out VIPs list & count of specific server.\n:arrow_right:`{prefix}(server-code)adminlist` - Find out Admins list & count of specific server.\n:arrow_right:`{prefix}(server-code)cslist` - Find out CS list & count of specific server.\n:arrow_right:`{prefix}(server-code)modlist` - Find out Moderators list & count of specific server.\n:arrow_right:`{prefix}(server-code)leadstafflist` - Find out Leadstaff list & count of specific server.\n:arrow_right:`{prefix}(server-code)ownerlist` - Find out Owners list & count of specific server.\n:arrow_right:`{prefix}(server-code)taglist` - Find out CustomTag players list & count of specific server.\n:arrow_right:`{prefix}(server-code)effectlist` - Find out CustomEffect players list & count of specific server.\n:arrow_right:`{prefix}(server-code)cmdlist <role>` - Find out Roles Cmdlist of specific server.\n:arrow_right:`{prefix}aeffectlist` - Find out Available CustomEffects list of all servers. ")
+                await message.channel.send(f">>> ## __(To find out server code type {prefix}sc) __\n:arrow_right:**__LIST & COUNT COMMANDz:__**\n:arrow_right:`{prefix}banlist` - Ascertain last 10 banned players of all servers.\n:arrow_right:`{prefix}(server-code)banlist` - Ascertain last 10 banned players of specific server.\n:arrow_right:`{prefix}complainlist` - Ascertain last 15 complain players & counts.\n:arrow_right:`{prefix}complaintslist` - Ascertain last 15 complaints players & counts.\n:arrow_right:`{prefix}(server-code)mutelist` - Find out muted players of specific server.\n:arrow_right:`{prefix}(server-code)roleslist` - Find out all roles of specific server.\n:arrow_right:`{prefix}(server-code)dkickvotelist` - Find out disable server kick-vote players of specific server.\n:arrow_right:`{prefix}(server-code)viplist` - Find out VIPs list & count of specific server.\n:arrow_right:`{prefix}(server-code)adminlist` - Find out Admins list & count of specific server.\n:arrow_right:`{prefix}(server-code)cslist` - Find out CS list & count of specific server.\n:arrow_right:`{prefix}(server-code)modlist` - Find out Moderators list & count of specific server.\n:arrow_right:`{prefix}(server-code)leadstafflist` - Find out Leadstaff list & count of specific server.\n:arrow_right:`{prefix}(server-code)ownerlist` - Find out Owners list & count of specific server.\n:arrow_right:`{prefix}(server-code)taglist` - Find out CustomTag players list & count of specific server.\n:arrow_right:`{prefix}(server-code)effectlist` - Find out CustomEffect players list & count of specific server.\n:arrow_right:`{prefix}(server-code)cmdlist <role>` - Find out Roles Cmdlist of specific server.\n:arrow_right:`{prefix}aeffectlist` - Find out Available CustomEffects list of all servers. ")
 
             elif m[0] == 'nac':
                 await message.channel.send(f">>> :arrow_right:**__NOTIFICATIONS AND COMPLAINT COMMANDz:__**\n:arrow_right:`{prefix}addnotify (pbid) (deviceid) (ip)` - To add the player in the notification list.\n:arrow_right:`{prefix}removenotify (pbid)` - To remove the player from the notification list.\n:arrow_right:`{prefix}checknotify (pbid)` - Verify whether the player is included in the notification list or not..\n:arrow_right:`{prefix}complain (pbid)` - Check the total number of complaints registered by that player.\n:arrow_right:`{prefix}complaints (pbid)` - Check the total number of complaints registered for that player.")
@@ -433,8 +430,6 @@ async def on_message(message):
             #check last messages xD
             elif m[0] == (cmd +'lm'):         
                 try:
-                    settings = setting.get_settings_data()
-                    lm = settings["discordbot"]["lastmsg"]
                     limit = int(m[1]) if len(m) > 1 and m[1].isdigit() else 10  # Default limit is 10 if not provided or not a number
                     max_messages = 2000
 
@@ -443,7 +438,7 @@ async def on_message(message):
                     else:       
                         # Define the file path within the tools directory
                         directory_path = os.path.join(_ba.env()["python_directory_user"], "tools")
-                        file_path = os.path.join(directory_path, f"{lm}_messages.txt")
+                        file_path = os.path.join(directory_path, f"last_messages.txt")
 
                         with open(file_path, "r") as file:
                             messages = file.readlines()
@@ -453,15 +448,18 @@ async def on_message(message):
                             last_messages = [msg for msg in messages if msg.startswith('pb-')][-limit:]
 
                             # Prepare the message to send
-                            last_msg = [
-                                f">>> :reminder_ribbon: **({len(messages)}) Last {limit} Messages Data of {servers}:**"
-                            ]
+                            if last_messages:
+                                last_msg = [
+                                    f">>> :reminder_ribbon: **({len(messages)}) Last {limit} Messages Data of {servers}:**"
+                                ]
 
-                            for msg in last_messages:
-                                last_msg.append(f":arrow_right:**{msg.strip()}**")
+                                for msg in last_messages:
+                                    last_msg.append(f":arrow_right:**{msg.strip()}**")
 
-                            await message.channel.send("\n".join(last_msg))
-                        else:
+                                await message.channel.send("\n".join(last_msg))
+                            else:
+                                await message.channel.send(f"<a:arrow:1178624981593227265>**`No last messages found of players in {servers}`**")                                
+                        else:      
                             await message.channel.send(f":arrow_right:**`No One has messaged in {servers}.`**")
                 except:
                     await message.channel.send(":arrow_right:**`Limit exceeds maximum word count of 2000.`**")
@@ -470,8 +468,6 @@ async def on_message(message):
             elif m[0] == (cmd +'plm'):         
                 try:
                     if len(m) == 3:
-                        settings = setting.get_settings_data()
-                        lm = settings["discordbot"]["lastmsg"]
                         pbids = m[1] 
                         limit = int(m[2]) if m[2].isdigit() else 10  # Default limit is 10 if not provided or not a number
                         max_messages = 2000
@@ -481,7 +477,7 @@ async def on_message(message):
                         else:       
                             # Define the file path within the tools directory
                             directory_path = os.path.join(_ba.env()["python_directory_user"], "tools")
-                            file_path = os.path.join(directory_path, f"{lm}_messages.txt")
+                            file_path = os.path.join(directory_path, f"last_messages.txt")
 
                             with open(file_path, "r") as file:
                                 messages = file.readlines()
@@ -511,7 +507,7 @@ async def on_message(message):
 
             # quit in single server :)
             elif m[0] == (cmd +'quit'):
-                await message.channel.send(">>> :arrow_right:**<a:correct:1178796582334898326>`Successfully restarted {0}` **".format(servers))         
+                await message.channel.send(">>> :arrow_right:**`Successfully restarted {0}` **".format(servers))         
                 ba.quit()
 
            # add coins to player in a specific server
@@ -593,21 +589,21 @@ async def on_message(message):
 
             #to check who joined recently in specific server xD
             elif m[0] == (cmd +'recents'):
-                limit = 10 
+                limit = 10 # Default limit
 
                 if len(m) >= 2:
-                   
+                    # Try to parse the second argument as the limit
                     try:
                         limit = int(m[1])
                     except ValueError:
-                       
+                        # If the argument cannot be parsed as an integer, use the default limit
                         pass
 
                 if serverdata.recents:
                     await message.channel.send(f">>> :reminder_ribbon:**Recently Joined Players Data of {servers}:**")
                     for i, players in enumerate(serverdata.recents[:limit]):
                         await message.channel.send(f">>> :arrow_right:**Name: {players['deviceId']}, PlayerID: {players['pbid']}, ClientID: {players['client_id']} **") 
-                        if i == limit - 1: 
+                        if i == limit - 1: # Check if we reached the limit
                             break
                 else:
                     await message.channel.send(f">>> :arrow_right:**No one played currently in {servers} **")
@@ -723,7 +719,7 @@ async def on_message(message):
                         await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}{1}bancheck <pbid>`**".format(prefix, commands_prefix))
 
             #check last 10 banned players :D
-            elif m[0] == (cmd+'mbanlist'):
+            elif m[0] == 'banlist':
                     banned = mongo.Banlist.find_one() or {'ban': {'ids': [], 'deviceids': [], 'ips': []}}
                     if banned and 'ban' in banned:
                         banned_ids = banned['ban']['ids']
@@ -732,7 +728,7 @@ async def on_message(message):
 
                         if banned_ids:
                             ban_messages = [
-                                f">>> <:Cross:1178624823656714280> **Last 10 Banned Players in mongodb ({len(banned_ids)}):**"
+                                f">>> <:Cross:1178624823656714280> **Last 10 Banned Players ({len(banned_ids)}):**"
                             ]
 
                             start_index = max(0, len(banned_ids) - 10)
@@ -938,7 +934,7 @@ async def on_message(message):
 
             #single server ban, which will ban in server files
             elif m[0] == (cmd +'ban'):
-                if len(m) == 4: 
+                if len(m) == 4: # Check if the length is 4 to avoid index errors
                     banned = pdata.get_blacklist()
                     pb_id, time, reason= m[1], int(m[2]),m[3]
                     if pb_id in banned['ban']['ids']:
@@ -967,7 +963,7 @@ async def on_message(message):
 
             #single server disable kick vote :)
             elif m[0] == (cmd +'dkickvote'):
-                if len(m) == 4: 
+                if len(m) == 4: # Check if the length is 4 to avoid index errors
                     kickvote = pdata.get_blacklist()
                     pb_id, time, reason= m[1], int(m[2]),m[3]
                     if pb_id in kickvote['kick-vote-disabled']:
@@ -995,7 +991,7 @@ async def on_message(message):
 
             #all server disable server kick-vote :))))))
             elif m[0] == 'dkickvote':
-                if len(m) == 4: #
+                if len(m) == 4: # Check if the length is 4 to avoid index errors
                     kickvote = pdata.get_blacklist()
                     pb_id, time, reason= m[1], int(m[2]),m[3]
                     if pb_id in kickvote['kick-vote-disabled']:
@@ -1065,12 +1061,12 @@ async def on_message(message):
                     # base_path = os.path.join(_ba.env()['python_directory_user'], "playersData" + os.sep)
                     # rolesfile = os.path.join(base_path, 'blacklist.json')
                     blacklist = pdata.get_blacklist()                  
-                   
+                    # Check if the user is muted
                     if m[1] in blacklist.get('muted-ids', {}):
-                       
+                        # Remove the user from the muted-ids section
                         del blacklist['muted-ids'][m[1]]
                         pdata.update_blacklist()
-                       
+                        # Save updated blacklist to JSON file
                         # with open(rolesfile, 'w') as file:
                         #     json.dump(blacklist, file, indent=4)
 
@@ -1095,21 +1091,21 @@ async def on_message(message):
                         #base_path = os.path.join(_ba.env()['python_directory_user'], "playersData" + os.sep)
                         #rolesfile = os.path.join(base_path, 'blacklist.json')
                         blacklist = pdata.get_blacklist()                        
-                       
+                        # Check if the user is already muted
                         if m[1] in blacklist.get('muted-ids', {}):
                             await message.channel.send(f">>> :arrow_right:**User is already muted! in {servers}** ")
 
                         else:
-                         
+                            # Calculate the expiration time
                             expiration_time = (datetime.datetime.now() + duration).strftime("%Y-%m-%d %H:%M:%S")
-                           
+                            # Add the user to the muted-ids section
                             blacklist['muted-ids'][m[1]] = {
                                 "till": expiration_time,
                                 "reason": m[3]
                             }
                             await message.channel.send(f">>> :arrow_right:**Successfully muted `{m[1]}` in {servers}  **")
                             pdata.update_blacklist()
-                          
+                            # Save updated blacklist to JSON file
                             #with open(rolesfile, 'w') as file:
                                # json.dump(blacklist, file, indent=4)
                                 #await message.channel.send(f"**Successfully muted `{m[1]}` for {m[2]} minutes!**")
@@ -1123,12 +1119,12 @@ async def on_message(message):
                     #base_path = os.path.join(_ba.env()['python_directory_user'], "playersData" + os.sep)
                     #rolesfile = os.path.join(base_path, 'blacklist.json')
                     blacklist = pdata.get_blacklist()                  
-                   
+                    # Check if the user is muted
                     if m[1] in blacklist.get('muted-ids', {}):
-                        
+                        # Remove the user from the muted-ids section
                         del blacklist['muted-ids'][m[1]]
                         pdata.update_blacklist()
-                       
+                        # Save updated blacklist to JSON file
                         #with open(rolesfile, 'w') as file:
                             #json.dump(blacklist, file, indent=4)
 
@@ -1796,7 +1792,7 @@ async def on_message(message):
                     pbid = m[1]
                     reply = ""
                     roles = pdata.get_player_roles(pbid)   
-                    if roles:       
+                    if roles:  # Check if roles is not empty or None       
                         for role in roles:
                             reply = reply+role+", "
                         await message.channel.send(f">>> :arrow_right:**{m[1]} have [ {reply} ] role in {servers}**")
@@ -1811,7 +1807,7 @@ async def on_message(message):
                     pbid = m[1]
                     reply = ""
                     roles = pdata.get_player_roles(pbid)   
-                    if roles:        
+                    if roles:  # Check if roles is not empty or None       
                         for role in roles:
                             reply = reply+role+", "
                         await message.channel.send(f">>> :arrow_right:**{m[1]} have [ {reply} ] role in {servers}**")
@@ -1826,7 +1822,7 @@ async def on_message(message):
                     acid = m[1]
                     stats = mystats.get_all_stats()
                     roles = pdata.get_custom()['customtag']                 
-                    if acid in roles:        
+                    if acid in roles:  # Check if roles is not empty or None       
                         tag = roles[acid]
 
                         await message.channel.send(">>> :arrow_right:**:reminder_ribbon:|| TagData From: {0} **".format(servers))  
@@ -1844,7 +1840,7 @@ async def on_message(message):
                     acid = m[1]
                     stats = mystats.get_all_stats()
                     roles = pdata.get_custom()['customeffects']                 
-                    if acid in roles:       
+                    if acid in roles:  # Check if roles is not empty or None       
                         effect = roles[acid]
 
                         await message.channel.send(">>> :arrow_right:**:reminder_ribbon:|| EffectData From: {0} **".format(servers))  
@@ -1904,6 +1900,40 @@ async def on_message(message):
                 else:
                     await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}{1}dinfodata <pbid>`**".format(prefix, commands_prefix))                                     
 
+           #bandata cmd to check all ids
+            elif m[0] == 'bandata':
+                player_info = mongo.playerinfo.find_one() or {'pinfo': {'pbid': [], 'name': [], 'deviceid': [], 'ip': [], 'linkedaccount': [], 'accountage': []}}
+                if player_info and 'pinfo' in player_info:
+                    p_ids = player_info['pinfo']['pbid']
+                    p_name = player_info['pinfo']['name']
+                    p_deviceid = player_info['pinfo']['deviceid']
+                    p_ip = player_info['pinfo']['ip']
+                    p_linkedaccount = player_info['pinfo']['linkedaccount']
+                    p_account_age = player_info['pinfo']['accountage']
+
+                    if len(m) == 2: 
+                        pb_id_to_check = m[1]
+                        if pb_id_to_check in p_ids:
+                            index = p_ids.index(pb_id_to_check)
+                            name = p_name[index]
+                            deviceid = p_deviceid[index]
+                            ip = p_ip[index]
+                            linkedaccount = p_linkedaccount[index]
+                            accountage = p_account_age[index]
+                            player_message = (               
+                                   f">>> :arrow_right:**:reminder_ribbon:|| Name: {name} **\n"
+                                   f":arrow_right:**:reminder_ribbon:|| Account ID: {pb_id_to_check} **\n"
+                                   f":arrow_right:**:reminder_ribbon:|| IP: {ip} \n**"
+                                   f":arrow_right:**:reminder_ribbon:|| Device-id: {deviceid} **\n"
+                                   f":arrow_right:**:reminder_ribbon:|| Linked Account: {linkedaccount} **\n"
+                                   f":arrow_right:**:reminder_ribbon:|| Account-Age: {accountage} **"
+                            )
+                            await message.channel.send(player_message)
+                        else:
+                            await message.channel.send(f">>> :arrow_right:**{m[1]} Not played in {servers} yet**")   
+                    else:
+                        await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}bandata <pbid>`**".format(prefix))                                     
+
             # get top 10 player list xD
             elif m[0] == (cmd +'top10'):
                 stats = mystats.get_all_stats()
@@ -1935,11 +1965,12 @@ async def on_message(message):
                 if len(m) == 2:   
                     user_id = int(m[1])                
                     settings = setting.get_settings_data()
-                   
+
+                    # Check if the user ID is already in the list
                     if int(m[1]) in settings.get('discordbot', {}).get('allowed_user_ids', []):
                         await message.channel.send(f">>> :arrow_right:**User is already in the allowed list in {servers}**")
                     else:
-                        
+                        # Add the user ID to the allowed_user_ids list
                         settings['discordbot']['allowed_user_ids'].append(int(m[1]))
                         with open(setting_json_path, 'w') as file:
                             json.dump(settings, file, indent=4)
@@ -1973,7 +2004,8 @@ async def on_message(message):
 
 
 
-  
+
+
 @client.event
 async def on_ready():
     print("Connected to discord: %s [%s]" %
@@ -2023,17 +2055,17 @@ async def refresh_stats():
     
         embed=discord.Embed(title="", description=f"### {server} \n\n\n```ocaml\nCurrent Game: {stats['playlist']['current']}\nNext Game: {stats['playlist']['next']}```")
         embed.set_author(name="LIVE SERVER STATUS | NODE #1", icon_url="https://cdn.discordapp.com/emojis/878301194865508422.gif?size=512")
-        embed.add_field(name=" **Players Registred**", value=f"```py\nMEMBERS_COUNT = {len(size)} ```", inline=False)
-        embed.add_field(name=" **Server's Reset**", value=f"```py\nSEASON ENDS IN {reset} DAYS```", inline=True)
-        embed.add_field(name=" **Server's Info**", value=f"```py\nIP = {ip} \nPORT = {port} ```", inline=False)    
-        embed.add_field(name=" **Players**", value=f"```py\n{len(stats['roster'])}/{ba.internal.get_public_party_max_size()} ```", inline=True)
-        embed.add_field(name=" **Public**", value=f"```py\n{ba.internal.get_public_party_enabled()} ```", inline=True)
-        embed.add_field(name=" **Ping**", value=f"```yaml\nSoon.... ```", inline=True)
-        embed.add_field(name="**PLAYERS IN SERVER:**", value=f"```\n{msg if len(msg) != 0 else 'I am alone.. :('}```", inline=False)
+        embed.add_field(name="<a:member:1179508166296338553> **New Members Count**", value=f"```py\nMEMBERS_COUNT = {len(size)} ```", inline=False)
+        embed.add_field(name="<:_:858209533361127465> **Server's Reset**", value=f"```py\nSEASON ENDS IN {reset} DAYS```", inline=True)
+        embed.add_field(name="<:_:858209533361127465> **Server's Info**", value=f"```py\nIP = {ip} \nPORT = {port} ```", inline=False)    
+        embed.add_field(name="<:_:858209533361127465> **Players**", value=f"```py\n{len(stats['roster'])}/{ba.internal.get_public_party_max_size()} ```", inline=True)
+        embed.add_field(name="<:_:858209533361127465> **Public**", value=f"```py\n{ba.internal.get_public_party_enabled()} ```", inline=True)
+        embed.add_field(name="<:_:858209533361127465> **Ping**", value=f"```yaml\nSoon.... ```", inline=True)
+        embed.add_field(name="<:1862iconroleyellow:1191447248836497573> **PLAYERS IN SERVER:**", value=f"```\n{msg if len(msg) != 0 else 'I am alone.. :('}```", inline=False)
         #embed.add_field(name="CPU STATUS:", value="\u200b", inline=False)
-        embed.add_field(name="RAM", value=f"```\n{ram}%```", inline=True)
-        embed.add_field(name="CPU", value=f"```\n{cpu}%```", inline=True)
-        embed.add_field(name="TOP 5 PLAYERS", value=f"1.{mystats.top5Name[0]}\n2.{mystats.top5Name[1]}\n3.{mystats.top5Name[2]}\n4.{mystats.top5Name[3]}\n5.{mystats.top5Name[4]}", inline=False)
+        embed.add_field(name="<:_:853738612977827910> RAM", value=f"```\n{ram}%```", inline=True)
+        embed.add_field(name="<:_:842354972921823273> CPU", value=f"```\n{cpu}%```", inline=True)
+        embed.add_field(name="<a:crown_black:1178082793624977549> TOP 5 PLAYERS", value=f">>> <:_:879241010448838686>{mystats.top5Name[0]}\n<:_:879240824972537866>{mystats.top5Name[1]}\n<:_:879241519918350366>{mystats.top5Name[2]}\n<:number4:1191447413517467728>{mystats.top5Name[3]}\n<:Number5:1191447588105359432>{mystats.top5Name[4]}", inline=False)
         embed.set_footer(text="Auto updates every 10 seconds!", icon_url='https://cdn.discordapp.com/emojis/842886491533213717.gif?size=96&quality=lossless')
         await livestatsmsgs[0].edit(embed=embed)
         await asyncio.sleep(10)

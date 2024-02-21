@@ -15,7 +15,15 @@ vote_machine = {"end": {"last_vote_start_time": 0, "vote_duration": 50,
                 "nv": {"last_vote_start_time": 0, "vote_duration": 50,
                        "min_game_duration_to_start_vote": 1, "voters": []},
                 "dv": {"last_vote_start_time": 0, "vote_duration": 50,
-                       "min_game_duration_to_start_vote": 1, "voters": []}}
+                       "min_game_duration_to_start_vote": 1, "voters": []},
+                "pes": {"last_vote_start_time": 0, "vote_duration": 30,
+                       "min_game_duration_to_start_vote": 20, "voters": []},
+                "pet": {"last_vote_start_time": 0, "vote_duration": 30,
+                       "min_game_duration_to_start_vote": 20, "voters": []},
+                "pdg": {"last_vote_start_time": 0, "vote_duration": 50,
+                       "min_game_duration_to_start_vote": 1, "voters": []},
+                "pdeg": {"last_vote_start_time": 0, "vote_duration": 30,
+                       "min_game_duration_to_start_vote": 20, "voters": []}}
 
 
 def vote(pb_id, client_id, vote_type):
@@ -76,7 +84,14 @@ def vote(pb_id, client_id, vote_type):
             _ba.chatmessage("/dv")
         elif vote_type == "sm":
             _ba.chatmessage("/sm")
-
+        elif vote_type == "pes":
+            _ba.chatmessage("/playlist 446855")
+        elif vote_type == "pet":
+            _ba.chatmessage("/playlist 446856")
+        elif vote_type == "pdg":
+            _ba.chatmessage("/playlist 438330")
+        elif vote_type == "pdeg":
+            _ba.chatmessage("/playlist 446858")
 
 def reset_votes():
     global vote_machine
