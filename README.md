@@ -1,8 +1,8 @@
 # 𝒱ℋ~ℬ𝑜𝓂𝒷𝓈𝓆𝓊𝒶𝒹-𝒮𝑒𝓇𝓋𝑒𝓇-ℱ𝒾𝓁𝑒𝓈-1.7(ℬ𝒞𝒮-ℳ𝑜𝒹𝒾𝒻𝒾𝑒𝒹)
 
-Special Thanks to sara and PCModder..!
+Special Thanks to sara and [PCModder]([https://github.com/mikahael)..!
 
-All rights reserved ![vortex1555]([https://github.com/hypervortex]) as the license states.
+All rights reserved [vortex1555]([https://github.com/hypervortex]) as the license states.
 
 Basic knowledge of Linux
 A VPS (e.g. Amazon Web Services, Microsoft Azure)
