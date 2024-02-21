@@ -7,7 +7,7 @@
     },
     "textonmap": {
         "top watermark": "",
-        "bottom left watermark": "      \ue043[\ud83d\udc51] |VORTEX| [\ud83d\udc51]          \n____________________________________\n\n\n____________________________________\n",
+        "bottom left watermark": "      \ue043[\ud83d\udc51] |VORTEX SERVER| [\ud83d\udc51]          \n____________________________________\n\n\n____________________________________\n",
         "center highlights": {
             "color": [
                 1,
@@ -16,7 +16,7 @@
             ],
             "randomColor": true,
             "msg": [
-                "\ue048WELCOME TO VORTEX & HONOR OFFICIAL\ue048",
+                "\ue048WELCOME TO VORTEX & ROCKY OFFICIAL\ue048",
                 "\ue043JOIN OUR DISCORD : VH PARADISE :)\ue043",
                 "\ue048TYPE (/vp) TO KNOW VOTING PLAYLIST\ue048",
                 "\ue043TYPE END TO START END VOTE\ue043",
@@ -83,7 +83,7 @@
         "enable": true
     },
     "ballistica_web": {
-        "enable": false,
+        "enable": true,
         "server_password": "vortex's_honor's_paradise_159"
     },
     "character_chooser": {
@@ -159,23 +159,22 @@
         }
     },
     "discordbot": {
-        "enable": false,
-        "token": "<add your bot token>",
+        "enable": true,
+        "token": "MTE0ODUyNjkzOTI4NDQ0NzI1Mg.Gzzeya.Ws3HXorv-8wB-Zl0olodAspYkd0813xdGdn1Y4",
         "database_Name": "default",
         "liveChat": true,
-        "liveStatsChannelID": 1209532643012644926,
-        "logsChannelID": 1209532666852933752,
-        "complaintChannelID":1209532684963938374,
+        "liveStatsChannelID": 1177676375138779166,
+        "logsChannelID": 1177676398803034153,
+        "complaintChannelID":1194188093461385226,
         "whitelisted_servers": [
-            1082629037886804019
+            1168272029280112673
         ],
         "allowed_user_ids": [
             471365451209900043,
             803681951109873724
         ],
-        "bot_prefix": "b!",
-        "commands_prefix": "vs",
-        "lastmsg": "rock"
+        "bot_prefix": "v!",
+        "commands_prefix": "vs"
     },
     "autoadmin": {
         "enable": true,
@@ -217,7 +216,7 @@
     "maxPlayersPerDevice": 3,
     "warnMsg": "WARNING !!! DONT DO AGAIN! :)",
     "afterWarnKickMsg": "Enough warnings, Goodbye have a nice day :)",
-    "firstTimeJoinMsg": "Welcome to VORTEX VS HONOR BANG!!! lets goo...",
+    "firstTimeJoinMsg": "Welcome to VORTEX VS ROCKY BANG!!! lets goo...",
     "regularWelcomeMsg": "Welcome Back boi!!",
     "contributeData": true,
     "enabletags": true,
