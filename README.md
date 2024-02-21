@@ -70,9 +70,9 @@ Now you can edit rest files
   - Knowledge of BCS files and basic editing senses is expected.
 
 # 𝙁𝙚𝙖𝙩𝙪𝙧𝙚𝙨
-Includes latest BCS-Server features and special features by me - vortex1555
+- [X] Includes latest BCS-Server features and special features by me - vortex1555
 
-Join our Discord Server ---> [VORTEX](https://discord.com/invite/MUj97D2QMZ)
+- [X] Join our Discord Server ---> [VORTEX](https://discord.com/invite/MUj97D2QMZ)
 
 ### 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙑𝙊𝙍𝙏𝙀𝙓 𝘾𝙈𝘿𝙎 𝙗𝙮 𝙈𝙚:
 
@@ -80,8 +80,8 @@ Special Commands
 ```
 zoommessage (zm), fall, speedon, hug, icy, spaz, top, setscore, zombieall, boxall, texall, kickall, ooh, spazall, acl (admin cmd list), vcl ( vip cmd list ), tint, ac, comp ( to file complaint agaist player, but u need to setup dc bot to use this cmd), rainbow, playsound 
 ```
- * Time and member count in textonmap 
- * Modified season reset count down which is fully visible
+- [X] Time and member count in textonmap
+- [X] Modified season reset count down which is fully visible
 
 # 𝘾𝙤𝙞𝙣𝙨𝙮𝙨𝙩𝙚𝙢 - 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙑𝙃 𝙁𝙚𝙖𝙩𝙪𝙧𝙚:
 
@@ -142,7 +142,7 @@ SOFTWARE.
 ```
 
 
-#To whom ever this may concern, All rights to VORTEX aka vortex1555 as the License states above.
+- [X] To whom ever this may concern, All rights to VORTEX aka vortex1555 as the License states above.
 
 ![VORTEx(1)](https://github.com/hypervortex/Bombsuqad-Modded-Server-Files/assets/54455412/d726cb33-a900-420c-81e5-8e168a3967b4)
 
