@@ -11,11 +11,12 @@ It is recommended to use Ubuntu.
 Python 3.10.12
 1 GB free Memory (Recommended 2 GB)
 
-Getting Started
+Requirements
 
-Requires UBUNTU 22.04
-
-Requires PYTHON 3.10.12
+| Software/ Language | Version |
+|----------|---------|
+| Python | 3.10.12 |
+| Ubuntu | 22.04 |
 
 ![](https://img.shields.io/github/forks/hypervortex/VH-Bombsquad-Modded-Server-Files?color=green&style=for-the-badge)
 ![](https://img.shields.io/github/stars/hypervortex/VH-Bombsquad-Modded-Server-Files?color=green&style=for-the-badge)
