@@ -77,8 +77,11 @@ class NewPlayerSpaz(PlayerSpaz):
     async def set_effects(self):
         account_id = self._player._sessionplayer.get_v1_account_id()
         custom_effects = pdata.get_custom()['customeffects']
+        paid_effects = pdata.get_custom()['paideffects']
 
-        if account_id  in custom_effects:
+        if account_id in paid_effects:
+            self.effects = [paid_effects[account_id]['effect']] if type(paid_effects[account_id]['effect']) is str else paid_effects[account_id]['effect']
+        elif account_id  in custom_effects:      
             self.effects = [custom_effects[account_id]] if type(custom_effects[account_id]) is str else custom_effects[account_id]
         else:
             #  check if we have any effect for his rank.
@@ -117,10 +120,9 @@ class NewPlayerSpaz(PlayerSpaz):
             "footprint": self._add_footprint,
             "chispitas": self._add_chispitas,
             "darkmagic": self._add_darkmagic,
-            "colorfullspark": self._add_colorful_spark,
+            "colourfullspark": self._add_colorful_spark,
             "ring": self._add_aure,
-            "brust": self._add_galactic_burst,
-            "fallingstars": self._add_falling_stars
+            "brust": self._add_galactic_burst
         }
 
         for effect in self.effects:
@@ -722,72 +724,6 @@ class NewPlayerSpaz(PlayerSpaz):
 
             for time, color in keys:
                 ba.timer(time, ba.Call(_changecolor, color))
-
-
-    @effect(repeat_interval=0.1)
-    def _add_falling_stars(self) -> None:
-        def die(node: ba.Node) -> None:
-            if node:
-                m = node.model_scale
-                ba.animate(node, 'model_scale', {0: m, 0.1: 0})
-                ba.timer(0.1, node.delete)
-
-        if not self.node.exists() or self._dead:
-            self._cm_effect_timer = None
-        else:
-            num_stars = 6 # Adjust the number of stars as needed
-            for _ in range(num_stars):
-                c = 0.3
-                pos_list = [
-                    (c, 0, 0), (0, 0, c),
-                    (-c, 0, 0), (0, 0, -c)]
-
-                for p in pos_list:
-                    m = 1.5
-                    np = self.node.position
-                    pos = (np[0] + p[0], np[1] + p[1] + 0.0, np[2] + p[2])
-                    vel = (random.uniform(-m, m), random.uniform(2, 7), random.uniform(-m, m))
-
-                    # Set random color for each star
-                    star_color = (random.uniform(0.5, 1.0), random.uniform(0.5, 1.0), random.uniform(0.5, 1.0))
-
-                    texs = ['bombStickyColor', 'aliColor', 'aliColorMask', 'eggTex3']
-                    tex = ba.gettexture(random.choice(texs))
-                    mesh = ba.getmodel('flash')
-                    factory = SpazFactory.get()
-
-                    mat = ba.Material()
-                    mat.add_actions(
-                        conditions=('they_have_material', factory.punch_material),
-                        actions=(
-                            ('modify_part_collision', 'collide', False),
-                            ('modify_part_collision', 'physical', False),
-                        ))
-                    node = ba.newnode('prop',
-                                      owner=self.node,
-                                      attrs={'body': 'sphere',
-                                             'position': pos,
-                                             'velocity': vel,
-                                             'model': mesh,
-                                             'model_scale': 0.1,
-                                             'body_scale': 0.0,
-                                             'shadow_size': 0.0,
-                                             'gravity_scale': 0.5,
-                                             'color_texture': tex,
-                                             'reflection': 'soft',
-                                             'reflection_scale': [1.5],
-                                             'materials': [mat]})
-                    light = ba.newnode('light',
-                                       owner=node,
-                                       attrs={
-                                             'intensity': 0.001,  # Adjust intensity as needed
-                                             'radius': 0.001,  # Adjust radius as needed
-                                             'color': star_color})
-
-                    node.connectattr('position', light, 'position')
-                    ba.timer(0.25, ba.Call(die, node))
-
-
 
 
 def apply() -> None:
