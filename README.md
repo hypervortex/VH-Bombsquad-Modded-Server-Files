@@ -21,8 +21,10 @@ Requires PYTHON 3.10.12
 - sudo git clone https://github.com/hypervortex/Bombsuqad-Modded-Server-Files.git
 
 ## 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣 𝙋𝙧𝙤𝙘𝙚𝙨𝙨 - 𝘼𝙪𝙩𝙤𝙢𝙖𝙩𝙞𝙘 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣:
-1. chmod 777 bs_requirements.sh
-2. sudo ./bs_requirements.sh
+chmod 777 bs_requirements.sh
+```
+sudo ./bs_requirements.sh
+```
 
 Required packages downloaded, for manual installation see below
 Now you can edit rest files
