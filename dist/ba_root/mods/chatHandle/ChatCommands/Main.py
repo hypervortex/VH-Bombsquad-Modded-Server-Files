@@ -7,7 +7,7 @@ from .commands import Fun
 from .commands import Cheats
 from .commands import NewCmds
 from .commands import CoinCmds
-
+from chatHandle.ChatCommands.commands.Handlers import send
 from .Handlers import clientid_to_accountid
 from .Handlers import check_permissions
 from chatHandle.chatFilter import ChatFilter
@@ -83,7 +83,7 @@ def Command(msg, clientid):
         reply = '\ue043|| PLAYER COMMAND ACCEPTED ||\ue043'
 
     if command_type(command) == "Normal":
-        NormalCommands.ExcelCommand(command, arguments, clientid, accountid)                 
+        NormalCommands.ExcelCommand(command, arguments, clientid, accountid, ARGUMENTS)                 
 
     elif command_type(command) == "CoinCmd":
         CoinCmds.CoinCommands(command, arguments, clientid, accountid)                
@@ -152,12 +152,22 @@ def QuickAccess(msg, client_id):
         return None
     elif msg.startswith("/dm"):
         name = ""
-        teamid = 0
-        for i in ba.internal.get_foreground_host_session().sessionplayers:
-            if i.inputdevice.client_id == client_id:
-                name = i.getname(True)
-                _ba.screenmessage(name + ":" + msg[1:], clients=[client_id],
-                                  color=(0.3, 0.6, 0.3), transient=True)
+        a = msg.lower().split()[1:]
+        if len(a) < 2:  # Check if there are enough arguments
+            send(f"Usage: /dm [clientid] [message]", client_id)
+        else:
+            clientid = int(a[0]) 
+            message = ' '.join(a[1:])  # Join the message list into a single string    
+            for i in ba.internal.get_foreground_host_session().sessionplayers:
+                if i.inputdevice.client_id == client_id:
+                    name = i.getname(full=True, icon=True)   
+                if i.inputdevice.client_id == clientid:  
+                    pbid = i.get_v1_account_id()
+                    if pbid:      
+                        send(f"{name}: {message}", clientid)
+                        send(f"dm sent successfully", client_id)
+                    else:
+                        send(f"player not found", client_id)
 
         return None
     elif msg.startswith("."):
