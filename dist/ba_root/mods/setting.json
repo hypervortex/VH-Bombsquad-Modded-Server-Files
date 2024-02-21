@@ -159,8 +159,8 @@
         }
     },
     "discordbot": {
-        "enable": true,
-        "token": "MTE0ODUyNjkzOTI4NDQ0NzI1Mg.Gzzeya.Ws3HXorv-8wB-Zl0olodAspYkd0813xdGdn1Y4",
+        "enable": false,
+        "token": "Add your token here",
         "database_Name": "default",
         "liveChat": true,
         "liveStatsChannelID": 1177676375138779166,
