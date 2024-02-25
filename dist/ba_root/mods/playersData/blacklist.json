@@ -1,0 +1,59 @@
+{
+    "ban": {
+        "ids": {
+            "pb-234": {
+                "till": "2023-06-07 21:59:20",
+                "reason": "auto ban for spam"
+            },
+            "pb-IF4RUHUCVA==": {
+                "till": "2023-11-25 10:27:05",
+                "reason": "by chat command"
+            },
+            "pb-IF4oU24oAw==": {
+                "till": "2023-11-27 10:44:59",
+                "reason": "by chat command"
+            }
+        },
+        "ips": {
+            "19.168.0.0.1": {
+                "till": "2023-06-07 21:59:20",
+                "reason": "auto ban for spam"
+            }
+        },
+        "deviceids": {
+            "sdfdsfwr3": {
+                "till": "2023-06-07 21:59:20",
+                "reason": "auto ban for spam"
+            },
+            "45726190c674ff903b471ac1a05dd0c28666ba2b": {
+                "till": "2023-11-25 10:27:05",
+                "reason": "linked with account pb-IF4RUHUCVA=="
+            }
+        }
+    },
+    "muted-ids": {
+        "pb-IF4jUEgRNQ==": {
+            "till": "2024-02-24 03:51:00",
+            "reason": "muted by chat command"
+        },
+        "pb-IF4cUFYgCA==": {
+            "till": "2024-02-24 03:51:13",
+            "reason": "muted by chat command"
+        },
+        "pb-IF4dUxQDDA==": {
+            "till": "2024-02-24 03:51:27",
+            "reason": "muted by chat command"
+        }
+    },
+    "complainter": {
+        "45726190c674ff903b471ac1a05dd0c28666ba2b": {
+            "expriy": "2023-11-25 10:27:05"
+        }
+    },
+    "kick-vote-disabled": {
+        "pb-JiNJARBaXEFBVF9HFkNXXF1EF0ZaRlZE": {
+            "till": "2023-06-12 19:37:48",
+            "reason": "manually from website"
+        }
+    }
+}

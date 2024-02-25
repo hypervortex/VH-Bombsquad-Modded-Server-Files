@@ -1,0 +1,235 @@
+{
+    "whitelist": false,
+    "useV2Account": false,
+    "Anti-IdRevealer": false,
+    "ChatCommands": {
+        "BrodcastCommand": true
+    },
+    "textonmap": {
+        "top watermark": "",
+        "bottom left watermark": "      \ue043[\ud83d\udc51] |VORTEX SERVER| [\ud83d\udc51]          \n____________________________________\n\n\n____________________________________\n",
+        "center highlights": {
+            "color": [
+                1,
+                0,
+                0
+            ],
+            "randomColor": true,
+            "msg": [
+                "\ue048WELCOME TO VORTEX & ROCKY OFFICIAL\ue048",
+                "\ue043JOIN OUR DISCORD : VH PARADISE :)\ue043",
+                "\ue048TYPE (/vp) TO KNOW VOTING PLAYLIST\ue048",
+                "\ue043TYPE END TO START END VOTE\ue043",
+                "\ue046START MSG WITH PREFIX .(dot) TO SEND IN GAME POPUP MSG\ue046",
+                "\ue048TYPE NV TO START NV VOTE\ue048",
+                "\ue048TYPE (/vp) TO KNOW VOTING PLAYLIST\ue048",
+                "\ue049START MSG WITH PREFIX ,(comma) TO SEND MSG TO TEAMMATES\ue049",
+                "\ue043PLEASE RESPECT OTHER PLAYERS\ue043",
+                "\ue049JOIN OUR DISCORD SERVER BY CLICKING ON STATS BUTTON\ue049",
+                "\ue046DO Do not team up with any player or you will be punished\ue046",
+               "If you want to use these server files visit here :https://github.com/hypervortex/VH-Bombsquad-Modded-Server-Files.git"
+            ]
+        }
+    },
+    "ScoreScreenAnnouncement": {
+        "enable": true,
+        "msg": [
+            "enjoy here :)",
+            "click stats button to join discord",
+            "type (/vp) to know voting playlist",
+            "download new mods from discord",
+            "use /ping all to check others ping.",
+            "start msg with prefix ,(comma) to send msg to teammates",
+            "join our discord : vh paradise :)",
+            "type vp to know voting playlist",
+            "please respect other players :)",
+            "start msg with prefix .(dot) to send in game popup msg",
+            "click stats button to join discord server",
+            "get notification when friends join this server, checkout leaderboard",
+            "abusers, spammers will get auto ban",
+            "doesnt matter who starts fight, if you abuse- you will get ban too."
+        ]
+    },
+    "statsResetAfterDays": 45,
+    "leaderboard": {
+        "enable": true,
+        "barsBehindName": true
+    },
+    "autoNightMode": {
+        "enable": false,
+        "startTime": "18:30",
+        "endTime": "06:00",
+        "fireflies": true,
+        "fireflies_random_color": true
+    },
+    "colorfullMap": false,
+    "playlists": {
+        "team": 12345,
+        "epicteams": 442578,
+        "ffa": 412175,
+        "elim": 412172,
+        "soccer": 412160,
+        "smash": 412151,
+        "ffasmash": 412179,
+        "epic": 412173
+    },
+    "coopModeWithLessPlayers": {
+        "enable": false,
+        "minPlayerToExitCoop": 0
+    },
+    "mikirogQuickTurn": {
+        "enable": false
+    },
+    "colorful_explosions": {
+        "enable": true
+    },
+    "ballistica_web": {
+        "enable": true,
+        "server_password": "vortex's_honor's_paradise_159"
+    },
+    "character_chooser": {
+        "enable": true
+    },
+    "custom_characters": {
+        "enable": true
+    },
+    "StumbledScoreScreen": true,
+    "elPatronPowerups": {
+        "enable": true,
+        "settings": {
+            "Powers Gravity": true,
+            "Tank Shield PTG": 96,
+            "Healing Damage PTG": 72,
+            "Powerup Style": "Auto",
+            "Powerup Scale": 1.0,
+            "Powerup Name": true,
+            "Powerup With Shield": false,
+            "Powerup Time": true,
+            "Powerups": {
+                "Shield": 0,
+                "Punch": 0,
+                "Mine Bombs": 2,
+                "Impact Bombs": 3,
+                "Ice Bombs": 3,
+                "Triple": 3,
+                "Sticky Bombs": 3,
+                "Curse": 1,
+                "Health": 1,
+                "Speed": 2,
+                "Healing Damage": 1,
+                "Goodbye": 2,
+                "Ice Man": 1,
+                "Tank Shield": 0,
+                "Impairment Bombs": 2,
+                "Fire Bombs": 3,
+                "Champion": 2,
+                "Spunch": 2,
+			    "Radius": 2,
+			    "Multi Bomb": 2,
+			    "PWP": 2,
+			    "ExtraLyfe": 2,
+			    "False Bombs": 2,
+                "Fly Bombs": 3
+            }
+        },
+        "Quantity": {
+            "Shield": 0,
+            "Punch": 0,
+            "Mine Bombs": 2,
+            "Impact Bombs": 3,
+            "Ice Bombs": 3,
+            "Triple": 3,
+            "Sticky Bombs": 3,
+            "Curse": 1,
+            "Health": 1,
+            "Speed": 2,
+            "Healing Damage": 1,
+            "Goodbye": 2,
+            "Ice Man": 1,
+            "Tank Shield": 0,
+            "Impairment Bombs": 2,
+            "Fire Bombs": 3,
+            "Champion": 2,
+			"Spunch": 2,
+			"Radius": 2,
+			"Multi Bomb": 2,
+			"PWP": 2,
+			"ExtraLyfe": 2,
+			"False Bombs": 2,
+            "Fly Bombs": 3
+        }
+    },
+    "discordbot": {
+        "enable": true,
+        "token": "MTE0ODUyNjkzOTI4NDQ0NzI1Mg.G_LIKo.vzDlTYXd31Y-5Dnd9kMCm2lOTfVYbPDJYKJXus",
+        "database_name": "default",
+        "liveChat": true,
+        "liveStatsChannelID": 1177676375138779166,
+        "logsChannelID": 1177676398803034153,
+        "complaintChannelID":1194188093461385226,
+        "notifyChannelID":1201828472058818590,
+        "whitelisted_servers": [
+            1168272029280112673
+        ],
+        "allowed_user_ids": [
+            471365451209900043,
+            803681951109873724
+        ],
+        "bot_prefix": "v!",
+        "commands_prefix": "vs"
+    },
+    "autoadmin": {
+        "enable": true,
+        "score_for_admin": 40000,
+        "score_for_vip": 30000
+    },
+    "CurrencyType": {
+        "YourCurrency": "\ue01f"
+    },
+    "discordWebHook": {
+        "enable": false,
+        "webhookURL": "https://discord.com/api/webhooks/82649239/e7s0zyBJIuczXL7_CGSO5WM"
+    },
+    "afk_remover": {
+        "enable": true,
+        "ingame_idle_time_in_secs": 130,
+        "kick_idle_from_lobby": true,
+        "lobby_idle_time_in_secs": 40
+    },
+    "playermod": {
+        "default_boxing_gloves": true,
+        "default_shield": false,
+        "default_bomb": "normal",
+        "default_bomb_count": 2
+    },
+    "allowTeamChat": true,
+    "allowVotes": true,
+    "allowInGameChat": true,
+    "conplainterTimer": false,
+    "sameCharacterForTeam": false,
+    "newResultBoard": true,
+    "HostDeviceName": "v1.4",
+    "HostName": "R-VORTEX 1.7v",
+    "ShowKickVoteStarterName": true,
+    "autoTeamBalance": true,
+    "KickVoteMsgType": "chat",
+    "minAgeToChatInHours": 0,
+    "minAgeToJoinInHours": 0,
+    "maxWarnCount": 2,
+    "WarnCooldownMinutes": 30,
+    "maxAccountPerIP": 3,
+    "maxPlayersPerDevice": 3,
+    "warnMsg": "WARNING !!! DONT DO AGAIN! :)",
+    "afterWarnKickMsg": "Enough warnings, Goodbye have a nice day :)",
+    "firstTimeJoinMsg": "Welcome to VORTEX VS ROCKY BANG!!! lets goo...",
+    "regularWelcomeMsg": "Welcome Back boi!!",
+    "contributeData": true,
+    "enabletags": true,
+    "enablehptag": true,
+    "enablerank": true,
+    "enablestats": true,
+    "enableHitTexts": true,
+    "enableeffects": true,
+    "enableTop5effects": true,
+    "enableTagAnimation": true
+}
