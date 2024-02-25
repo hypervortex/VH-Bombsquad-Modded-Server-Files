@@ -77,9 +77,9 @@ Now you can edit rest files
 ### 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙑𝙊𝙍𝙏𝙀𝙓 𝘾𝙈𝘿𝙎 𝙗𝙮 𝙈𝙚:
 
 Special Commands
-```
+``
 zoommessage (zm), fall, speedon, hug, icy, spaz, top, setscore, zombieall, boxall, texall, kickall, ooh, spazall, acl (admin cmd list), vcl ( vip cmd list ), tint, ac, comp ( to file complaint agaist player, but u need to setup dc bot to use this cmd), rainbow, playsound 
-```
+``
 - [X] Time and member count in textonmap
 - [X] Modified season reset count down which is fully visible
 
