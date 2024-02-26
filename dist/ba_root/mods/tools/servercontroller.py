@@ -3,31 +3,8 @@ from typing import TYPE_CHECKING
 from efro.terminal import Clr
 import _ba
 import ba
-import requests
-
 if TYPE_CHECKING:
     from typing import Any
-
-#fixed by SARA
-def addstr():
-    try:
-        # Send a request to an API service that returns your public IP address
-        response = requests.get('https://api.ipify.org')
-        if response.status_code == 200:
-            return response.text  # Return the public IP address
-        else:
-            print(f"Failed to retrieve server IP address: {response.status_code}")
-            return None
-    except Exception as e:
-        print(f"Error occurred while retrieving server IP address: {e}")
-        return None
-
-# Example usage
-server_ip = addstr()
-if not server_ip:
-    #print(f"Server IP address: {server_ip}")
-#else:
-    print("Failed to retrieve server IP address")
 
 
 def _access_check_response(self, data) -> None:
@@ -37,17 +14,16 @@ def _access_check_response(self, data) -> None:
         else:
             addr = data['address']
             port = data['port']
-            addrstr = f'{addr}'
-            poststr = ''
 
-            server_ip = addstr()
-            _ba.our_ip = server_ip
+            addrstr = f' {addr}'
+            poststr = ''
+            _ba.our_ip = addr
             _ba.our_port = port
-            if server_ip:
+            if data['accessible']:
                 # _fetch_public_servers()
                 _ba.queue_chcker_timer = ba.Timer(8, ba.Call(simple_queue_checker), repeat=True,  timetype=ba.TimeType.REAL)
                 print(
-                    f'{Clr.SBLU}Master server access check of {server_ip}'
+                    f'{Clr.SBLU}Master server access check of{addrstr}'
                     f' udp port {port} succeeded.\n'
                     f'Your server appears to be'
                     f' joinable from the internet .{poststr}{Clr.RST}'
@@ -64,7 +40,7 @@ def _access_check_response(self, data) -> None:
                     )
             else:
                 print(
-                    f'{Clr.SRED}Master server access check of {server_ip}'
+                    f'{Clr.SRED}Master server access check of{addrstr}'
                     f' udp port {port} failed.\n'
                     f'Your server does not appear to be'
                     f' joinable from the internet. Please check your firewall or instance security group.{poststr}{Clr.RST}'
