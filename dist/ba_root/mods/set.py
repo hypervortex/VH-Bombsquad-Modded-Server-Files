@@ -3,7 +3,7 @@
 coin = True
 tell_time = True
 askQuestions = True
-JoinClaim= False
+JoinClaim = False
 #
 #
 questionsList = {'If you want to use these server files visit here :https://github.com/hypervortex/VH-Bombsquad-Modded-Server-Files.git': ['ok'],
