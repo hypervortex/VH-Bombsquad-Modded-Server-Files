@@ -52,8 +52,8 @@ Now you can edit rest files
   - `sudo apt install python3-pip python3.10-dev python3.10-venv`
   - install the pymongo and psutil
   - `sudo apt install python3-pip -y`
-  - `pip3 install pymongo --target=/usr/lib/python3.10`
-  - `pip3 install psutil --target=/usr/lib/python3.10`
+  - `sudo pip3 install pymongo --target=/usr/lib/python3.10`
+  - `sudo pip3 install psutil --target=/usr/lib/python3.10`
 
 
 ## 𝘾𝙧𝙚𝙖𝙩𝙚 𝙖 𝙏𝙈𝙐𝙓 𝙨𝙚𝙨𝙨𝙞𝙤𝙣:
