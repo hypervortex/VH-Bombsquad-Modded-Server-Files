@@ -2,11 +2,12 @@
 
 coin = True
 tell_time = True
-askQuestions = False
+askQuestions = True
+JoinClaim= False
 #
 #
 questionsList = {'If you want to use these server files visit here :https://github.com/hypervortex/VH-Bombsquad-Modded-Server-Files.git': ['ok'],
-                 'add': [None], 
+                 'Who is owner of this server ?': ['vortex'], 
                  'multiply': [None]}
 #
 questionDelay = 10 #60 #seconds
