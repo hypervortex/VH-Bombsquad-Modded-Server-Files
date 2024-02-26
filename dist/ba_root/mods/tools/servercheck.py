@@ -20,6 +20,7 @@ import asyncio
 import setting
 import _thread
 import asyncio
+import set
 from tools import logger, mongo, pinfo
 from features import profanity
 from playersData import pdata
@@ -178,12 +179,12 @@ def on_player_join_server(pbid, player_data, ip, device_id):
            if rs["account_id"] == pbid:
               name = rs['display_string']
               if pbid in player_info["pinfo"]["pbid"]:
-                  print("player id already there")       
+                   return       
               else:
                   asyncio.ensure_future(dc.update_playerinfo(pbid=pbid,name=name,deviceid=device_id,ip=ip))
-                  print(f"done :)")      
+                  print(f"stats updated..!")      
     except Exception as e:
-        print(f"Error updating pinfo file: {e}")
+        print(f"Error updating stats in mongo {e}")
         return False
 #----------------------------------------------------------------------------------
     clid = 113
@@ -273,7 +274,8 @@ def on_player_join_server(pbid, player_data, ip, device_id):
             _ba.screenmessage(settings["regularWelcomeMsg"] + " " + device_string,
                               color=(0.60, 0.8, 0.6), transient=True,
                               clients=[clid])
-            jc.join_claim(device_string, clid, pbid)
+            if set.JoinClaim:
+                jc.join_claim(device_string, clid, pbid)
             notification_manager.player_joined(pbid)
     else:
         # fetch id for first time.
