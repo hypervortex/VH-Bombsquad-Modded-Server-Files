@@ -150,12 +150,12 @@
             "Impairment Bombs": 2,
             "Fire Bombs": 3,
             "Champion": 2,
-			"Spunch": 2,
-			"Radius": 2,
-			"Multi Bomb": 2,
-			"PWP": 2,
-			"ExtraLyfe": 2,
-			"False Bombs": 2,
+	    "Spunch": 2,
+	     "Radius": 2,
+	     "Multi Bomb": 2,
+	     "PWP": 2,
+             "ExtraLyfe": 2,
+             "False Bombs": 2,
             "Fly Bombs": 3
         }
     },
