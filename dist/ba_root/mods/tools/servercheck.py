@@ -153,23 +153,23 @@ def on_player_join_server(pbid, player_data, ip, device_id):
         return False
     
 #-----------------------------------------------------------
-   
-    data = mongo.notify_list.find_one() or {'notify': {'ids': [], 'deviceids': [],'ips': []}}
-    try:
-       for raos in ba.internal.get_game_roster():
-         if raos["account_id"] == pbid:
-            clid = raos["client_id"]
-            devices_string = raos['display_string']
-            nows = datetime.now().strftime('%d-%m-%Y %I:%M:%S %p')
-            if pbid in data['notify']['ids'] or device_id in data['notify']['deviceids'] or ip in data['notify']['ips']:
-                # Replace 'YOUR_DISCORD_CHANNEL_ID' with your actual Discord channel ID
-                asyncio.ensure_future(dc.joined_player(pbid=pbid,devices_string=devices_string,time=nows))
-                #print(f"{pbid} joined the game")     
-            #else:
-                #print(f"{pbid} is not in notify list ")
-    except Exception as e:
-        print(f"Error updating notify json file: {e}")
-        return False
+    # stopped pushing cause of lag
+    # data = mongo.notify_list.find_one() or {'notify': {'ids': [], 'deviceids': [],'ips': []}}
+    # try:
+    #    for raos in ba.internal.get_game_roster():
+    #      if raos["account_id"] == pbid:
+    #         clid = raos["client_id"]
+    #         devices_string = raos['display_string']
+    #         nows = datetime.now().strftime('%d-%m-%Y %I:%M:%S %p')
+    #         if pbid in data['notify']['ids'] or device_id in data['notify']['deviceids'] or ip in data['notify']['ips']:
+    #             # Replace 'YOUR_DISCORD_CHANNEL_ID' with your actual Discord channel ID
+    #             asyncio.ensure_future(dc.joined_player(pbid=pbid,devices_string=devices_string,time=nows))
+    #             #print(f"{pbid} joined the game")     
+    #         #else:
+    #             #print(f"{pbid} is not in notify list ")
+    # except Exception as e:
+    #     print(f"Error updating notify json file: {e}")
+    #     return False
 #----------------------------------------------------------------------------------
     player_info = mongo.playerinfo.find_one()    
     try:            
