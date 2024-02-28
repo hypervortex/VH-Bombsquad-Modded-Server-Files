@@ -94,7 +94,7 @@ async def send_complaint_to_channel(server_name, time, myself, ign, useracid, fi
     
     complaint_message = (
         f":reminder_ribbon:**__{server_name}__\n=========================================**\n> |:arrow_right:`COMPLAINT TIME:` {time}\n> \n> |:arrow_right:`USERNAME(IGN)/ACCOUNT-ID:` {myself} ({ign})/{useracid}\n> \n"
-        f"> |:arrow_right:`OFFENDER(IGN)/ACCOUNT-ID:` {offender} ({fign})/{acid}\n> \n> |:arrow_right:`LINKED-ACCOUNTS OF OFFENDER:` {linkedaccount}\n> \n> |:arrow_right:`TYPE OF COMPLAINT:` **{complaint}**\n> __<@&1079030765733556334> <@&1073263867251134594>__\n**=========================================**"
+        f"> |:arrow_right:`OFFENDER(IGN)/ACCOUNT-ID:` {offender} ({fign})/{acid}\n> \n> |:arrow_right:`LINKED-ACCOUNTS OF OFFENDER:` {linkedaccount}\n> \n> |:arrow_right:`TYPE OF COMPLAINT:` **{complaint}**\n> __(paste your discord role here)__\n**=========================================**"
     )
     c.update_complaint_count(useracid, myself, mongo)
     c.update_complaints_count(acid, offender, mongo)
@@ -117,7 +117,7 @@ async def joined_player(pbid, devices_string, time):
     
     message = (
         f":reminder_ribbon:**__{serverss}__\n=========================================**\n> |:arrow_right:`PLAYER JOINED TIME:` {time}\n> \n> |:arrow_right:`PLAYER-NAME:` {devices_string}\n> \n"
-        f"> |:arrow_right:`PLAYER ACCOUNT-ID:` {pbid}\n> \n> |:arrow_right:`LINKED-ACCOUNTS OF PLAYER:` {otheraccounts}\n> \n> |:arrow_right:**JOINED THE GAME**\n> __ <@&1207249247460659210> __\n**=========================================**"
+        f"> |:arrow_right:`PLAYER ACCOUNT-ID:` {pbid}\n> \n> |:arrow_right:`LINKED-ACCOUNTS OF PLAYER:` {otheraccounts}\n> \n> |:arrow_right:**JOINED THE GAME**\n> __ (paste your discord role here) __\n**=========================================**"
     )
     await channel.send(message)
     #print(f"{devices_string}... Notification send Successfully!")
