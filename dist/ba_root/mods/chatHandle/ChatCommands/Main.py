@@ -7,7 +7,7 @@ from .commands import Fun
 from .commands import Cheats
 from .commands import NewCmds
 from .commands import CoinCmds
-from chatHandle.ChatCommands.commands.Handlers import send
+
 from .Handlers import clientid_to_accountid
 from .Handlers import check_permissions
 from chatHandle.chatFilter import ChatFilter
@@ -68,26 +68,30 @@ def Command(msg, clientid):
     role = return_role(accountid)
     if role == 'owner':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED OWNER\ue00c ||\ue049'
+    elif role in ['co-owner', 'coowner']:
+        reply = '\ue049|| \ue00cCOMMAND ACCEPTED CO-OWNER\ue00c ||\ue049'
     elif role == 'admin':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED ADMIN\ue00c ||\ue049'
     elif role == 'vip':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED VIP\ue00c ||\ue049'
     elif role == 'moderator':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED MODERATOR\ue00c ||\ue049'
-    elif role == 'leadstaff':
+    elif role in ['leadstaff', 'lead-staff']:
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED LEAD-STAFF\ue00c ||\ue049'
-    elif role == 'staff':
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED STAFF\ue00c ||\ue049'
+    elif role == 'tcs':
+        reply = '\ue049|| \ue00cCOMMAND ACCEPTED T-CS\ue00c ||\ue049'
+    elif role in ['cs', 'staff']:
+        reply = '\ue049|| \ue00cCOMMAND ACCEPTED CS\ue00c ||\ue049'
     
     else:
         reply = '\ue043|| PLAYER COMMAND ACCEPTED ||\ue043'
 
     if command_type(command) == "Normal":
-        NormalCommands.ExcelCommand(command, arguments, clientid, accountid, ARGUMENTS)                 
+        NormalCommands.ExcelCommand(command, arguments, clientid, accountid, ARGUMENTS)     
 
     elif command_type(command) == "CoinCmd":
         CoinCmds.CoinCommands(command, arguments, clientid, accountid)                
-
+            
     elif command_type(command) == "Manage":
         if check_permissions(accountid, command):
             Management.ExcelCommand(command, arguments, clientid, accountid)
@@ -117,7 +121,7 @@ def Command(msg, clientid):
 
     elif command_type(command) == "NewCmd":
         if check_permissions(accountid, command):
-            NewCmds.NewCommands(command, arguments, clientid, accountid, ARGUMENTS)     
+            NewCmds.NewCommands(command, arguments, clientid, accountid)     
             _ba.screenmessage(reply, color=(0,1,0), transient=True)
         else:
             _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
@@ -148,26 +152,6 @@ def QuickAccess(msg, client_id):
             if hasattr(i, 'sessionteam') and i.sessionteam and teamid == i.sessionteam.id and i.inputdevice.client_id != client_id:
                 _ba.screenmessage(name + ":" + msg[1:], clients=[i.inputdevice.client_id],
                                   color=(0.3, 0.6, 0.3), transient=True)
-
-        return None
-    elif msg.startswith("/dm"):
-        name = ""
-        a = msg.lower().split()[1:]
-        if len(a) < 2:  # Check if there are enough arguments
-            send(f"Usage: /dm [clientid] [message]", client_id)
-        else:
-            clientid = int(a[0]) 
-            message = ' '.join(a[1:])  # Join the message list into a single string    
-            for i in ba.internal.get_foreground_host_session().sessionplayers:
-                if i.inputdevice.client_id == client_id:
-                    name = i.getname(full=True, icon=True)   
-                if i.inputdevice.client_id == clientid:  
-                    pbid = i.get_v1_account_id()
-                    if pbid:      
-                        send(f"{name}: {message}", clientid)
-                        send(f"dm sent successfully", client_id)
-                    else:
-                        send(f"player not found", client_id)
 
         return None
     elif msg.startswith("."):
