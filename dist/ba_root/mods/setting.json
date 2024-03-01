@@ -168,6 +168,8 @@
         "logsChannelID": 1177676398803034153,
         "complaintChannelID":1194188093461385226,
         "notifyChannelID":1201828472058818590,
+	"notify_role": <paste your role here>,
+	"complaint_role": <paste your role here>,
         "whitelisted_servers": [
             1168272029280112673
         ],
