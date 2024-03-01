@@ -186,6 +186,8 @@ def import_discord_bot() -> None:
         discord_bot.notifyChannelID=settings["discordbot"]["notifyChannelID"]
         discord_bot.whitelisted_servers = settings["discordbot"]["whitelisted_servers"]
         discord_bot.whitelisted_users = settings["discordbot"]["allowed_user_ids"]
+        discord_bot.notify_role = settings["discordbot"]["notify_role"]
+        discord_bot.complaint_role = settings["discordbot"]["complaint_role"]
         discord_bot.prefix = settings["discordbot"]["bot_prefix"]
         discord_bot.commands_prefix = settings["discordbot"]["commands_prefix"]
         discord_bot.liveChat = settings["discordbot"]["liveChat"]
