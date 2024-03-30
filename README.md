@@ -81,6 +81,9 @@ Special Commands
 zoommessage (zm), fall, speedon, hug, icy, spaz, top, zombieall, boxall, texall, kickall, ooh, spazall, acl (admin cmd list), vcl ( vip cmd list ), tint, ac, comp ( to file complaint agaist player, but u need to setup dc bot to use this cmd), playsound 
 ``
 - [X] Time and member count in textonmap
+  - `To enable the time, open the terminal, and change the TIMEZONE to desired`
+  - `Example - sudo timedatectl set-timezone <your_time_zone>`
+  - `Find your timezone in terminal - timedatectl list-timezones`
 - [X] Modified season reset count down which is fully visible
 
 # 𝘾𝙤𝙞𝙣𝙨𝙮𝙨𝙩𝙚𝙢 - 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙑𝙃 𝙁𝙚𝙖𝙩𝙪𝙧𝙚:
