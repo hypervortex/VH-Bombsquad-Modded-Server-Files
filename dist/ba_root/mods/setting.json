@@ -1,13 +1,25 @@
 {
+    "JoinClaim": false,
+    "NotifyPlayer": false,
+    "compChatText": false,
+    "ServerForWhitelistplayers": true,
+    "NightMode": false,
     "whitelist": false,
     "useV2Account": false,
     "Anti-IdRevealer": false,
     "ChatCommands": {
         "BrodcastCommand": true
     },
+    "CmdChatDisable": {
+        "disable": false,
+        "Commands": [
+            "say",
+            "server"
+        ]
+    },
     "textonmap": {
         "top watermark": "",
-        "bottom left watermark": "      \ue043[\ud83d\udc51] |VORTEX SERVER| [\ud83d\udc51]          \n____________________________________\n\n\n____________________________________\n",
+        "bottom left watermark": "\n____________________________________\n\n\n____________________________________\n",
         "center highlights": {
             "color": [
                 1,
@@ -16,23 +28,28 @@
             ],
             "randomColor": true,
             "msg": [
-                "\ue048WELCOME TO VORTEX & ROCKY OFFICIAL\ue048",
+                "\ue048WELCOME TO VH PARADISE\ue048",
                 "\ue043JOIN OUR DISCORD : VH PARADISE :)\ue043",
                 "\ue048TYPE (/vp) TO KNOW VOTING PLAYLIST\ue048",
+                "\ue048TYPE (/acl) TO KNOW ADMIN COMMANDS\ue048",
+                "\ue048TYPE (/coinhelp) TO KNOW HOW TO BUY EFFECTS AND MANY MORE..\ue048",
+                "\ue048TYPE (/vcl) TO KNOW VIP COMMANDS\ue048",
                 "\ue043TYPE END TO START END VOTE\ue043",
                 "\ue046START MSG WITH PREFIX .(dot) TO SEND IN GAME POPUP MSG\ue046",
                 "\ue048TYPE NV TO START NV VOTE\ue048",
                 "\ue048TYPE (/vp) TO KNOW VOTING PLAYLIST\ue048",
+                "\ue043TYPE (/cs) TO FIND OUT HOW TO COMPLAINT IN DISCORD SERVER FROM GAME",
+                "\ue043TYPE (/dclink) TO KNOW HOW TO LINK PBID TO DISCORD-ID & GET REWARDs",
                 "\ue049START MSG WITH PREFIX ,(comma) TO SEND MSG TO TEAMMATES\ue049",
                 "\ue043PLEASE RESPECT OTHER PLAYERS\ue043",
                 "\ue049JOIN OUR DISCORD SERVER BY CLICKING ON STATS BUTTON\ue049",
-                "\ue046DO Do not team up with any player or you will be punished\ue046",
-               "If you want to use these server files visit here :https://github.com/hypervortex/VH-Bombsquad-Modded-Server-Files.git"
+                "\ue046DO NOT TEAMING WITH ANY PLAYER OR YOU WILL BE PUNISHED\ue046",
+                "\ue046TYPE (/shop effects) TO KNOW AVILABLE EFFECTS\ue046"
             ]
         }
     },
     "ScoreScreenAnnouncement": {
-        "enable": true,
+        "enable": false,
         "msg": [
             "enjoy here :)",
             "click stats button to join discord",
@@ -40,6 +57,9 @@
             "download new mods from discord",
             "use /ping all to check others ping.",
             "start msg with prefix ,(comma) to send msg to teammates",
+            "type (/cs) to find out how to complaint in discord server from game",
+            "type (/coinhelp) to know how to buy effects and many more..",
+            "type (/dclink) to know how to link pbid to discord-id & get rewards",
             "join our discord : vh paradise :)",
             "type vp to know voting playlist",
             "please respect other players :)",
@@ -47,7 +67,19 @@
             "click stats button to join discord server",
             "get notification when friends join this server, checkout leaderboard",
             "abusers, spammers will get auto ban",
-            "doesnt matter who starts fight, if you abuse- you will get ban too."
+            "doesnt matter who starts fight, if you abuse- you will get ban too.",
+            "type (/shop effects) to know available effects"
+        ]
+    },
+    "TopMapText": {
+        "enable": true,
+        "msg": [
+            "\ue062VH TOURNEY\ue062",
+            "\ue04bVORTEX x HONOR\ue04b",
+            "\ue048VH TOURNEY\ue048",
+            "\ue04bVORTEX x HONOR\ue04b",
+            "\ue062VH TOURNEY\ue062",
+            "\ue048VORTEX x HONOR\ue048"
         ]
     },
     "statsResetAfterDays": 45,
@@ -80,12 +112,19 @@
     "mikirogQuickTurn": {
         "enable": false
     },
+    "timetext": {
+        "enable": true,
+        "timezone": "Asia/Kolkata"
+    },
     "colorful_explosions": {
         "enable": true
     },
+    "backflip": {
+        "enable": false
+    },
     "ballistica_web": {
-        "enable": true,
-        "server_password": "vortex's_honor's_paradise_159"
+        "enable": false,
+        "server_password": "sercet_server_159"
     },
     "character_chooser": {
         "enable": true
@@ -108,77 +147,77 @@
             "Powerups": {
                 "Shield": 0,
                 "Punch": 0,
-                "Mine Bombs": 2,
-                "Impact Bombs": 3,
-                "Ice Bombs": 3,
-                "Triple": 3,
-                "Sticky Bombs": 3,
-                "Curse": 1,
-                "Health": 1,
-                "Speed": 2,
-                "Healing Damage": 1,
-                "Goodbye": 2,
-                "Ice Man": 1,
+                "Mine Bombs": 0,
+                "Impact Bombs": 0,
+                "Ice Bombs": 0,
+                "Triple": 0,
+                "Sticky Bombs": 0,
+                "Curse": 0,
+                "Health": 2,
+                "Speed": 0,
+                "Healing Damage": 0,
+                "Goodbye": 0,
+                "Ice Man": 0,
                 "Tank Shield": 0,
-                "Impairment Bombs": 2,
-                "Fire Bombs": 3,
-                "Champion": 2,
-                "Spunch": 2,
-			    "Radius": 2,
-			    "Multi Bomb": 2,
-			    "PWP": 2,
-			    "ExtraLyfe": 2,
-			    "False Bombs": 2,
-                "Fly Bombs": 3
+                "Impairment Bombs": 0,
+                "Fire Bombs": 0,
+                "Champion": 0,
+                "Spunch": 0,
+                "Radius": 0,
+                "Multi Bomb": 0,
+                "PWP": 0,
+                "ExtraLyfe": 0,
+                "False Bombs": 0,
+                "Fly Bombs": 0
             }
         },
         "Quantity": {
             "Shield": 0,
             "Punch": 0,
-            "Mine Bombs": 2,
-            "Impact Bombs": 3,
-            "Ice Bombs": 3,
-            "Triple": 3,
-            "Sticky Bombs": 3,
-            "Curse": 1,
-            "Health": 1,
-            "Speed": 2,
-            "Healing Damage": 1,
-            "Goodbye": 2,
-            "Ice Man": 1,
+            "Mine Bombs": 0,
+            "Impact Bombs": 0,
+            "Ice Bombs": 0,
+            "Triple": 0,
+            "Sticky Bombs": 0,
+            "Curse": 0,
+            "Health": 2,
+            "Speed": 0,
+            "Healing Damage": 0,
+            "Goodbye": 0,
+            "Ice Man": 0,
             "Tank Shield": 0,
-            "Impairment Bombs": 2,
-            "Fire Bombs": 3,
-            "Champion": 2,
-	    "Spunch": 2,
-	     "Radius": 2,
-	     "Multi Bomb": 2,
-	     "PWP": 2,
-             "ExtraLyfe": 2,
-             "False Bombs": 2,
-            "Fly Bombs": 3
+            "Impairment Bombs": 0,
+            "Fire Bombs": 0,
+            "Champion": 0,
+            "Spunch": 0,
+            "Radius": 0,
+            "Multi Bomb": 0,
+            "PWP": 0,
+            "ExtraLyfe": 0,
+            "False Bombs": 0,
+            "Fly Bombs": 0
         }
     },
     "discordbot": {
         "enable": false,
-        "token": "<add-your-token-here>",
-        "database_name": "default",
+        "token": "bot_token_here",
+        "database_name": "rrr",
         "liveChat": true,
         "liveStatsChannelID": 1177676375138779166,
         "logsChannelID": 1177676398803034153,
-        "complaintChannelID":1194188093461385226,
-        "notifyChannelID":1201828472058818590,
-	"notify_role": <paste your role here>,
-	"complaint_role": <paste your role here>,
+        "complaintChannelID": 1194188093461385226,
+        "notifyChannelID": 1201828472058818590,
         "whitelisted_servers": [
             1168272029280112673
         ],
         "allowed_user_ids": [
             471365451209900043,
             803681951109873724
-        ],
+],
         "bot_prefix": "v!",
-        "commands_prefix": "vs"
+        "commands_prefix": "vs",
+        "complaint_role": "",
+        "notify_role": ""
     },
     "autoadmin": {
         "enable": true,
@@ -186,7 +225,9 @@
         "score_for_vip": 30000
     },
     "CurrencyType": {
-        "YourCurrency": "\ue01f"
+        "CurrencyName": "tickets",
+        "Currency": "\ue01f",
+        "InDcCurrencySymbol": "<:Ticket:1187034254715125872>"
     },
     "discordWebHook": {
         "enable": false,
@@ -194,9 +235,9 @@
     },
     "afk_remover": {
         "enable": true,
-        "ingame_idle_time_in_secs": 130,
+        "ingame_idle_time_in_secs": 70,
         "kick_idle_from_lobby": true,
-        "lobby_idle_time_in_secs": 40
+        "lobby_idle_time_in_secs": 100
     },
     "playermod": {
         "default_boxing_gloves": true,
@@ -207,24 +248,26 @@
     "allowTeamChat": true,
     "allowVotes": true,
     "allowInGameChat": true,
-    "conplainterTimer": false,
     "sameCharacterForTeam": false,
+    "allowInGameDm": true,
     "newResultBoard": true,
     "HostDeviceName": "v1.4",
-    "HostName": "R-VORTEX 1.7v",
+    "HostName": "VH PARADISE 1.7v",
     "ShowKickVoteStarterName": true,
     "autoTeamBalance": true,
     "KickVoteMsgType": "chat",
-    "minAgeToChatInHours": 24,
-    "minAgeToJoinInHours": 23,
+    "minAgeToChatInHours": 0,
+    "minAgeToJoinInHours": 0,
     "maxWarnCount": 2,
     "WarnCooldownMinutes": 30,
+    "ComplainterExpired": true,
+    "complaintTimeoutInHours": 3,
     "maxAccountPerIP": 3,
     "maxPlayersPerDevice": 3,
     "warnMsg": "WARNING !!! DONT DO AGAIN! :)",
     "afterWarnKickMsg": "Enough warnings, Goodbye have a nice day :)",
-    "firstTimeJoinMsg": "Welcome to VORTEX VS ROCKY BANG!!! lets goo...",
-    "regularWelcomeMsg": "Welcome Back boi!!",
+    "firstTimeJoinMsg": "Welcome to Vh Paradise!!! lets goo...",
+    "regularWelcomeMsg": "Hi, Welcome Back!!",
     "contributeData": true,
     "enabletags": true,
     "enablehptag": true,
@@ -232,6 +275,6 @@
     "enablestats": true,
     "enableHitTexts": true,
     "enableeffects": true,
-    "enableTop5effects": true,
+    "enableTop5effects": false,
     "enableTagAnimation": true
 }

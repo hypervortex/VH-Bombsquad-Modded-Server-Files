@@ -30,11 +30,11 @@ def handle_hit(mag, pos):
 
             for (lower, upper), (text, chunk_type) in hit_messages.items():
                 if lower <= mag < upper:
-                    PopupText(text, color=(random.random(), random.random(), random.random()), scale=1.6, position=pos).autoretain()
+                    PopupText(text, color=(random.random(), random.random(), random.random()), scale=0.8, position=pos).autoretain()
 
                     # Emit spark effect for each hit message
-                    ba.emitfx(position=pos, velocity=(0, 1, 0), count=random.randint(5, 10), scale=0.5,
-                              spread=0.2, chunk_type=chunk_type)
+                    ba.emitfx(position=pos, velocity=(0, 1, 0), count=random.randint(5, 10), scale=0.2,
+                              spread=0.1, chunk_type=chunk_type)
         except Exception as e:
             print(f"Error in handle_hit: {e}")
 

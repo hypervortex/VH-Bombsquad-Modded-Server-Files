@@ -1,12 +1,11 @@
 from .Handlers import handlemsg, handlemsg_all, clientid_to_myself,send
-from bastd.actor.zoomtext import ZoomText
 import ba, _ba
 import json
 import os
 
 
-Commands = ['kill', 'fall', 'heal', 'zoommessage', 'curse', 'sleep',  'superpunch', 'gloves', 'shield', 'freeze', 'unfreeze', 'godmode', 'speedon','admincmdlist']
-CommandAliases = ['die', 'fell-down', 'zm', 'heath', 'cur', 'sp', 'punch', 'protect', 'ice', 'thaw', 'gm', 'speedy', 'acl']
+Commands = ['kill', 'fall', 'heal', 'curse', 'sleep',  'superpunch', 'gloves', 'shield', 'freeze', 'unfreeze', 'godmode', 'speedon']
+CommandAliases = ['die', 'fell-down', 'heath', 'cur', 'sp', 'punch', 'protect', 'ice', 'thaw', 'gm', 'speedy']
 
 
 
@@ -52,10 +51,7 @@ def ExcelCommand(command, arguments, clientid, accountid):
 		
 	elif command in ['freeze', 'ice']:
 		freeze(arguments, clientid)
-
-	elif command in ['zm', 'zoommessage']:
-		zm(arguments, clientid)
-		
+	
 	elif command in ['unfreeze', 'thaw']:
 		un_freeze(arguments, clientid)
 		
@@ -68,6 +64,8 @@ def ExcelCommand(command, arguments, clientid, accountid):
 	elif command in ['acl']:
 		acl(arguments, clientid)
 
+	elif command in ['vcl']:
+		vcl(arguments, clientid)
 
 
 def kill(arguments, clientid):
@@ -166,48 +164,6 @@ def sleep(arguments, clientid):
 			activity.players[req_player].actor.node.handlemessage('knockout', 8000)
 		except:
 			return
-
-
-
-
-
-def hug(arguments, clientid):
-	
-	activity = _ba.get_foreground_host_activity()
-	
-	if arguments == [] or arguments == ['']:
-		
-		myself = clientid_to_myself(clientid)
-		
-		if activity.players[myself].actor.node.hold_node != True:
-			activity.players[myself].actor.node.hold_node = True
-		else:
-			activity.players[myself].node.hold_node = False
-	
-	elif arguments[0] == 'all':
-		
-		activity = _ba.get_foreground_host_activity()
-		
-		for i in activity.players:
-			if i.actor.node.hold_node != True:
-				i.actor.node.hold_node = True
-			else:
-				i.actor.node.hold_node = False
-			
-	else:
-		try:
-			activity = _ba.get_foreground_host_activity()
-			req_player = int(arguments[0])
-			
-			if activity.players[req_player].actor.node.hold_node != True:
-				activity.players[req_player].actor.node.hold_node = True
-			else:
-				activity.players[req_player].actor.node.hold_node = False
-		except:
-			return
-
-
-
 
 
 def super_punch(arguments, clientid):
@@ -415,43 +371,3 @@ def speedy(arguments, clientid):
 			
 		else:
 			player.node.hockey = False 
-
-
-def zm(arguments, clientid):
-    if len(arguments) == 0:
-        _ba.screenmessage("Special Chat Only For Main", color=(1,1,1), transient=True, clients=[clientid])
-    else:
-        k = arguments[0]
-        with ba.Context(_ba.get_foreground_host_activity()):
-            ZoomText(
-                  k,
-                  position=(0, 180),
-                  maxwidth=800,
-                  lifespan=25000,
-                  color=(0.93*1.25, 0.9*1.25, 1.0*1.25),
-                  trailcolor=(0.15, 0.05, 1.0, 0.0),
-                  flash=False,
-                  jitter=2.0).autoretain
-			
-
-
-def load_roles_data():
-    base_path = os.path.join(_ba.env()['python_directory_user'], "playersData" + os.sep)
-    roles_file_path = os.path.join(base_path, 'roles.json')
-
-    with open(roles_file_path, 'r') as file:
-        roles_data = json.load(file)
-
-    return roles_data
-
-
-def acl(arguments, client_id):
-    roles_data = load_roles_data()
-
-    if arguments == [] or arguments == ['']:
-        admin_commands = roles_data.get("admin", {}).get("commands", [])
-        msg = "Admin Commands:\n" + "\n".join(admin_commands)+"\n"
-        send(msg, client_id)
-
-
-

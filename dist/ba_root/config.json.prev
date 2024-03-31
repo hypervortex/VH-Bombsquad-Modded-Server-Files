@@ -17,7 +17,7 @@
    "Complete": true
   },
   "Gold Miner": {
-   "Complete": false
+   "Complete": true
   },
   "Got the Moves": {
    "Complete": false
@@ -44,13 +44,13 @@
    "Complete": false
   },
   "Onslaught Master": {
-   "Complete": false
+   "Complete": true
   },
   "Onslaught Training Victory": {
    "Complete": true
   },
   "Onslaught Wizard": {
-   "Complete": false
+   "Complete": true
   },
   "Precision Bombing": {
    "Complete": true
@@ -83,10 +83,10 @@
    "Complete": false
   },
   "Runaround Master": {
-   "Complete": false
+   "Complete": true
   },
   "Runaround Wizard": {
-   "Complete": false
+   "Complete": true
   },
   "Sharing is Caring": {
    "Complete": false
@@ -178,44 +178,48 @@
  "Campaigns": {},
  "Custom Team Colors": [
   [
-   0.8,
-   0.0,
-   0.6
+   0.2,
+   1.0,
+   0.0
   ],
   [
-   0.0,
    1.0,
-   0.8
+   1.0,
+   1.0
   ]
  ],
  "Custom Team Names": [
-  "vortex",
-  "Honor"
+  "\u2728VORTEX\u2728",
+  "\ud83d\udcabHONOR\ud83d\udcab"
  ],
  "Default Player Profiles": {
-  "Client Input Device #1": "Demon\ud83d\ude08",
-  "Client Input Device #2": "Demon\ud83d\ude08",
-  "Client Input Device #3": "_random",
-  "Client Input Device #4": "__account__",
-  "Client Input Device #5": "_",
-  "Client Input Device #6": "KLAUS__MIKAELSON",
-  "Client Input Device #7": "\u30c0RAVE\u30af",
-  "Client Input Device #8": "__account__",
-  "Client Input Device #9": "__account__"
+  "Client Input Device #1": "\u0405T\u13af\u211b\u2112\u2110\u13b6\u210bT\u0405\u2119\u2130\u2102T\u2130\u211b",
+  "Client Input Device #10": "__account__",
+  "Client Input Device #11": "__account__",
+  "Client Input Device #12": "\ua9c1\u0f3a\u25e5\u06dd \u20b1\u2c64\u00d8\u20a3.\u20b3 \u06dd\u25e4\u0f3b\ua9c2",
+  "Client Input Device #13": "La\u00d7Shampoo\u0e5b",
+  "Client Input Device #2": "\u0262\u0280\u1d00\u0274\u1d05\u0262\u1d00\u1d0d\u1d07\u0280",
+  "Client Input Device #3": "\ua9c1\u2022\uff30\uff28\uff21\uff2e\uff34\uff2f\uff2d\u0fd0",
+  "Client Input Device #4": "Piyush",
+  "Client Input Device #5": "__account__",
+  "Client Input Device #6": "S\u035c\u0361\u1d00\u0280\u1d00\u22b0\u273f",
+  "Client Input Device #7": "\ud835\udc0b\ud835\udc14\ud835\udc02\ud835\udc08\ud835\udc05\ud835\udc04\ud835\udc11",
+  "Client Input Device #8": "\ua9c1\u0f3a\u25e5\u06dd \u20b1\u2c64\u00d8\u20a3.\u20b3 \u06dd\u25e4\u0f3b\ua9c2",
+  "Client Input Device #9": "SlashByte"
  },
  "Fleet Zone Pings": {
   "prod": {
-   "bahrain": 36.48977400007425,
-   "delhi": 22.30572200005554,
-   "dubai": 26.498385000195412,
-   "hyderabad": 17.25907600030041,
-   "kolkata": 48.43087500012189,
-   "mumbai": 0.5970510001134244
+   "bahrain": 35.41510202921927,
+   "delhi": 23.686529020778835,
+   "dubai": 27.76575699681416,
+   "hyderabad": 18.7252129544504,
+   "kolkata": 80.48679900821298,
+   "mumbai": 0.5494999932125211
   }
  },
  "Free-for-All Max Players": 25,
  "Free-for-All Playlist Randomize": true,
- "Free-for-All Playlist Selection": "__default__",
+ "Free-for-All Playlist Selection": "Normal FFA Playlist",
  "Free-for-All Playlists": {},
  "Idle Exit Minutes": null,
  "Local Account Name": "Server7611774",
@@ -228,30 +232,30 @@
   "Powerup Time": true,
   "Powerup With Shield": false,
   "Powerups": {
-   "Champion": 2,
-   "Curse": 1,
-   "ExtraLyfe": 2,
-   "False Bombs": 2,
-   "Fire Bombs": 3,
-   "Fly Bombs": 3,
-   "Goodbye": 2,
-   "Healing Damage": 1,
-   "Health": 1,
-   "Ice Bombs": 3,
-   "Ice Man": 1,
-   "Impact Bombs": 3,
-   "Impairment Bombs": 2,
-   "Mine Bombs": 2,
-   "Multi Bomb": 2,
-   "PWP": 2,
+   "Champion": 0,
+   "Curse": 0,
+   "ExtraLyfe": 0,
+   "False Bombs": 0,
+   "Fire Bombs": 0,
+   "Fly Bombs": 0,
+   "Goodbye": 0,
+   "Healing Damage": 0,
+   "Health": 2,
+   "Ice Bombs": 0,
+   "Ice Man": 0,
+   "Impact Bombs": 0,
+   "Impairment Bombs": 0,
+   "Mine Bombs": 0,
+   "Multi Bomb": 0,
+   "PWP": 0,
    "Punch": 0,
-   "Radius": 2,
+   "Radius": 0,
    "Shield": 0,
-   "Speed": 2,
-   "Spunch": 2,
-   "Sticky Bombs": 3,
+   "Speed": 0,
+   "Spunch": 0,
+   "Sticky Bombs": 0,
    "Tank Shield": 0,
-   "Triple": 3
+   "Triple": 0
   },
   "Tank Shield PTG": 96
  },
@@ -275,11 +279,17 @@
   "custom_hooks.modSetup": {
    "enabled": true
   },
+  "plugins.Backflip.Sara": {
+   "enabled": true
+  },
   "plugins.Init": {
+   "enabled": true
+  },
+  "plugins.baCheatMax.Install": {
    "enabled": true
   }
  },
- "Port": 43211,
+ "Port": 43210,
  "Region Pings": {
   "af-south-1": 328.2357999996748,
   "ap-northeast-1": 150.0941541948123,
@@ -307,200 +317,25 @@
  "Team Game Max Player": 25,
  "Team Game Max Players": 25,
  "Team Tournament Playlist Randomize": true,
- "Team Tournament Playlist Selection": "sara_full_epic_best_playlist",
+ "Team Tournament Playlist Selection": "For Practice Server",
  "Team Tournament Playlists": {
-  "             !!!1": [
+  "Futbol": [
    {
     "settings": {
      "Boxing Gloves": true,
      "Enable Powerups": false,
      "Epic Mode": true,
-     "Hit Players": false,
      "Ice Floor": false,
-     "Respawn Times": 1.0,
+     "Respawn Times": 0.25,
      "Score to Win": 10,
      "Time Limit": 300,
      "map": "Hockey Stadium"
     },
-    "type": "bastd.game.FootballSoccer(oore282).SoccerGame"
-   }
-  ],
-  "inferno": [
-   {
-    "settings": {
-     "Epic Mode": true,
-     "Respawn Times": 0.25,
-     "Score to Win": 3,
-     "Time Limit": 0,
-     "map": "Crag Castle"
-    },
-    "type": "bastd.game.assault.AssaultGame"
-   },
-   {
-    "settings": {
-     "Epic Mode": true,
-     "Kills to Win Per Player": 10,
-     "Respawn Times": 0.25,
-     "Time Limit": 0,
-     "map": "Courtyard"
-    },
-    "type": "ms_BombWar.BombWar"
-   },
-   {
-    "settings": {
-     "Boxing Gloves": true,
-     "Epic Mode": true,
-     "Icy Floor": true,
-     "Respawn Times": 0.25,
-     "Score to Win": 10,
-     "Time Limit": 0,
-     "map": "Football Stadium"
-    },
-    "type": "soccer.HockeyGame"
-   },
-   {
-    "settings": {
-     "Boxing Gloves": true,
-     "Epic Mode": true,
-     "Icy Floor": true,
-     "Respawn Times": 0.25,
-     "Score to Win": 5,
-     "Time Limit": 0,
-     "map": "Football Stadium"
-    },
-    "type": "soccer.HockeyGame"
-   },
-   {
-    "settings": {
-     "Basic Bombs": true,
-     "Epic Mode": true,
-     "Frozen Bombs": true,
-     "Grabbing only": true,
-     "Impact Bombs": true,
-     "Punching only": true,
-     "Respawn Times": 0.25,
-     "Sticky Bombs": true,
-     "Time Limit": 0,
-     "map": "Crag Castle"
-    },
-    "type": "ArmsRace.ArmsRaceGame"
-   },
-   {
-    "settings": {
-     "Boxing Gloves": true,
-     "Epic Mode": true,
-     "Ice Floor": true,
-     "Respawn Times": 0.25,
-     "Score to Win": 7,
-     "Time Limit": 0,
-     "map": "Hockey Stadium"
-    },
-    "type": "soccerhockey.HockeyGame"
-   },
-   {
-    "settings": {
-     "Balance Total Lives": true,
-     "Epic Mode": true,
-     "Lives Per Player": 4,
-     "Respawn Times": 0.25,
-     "Solo Mode": false,
-     "Time Limit": 0,
-     "map": "Courtyard"
-    },
-    "type": "bastd.game.elimination.EliminationGame"
-   },
-   {
-    "settings": {
-     "Balance Total Lives": true,
-     "Epic Mode": true,
-     "Lives Per Player": 4,
-     "Respawn Times": 0.25,
-     "Solo Mode": false,
-     "Time Limit": 0,
-     "map": "Football Stadium"
-    },
-    "type": "bastd.game.elimination.EliminationGame"
-   },
-   {
-    "settings": {
-     "Balance Total Lives": true,
-     "Epic Mode": true,
-     "Lives Per Player": 4,
-     "Respawn Times": 0.25,
-     "Solo Mode": true,
-     "Time Limit": 0,
-     "map": "Bridgit"
-    },
-    "type": "bastd.game.elimination.EliminationGame"
-   },
-   {
-    "settings": {
-     "Epic Mode": true,
-     "Respawn Times": 0.25,
-     "Score to Win": 3,
-     "Time Limit": 0,
-     "map": "Roundabout"
-    },
-    "type": "bastd.game.assault.AssaultGame"
-   },
-   {
-    "settings": {
-     "Chosen One Gets Gloves": true,
-     "Chosen One Gets Shield": false,
-     "Chosen One Time": 30,
-     "Epic Mode": true,
-     "Respawn Times": 0.25,
-     "Time Limit": 0,
-     "map": "Monkey Face"
-    },
-    "type": "bastd.game.chosenone.ChosenOneGame"
-   },
-   {
-    "settings": {
-     "Epic Mode": true,
-     "Kills to Win Per Player": 4,
-     "Respawn Times": 0.25,
-     "Time Limit": 0,
-     "map": "The Pad"
-    },
-    "type": "bastd.game.deathmatch.DeathMatchGame"
-   },
-   {
-    "settings": {
-     "Epic Mode": true,
-     "Respawn Times": 0.25,
-     "Time Limit": 0,
-     "map": "Zigzag"
-    },
-    "type": "bastd.game.conquest.ConquestGame"
-   },
-   {
-    "settings": {
-     "Chosen One Gets Gloves": true,
-     "Chosen One Gets Shield": false,
-     "Chosen One Time": 30,
-     "Epic Mode": true,
-     "Respawn Times": 0.25,
-     "Time Limit": 0,
-     "map": "Football Stadium"
-    },
-    "type": "bastd.game.chosenone.ChosenOneGame"
-   },
-   {
-    "settings": {
-     "Bomb Spawning": 2000,
-     "Entire Team Must Finish": false,
-     "Epic Mode": true,
-     "Laps": 3,
-     "Mine Spawning": 2000,
-     "Time Limit": 0,
-     "map": "Big G"
-    },
-    "type": "bastd.game.race.RaceGame"
+    "type": "FootballSocceroore282.SoccerGame"
    }
   ]
  },
- "launchCount": 2668,
+ "launchCount": 3067,
  "lc14173": 1,
  "lc14292": 1
 }

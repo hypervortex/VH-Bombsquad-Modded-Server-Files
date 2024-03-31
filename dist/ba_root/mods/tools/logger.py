@@ -59,11 +59,11 @@ def log(msg: str, mtype: str = "sys") -> None:
         elif mtype == 'playerjoin':
             discord_bot.push_log("📢 " + message)
         elif mtype == "chatcmd":
-            discord_bot.push_log(" " + message)
+            discord_bot.push_log("🛡️ " + message)
         elif mtype == "ban":
-            discord_bot.push_log(" " + message)
-        else:
             discord_bot.push_log("⛔ " + message)
+        else:
+            discord_bot.push_log("🗂️ " + message)
 
     msgs = f"{msg}"
     current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

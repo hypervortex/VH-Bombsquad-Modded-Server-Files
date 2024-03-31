@@ -1,25 +1,29 @@
 # Released under the MIT License. See LICENSE for details.
 #
-"""Defines a bomb-dodging mini-game."""
+"""Defines a running-bombs mini-game."""
 
-# ba_meta require api 6
+#Mod by Froshlee14
+#Updated by SEBASTIAN2059
+
+#Esta prohibido modificar o eliminar los créditos.
+
+# ba_meta require api 7
 # (see https://ballistica.net/wiki/meta-tag-system)
 
 from __future__ import annotations
 
 import random
 from typing import TYPE_CHECKING
-from bastd.gameutils import SharedObjects
-from bastd.actor.playerspaz import PlayerSpaz
+
 import ba
-import bastd.actor.bomb
-from bastd.actor.bomb import Bomb, BombFactory
+from bastd.actor.bomb import Bomb
+from bastd.actor.bomb import BombFactory
 from bastd.actor.onscreentimer import OnScreenTimer
+from bastd.gameutils import SharedObjects
 
 if TYPE_CHECKING:
     from typing import Any, Sequence, Optional, List, Dict, Type, Type
 
-__version__ = "1.2"
 
 class Player(ba.Player['Team']):
     """Our player type for this game."""
@@ -33,13 +37,25 @@ class Team(ba.Team[Player]):
     """Our team type for this game."""
 
 
+lang = ba.app.lang.language
+if lang == 'Spanish':
+    description_text = 'No toques las zonas de muerte.'
+    random_bombs_spawn = 'Generar bombas al azar'
+   
+else:
+    description_text = 'Don\'t touch the kill zones.'
+    random_bombs_spawn = 'Random bombs spawn'
+    
 # ba_meta export game
-class RunningBombsGame(ba.TeamGameActivity[Player, Team]):
-    """Minigame involving dodging running bombs."""
+class GameRunningBombs(ba.TeamGameActivity[Player, Team]):
+    """Minigame involving dodging falling bombs."""
 
     name = 'Running Bombs'
-    description = 'Dodge the running bombs.'
-    available_settings = [ba.BoolSetting('Epic Mode', default=False)]
+    description = description_text
+    available_settings = [
+                          ba.BoolSetting('Epic Mode', default=False),
+                          ba.BoolSetting(random_bombs_spawn, default=True)
+    ]
     scoreconfig = ba.ScoreConfig(label='Survived',
                                  scoretype=ba.ScoreType.MILLISECONDS,
                                  version='B')
@@ -56,56 +72,49 @@ class RunningBombsGame(ba.TeamGameActivity[Player, Team]):
     @classmethod
     def supports_session_type(cls, sessiontype: Type[ba.Session]) -> bool:
         return (issubclass(sessiontype, ba.DualTeamSession)
-                or issubclass(sessiontype, ba.FreeForAllSession)
-                or issubclass(sessiontype, ba.CoopSession))
+                or issubclass(sessiontype, ba.FreeForAllSession))
 
     def __init__(self, settings: dict):
         super().__init__(settings)
-        self._timer: Optional[OnScreenTimer] = None
+
         self._epic_mode = settings.get('Epic Mode', False)
-        self._score_regions: List[ba.NodeActor] = []
+        self._random_bombs_spawn = settings.get(random_bombs_spawn, False)
+        
         self._last_player_death_time: Optional[float] = None
         self._meteor_time = 2.0
-        shared = SharedObjects.get()
-        self.kill_player_region_material = ba.Material()
-        self.kill_player_region_material.add_actions(
-            conditions = ("they_have_material", shared.player_material),
-            actions = (("modify_part_collision", "collide", True),
-                ("modify_part_collision", "physical", False),
-                ("call", "at_connect", self._kill_player)))
-        factory = BombFactory.get()
-        self.kill_bomb_region_material = ba.Material()
-        self.kill_bomb_region_material.add_actions(
-            conditions = ("they_have_material", factory.bomb_material),
-            actions = (("modify_part_collision", "collide", True),
-                ("modify_part_collision", "physical", False),
-                ("call", "at_connect", self._kill_bomb)))
+        self._timer: Optional[OnScreenTimer] = None
+
+        # Some base class overrides:
         self.default_music = (ba.MusicType.EPIC
                               if self._epic_mode else ba.MusicType.SURVIVAL)
         if self._epic_mode:
             self.slow_motion = True
-
+            
+        shared = SharedObjects.get()
+        self.kill_bomb_region_material = ba.Material()
+        self.kill_player_region_material = ba.Material()
+        
+        self.kill_bomb_region_material.add_actions(
+            conditions=('they_have_material',
+                        BombFactory.get().bomb_material),
+            actions=(('modify_part_collision', 'collide',True),
+                     ('modify_part_collision', 'physical', False),
+                     ('message', 'their_node', 'at_connect', ba.DieMessage())))
+                     
+        self.kill_player_region_material.add_actions(
+            conditions=('they_have_material',
+                        shared.player_material),
+            actions=(('modify_part_collision', 'collide',True),
+                     ('modify_part_collision', 'physical', False),
+                     ('message', 'their_node', 'at_connect', ba.DieMessage()),
+                     ('call', 'at_connect', self.shatter_player)))
+    
+    def shatter_player(self):
+        node: ba.Node = ba.getcollision().opposingnode
+        node.handlemessage(ba.ShouldShatterMessage())
+    
     def on_begin(self) -> None:
         super().on_begin()
-        defs = self.map.defs
-        self._score_regions.append(
-            ba.NodeActor(
-                ba.newnode('region',
-                           attrs={
-                               'position': defs.boxes['goal1'][0:3],
-                               'scale': defs.boxes['goal1'][6:9],
-                               'type': 'box',
-                               'materials': (self.kill_player_region_material, )
-                           })))
-        self._score_regions.append(
-            ba.NodeActor(
-                ba.newnode('region',
-                           attrs={
-                               'position': defs.boxes['goal2'][0:3],
-                               'scale': defs.boxes['goal2'][6:9],
-                               'type': 'box',
-                               'materials': (self.kill_player_region_material, self.kill_bomb_region_material)
-                           })))
 
         # Drop a wave every few seconds.. and every so often drop the time
         # between waves ..lets have things increase faster if we have fewer
@@ -122,10 +131,32 @@ class RunningBombsGame(ba.TeamGameActivity[Player, Team]):
         ba.timer(delay, self._set_meteor_timer)
 
         self._timer = OnScreenTimer()
-        ba.timer(4, self._timer.start)
+        self._timer.start()
 
         # Check for immediate end (if we've only got 1 player, etc).
-        # ba.timer(5.0, self._check_end_game)
+        ba.timer(5.0, self._check_end_game)
+        
+        defs = self.map.defs
+        self._death_regions = []
+        self._death_regions.append(
+            ba.NodeActor(
+                ba.newnode('region',
+                           attrs={
+                               'position': defs.boxes['goal1'][0:3],
+                               'scale': defs.boxes['goal1'][6:9],
+                               'type': 'box',
+                               'materials': [self.kill_player_region_material]
+                           })))
+                           
+        self._death_regions.append(
+            ba.NodeActor(
+                ba.newnode('region',
+                           attrs={
+                               'position': defs.boxes['goal2'][0:3],
+                               'scale': defs.boxes['goal2'][6:9],
+                               'type': 'box',
+                               'materials': [self.kill_bomb_region_material, self.kill_player_region_material]
+                           })))
 
     def on_player_join(self, player: Player) -> None:
         # Don't allow joining after we start
@@ -149,18 +180,6 @@ class RunningBombsGame(ba.TeamGameActivity[Player, Team]):
 
         # A departing player may trigger game-over.
         self._check_end_game()
-    
-    def _kill_player(self):
-        try: player = ba.getcollision().opposingnode.getdelegate(PlayerSpaz, True).getplayer(Player, True)
-        except: return
-        if player.exists():
-            player.actor.handlemessage(ba.DieMessage())
-            player.actor.shatter()
-    def _kill_bomb(self):
-        try: bomb = ba.getcollision().opposingnode.getdelegate(Bomb, True)
-        except: return
-        if bomb.exists():
-            bomb.handlemessage(ba.DieMessage())
 
     # overriding the default character spawning..
     def spawn_player(self, player: Player) -> ba.Actor:
@@ -245,27 +264,27 @@ class RunningBombsGame(ba.TeamGameActivity[Player, Team]):
         for _i in range(random.randrange(1, 3)):
             # Drop them somewhere within our bounds with velocity pointing
             # toward the opposite side.
-            pos = (-7.3 + 15.3 * random.random(), 11,
-                   -5.5 + 2.1 * random.random())
-            dropdir = (-1.0 if pos[0] > 0 else 1.0)
-            vel = ((-5.0 + random.random() * 30.0) * dropdir, -4.0, 0)
-            ba.timer(delay, ba.Call(self._drop_bomb, pos, vel))
+            vel = (-20,2,0)
+            ba.timer(delay, ba.Call(self._drop_bomb, vel))
             delay += 0.1
         self._set_meteor_timer()
 
-    def _drop_bomb(self, position: Sequence[float],
-                   velocity: Sequence[float]) -> None:
-        x = [-5,-4.5,-4,-3.5,-3,-2.5,-2,-1.5,-1,-0.5,0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5]
-        num = 0
-        for i in x:
-            num += 1
-            if num == 5: break
-            pos = (13.4,1,random.choice(x))
-            Bomb(position=pos, velocity=velocity).autoretain()
+    def _drop_bomb(self, velocity: Sequence[float]) -> None:
+        x = [-5,-4.5,-4,-3.5,-3,-2.5,-2,-1.5,-1,-0.5,0,0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5]
+        if self._random_bombs_spawn:
+            pos=(13.4,1,random.choice(x))
+            b = Bomb(position=pos,velocity=velocity,bomb_type='normal',blast_radius=1).autoretain()
+        else:
+            for i in x:
+                pos=(13.4,1,i)
+                b = Bomb(position=pos,velocity=velocity,bomb_type='normal',blast_radius=1).autoretain()
 
     def _decrement_meteor_time(self) -> None:
-        self._meteor_time = max(0.01, self._meteor_time * 0.9)
-
+        if self._random_bombs_spawn:
+            self._meteor_time = max(0.01, self._meteor_time * 0.6)
+        else:
+            self._meteor_time = max(0.01, self._meteor_time * 0.9)
+        
     def end_game(self) -> None:
         cur_time = ba.time()
         assert self._timer is not None

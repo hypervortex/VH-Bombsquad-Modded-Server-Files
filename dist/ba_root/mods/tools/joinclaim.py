@@ -1,14 +1,14 @@
 #ba meta requires api 7
 #JoinClaim by SARA 
 import ba, _ba
-import setting
 import random
 from datetime import datetime, timedelta
 from chatHandle.ChatCommands.commands import CoinCmds as cc
 from chatHandle.ChatCommands.commands.Handlers import sendchatclid
 from playersData import pdata
+import setting
 settings = setting.get_settings_data()
-tic = settings["CurrencyType"]["YourCurrency"]
+tic = settings["CurrencyType"]["Currency"]
 
 def join_claim(name, clid, accountid):
     set_time_hours = 24  # 24 hours
@@ -19,7 +19,7 @@ def join_claim(name, clid, accountid):
         if set_time_seconds < 40:
             coin_claim = random.choice([50, 70, 80])  # Higher value for shorter claim times
         else:
-            coin_claim = random.choice([50, 60])  # Standard values for 24 hours
+            coin_claim = random.choice([50, 60, 70, 60, 50, 70, 60, 80])  # Standard values for 24 hours
 
         expiry = datetime.now() + timedelta(seconds=set_time_seconds)
         customers[accountid] = {'name': name, 'expiry': expiry.strftime('%d-%m-%Y %H:%M:%S')}

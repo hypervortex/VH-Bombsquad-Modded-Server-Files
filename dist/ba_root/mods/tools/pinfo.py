@@ -1,78 +1,45 @@
 from tools import mongo
 from playersData import pdata 
-import _ba, ba
+import _ba, ba, os
 import setting
-#import asyncio
+import json
+import threading
+from multiprocessing.pool import ThreadPool
+import random
 settings = setting.get_settings_data()
+collection = mongo.playerinfo
 
-def update_player_info(player_data, pb):
-    # Check if player_data is None
-    if player_data is None:
-        print("Player data is None. Unable to update player info.")
-        return  # Exit the function
+
+def read_profiles_from_file():
+    try:
+        file_path = os.path.join(_ba.env()['python_directory_user'], "playersData", "profiles.json")
+        with open(file_path, 'r') as file:
+            profiles_data = json.load(file)
+        return profiles_data
+    except Exception as e:
+        print(f"Error reading profiles from file: {e}")
+        return None
+
+def update_mongo_with_profiles():
+    try:
+        # Read profiles from file
+        profiles_data = read_profiles_from_file()
         
-    # Extract necessary information from player_data and pb
-    name = player_data.get('display_string', [])[0] if player_data.get('display_string') else None
-    device_id = player_data.get('deviceUUID')
-    ip = player_data.get('lastIP')
-    pbid = pb
+        if profiles_data:
+            # Update MongoDB with profiles data
+            mongo.playerinfo.update_one({}, {"$set": profiles_data}, upsert=True)
+            print("Profiles updated successfully.")
+        else:
+            print("No profiles data found or unable to read from file.")
+        
+    except Exception as e:
+        print(f"Error updating MongoDB with profiles: {e}")
 
-    # Ensure all extracted values are not None before proceeding
-    if name is None or device_id is None or ip is None or pbid is None:
-        print("Some player information is missing. Unable to update player info.")
-        return  # Exit the function
+    # Set the timer for the next update after 10 seconds
+    threading.Timer(1000, update_mongo_with_profiles).start()
 
-    # Retrieve the latest document from MongoDB
-    player_info = mongo.playerinfo.find_one() or {
-        'pinfo': {
-            'pbid': [],
-            'name': [],
-            'deviceid': [],
-            'ip': [],
-            'linkedaccount': [],
-            'accountage': []
-        }
-    }
-
-    # Append new player information to the existing document
-    player_info['pinfo']['pbid'].append(pbid)
-    player_info['pinfo']['name'].append(name)
-    player_info['pinfo']['deviceid'].append(device_id)
-    player_info['pinfo']['ip'].append(ip)
-    player_info['pinfo']['linkedaccount'].append([])
-    player_info['pinfo']['accountage'].append([])
-
-    # Insert the updated document into MongoDB
-    mongo.playerinfo.delete_many({})
-    mongo.playerinfo.insert_one(player_info)
-
-    print("Player data inserted successfully.")
-
-
-
-def update_pinfo(pbid, name, device_id, ip):
-    player_info = mongo.playerinfo.find_one() or {
-        'pinfo': {
-            'pbid': [],
-            'name': [],
-            'deviceid': [],
-            'ip': [],
-            'linkedaccount': [],
-            'accountage': []
-        }
-    }
-
-    # Append new player information to the existing document
-    player_info['pinfo']['pbid'].append(pbid)
-    player_info['pinfo']['name'].append(name)
-    player_info['pinfo']['deviceid'].append(device_id)
-    player_info['pinfo']['ip'].append(ip)
-
-    # Insert the updated document into MongoDB
-    mongo.playerinfo.delete_many({})
-    mongo.playerinfo.insert_one(player_info)
-
-    print("New Player data successfully.")
+# Start the initial update
+update_mongo_with_profiles()
 
 
 def get_owners_ids():
@@ -88,106 +55,28 @@ def get_owners_ids():
 
 
 def update_server_info(m, server_name, dc_servername, dc_serverid, server_ip, server_port):
-    # Retrieve the latest document from MongoDB for server info
-    server_info = mongo.serverinfo.find_one() or {
-        'serverinfo': {
-            'name': "",
-            'ip': "",
-            'port': "",
-            'database_name': "",
-            'owner_ids': [],
-            'whitelisted_servers': [],
-            'whitelisted_user': [],
-            'dc_server_name': "",
-            'dc_server_id': ""  
-        }
+    # Construct the updated server info dictionary
+    updated_server_info = {
+        'name': server_name,
+        'ip': server_ip,
+        'port': server_port,
+        'database_name': settings['discordbot']['database_name'],
+        'owner_ids': get_owners_ids(),
+        'whitelisted_servers': settings["discordbot"]["whitelisted_servers"],
+        'whitelisted_user': settings["discordbot"]["allowed_user_ids"],
+        'dc_server_name': dc_servername,
+        'dc_server_id': dc_serverid
     }
 
-    # Get server IP and port
-    database_name = settings['discordbot']['database_name']
-    ownerids = get_owners_ids()
-    whitelisted_servers = settings["discordbot"]["whitelisted_servers"]
-    whitelisted_user = settings["discordbot"]["allowed_user_ids"]
+    # Update existing server information or insert new server information
+    result = mongo.serverinfo.replace_one(
+        {'serverinfo.name': server_name},
+        {'serverinfo': updated_server_info},
+        upsert=True
+    )
 
-    # Check if the server port already exists
-    if server_info['serverinfo']['port'] and server_info['serverinfo']['port'] != server_port:
-        #print("Server port already exists. Updating all server information.")
-        # Update server name, IP, port, database name, owner IDs, whitelisted servers, and user DC IDs
-        server_info['serverinfo']['name'] = server_name
-        server_info['serverinfo']['ip'] = server_ip
-        server_info['serverinfo']['port'] = server_port
-        server_info['serverinfo']['database_name'] = database_name
-        server_info['serverinfo']['owner_ids'] = ownerids
-        server_info['serverinfo']['whitelisted_servers'] = whitelisted_servers
-        server_info['serverinfo']['whitelisted_user'] = whitelisted_user
-        server_info['serverinfo']['dc_server_name'] = dc_servername
-        server_info['serverinfo']['dc_server_id'] = dc_serverid
-        #print(f"{server_info['serverinfo']['name']}")
-        #print(f"{server_info['serverinfo']['ip']}")
-        #print(f"{server_info['serverinfo']['port']}")
-        #print(f"{server_info['serverinfo']['database_name']}")
-        #print(f"{server_info['serverinfo']['owner_ids']}")
-        #print(f"{server_info['serverinfo']['whitelisted_servers']}")
-        #print(f"{server_info['serverinfo']['whitelisted_user']}")
-        #print(f"{server_info['serverinfo']['dc_server_name']}")
-        #print(f"{server_info['serverinfo']['dc_server_id']}")        
-    #else:
-        #print("Updating server information.")
-
-        # Check if server name has changed
-        if server_info['serverinfo']['name'] != server_name:
-            #print("Server name has changed.")
-            server_info['serverinfo']['name'] = server_name
-
-        # Check if server ip has changed
-        if server_info['serverinfo']['ip'] != server_ip:
-            #print("Server ip has changed.")
-            server_info['serverinfo']['ip'] = server_ip
-
-        # Check if server port has changed
-        if server_info['serverinfo']['port'] != server_port:
-            #print("Server port has changed.")
-            server_info['serverinfo']['port'] = server_port
-
-        # Check if database name has changed
-        if server_info['serverinfo']['database_name'] != database_name:
-            #print("Database name has changed.")
-            server_info['serverinfo']['database_name'] = database_name
-
-        # Check if owner IDs have changed
-        if server_info['serverinfo']['owner_ids'] != ownerids:
-            #print("Owner IDs have changed.")
-            server_info['serverinfo']['owner_ids'] = ownerids
-
-        # Check if whitelisted servers have changed        
-        if server_info['serverinfo']['whitelisted_servers'] != whitelisted_servers:
-            #print("Whitelisted servers have changed.")
-            server_info['serverinfo']['whitelisted_servers'] = whitelisted_servers
-
-        # Check if user DC IDs have changed        
-        if server_info['serverinfo']['whitelisted_user'] != whitelisted_user:
-            #print("User DC IDs have changed.")
-            server_info['serverinfo']['whitelisted_user'] = whitelisted_user
-
-        if server_info['serverinfo']['dc_server_name'] != dc_servername:
-            #print("DC servers name have changed.")
-            server_info['serverinfo']['dc_server_name'] = dc_servername
-
-        if server_info['serverinfo']['dc_server_id'] != dc_serverid:
-            #print("DC Server IDs have changed.")
-            server_info['serverinfo']['dc_server_id'] = dc_serverid
-
-    # Update MongoDB document
-    mongo.serverinfo.delete_many({})
-    mongo.serverinfo.insert_one(server_info)
-    #print(f"{server_info['serverinfo']['name']}")
-    #print(f"{server_info['serverinfo']['ip']}")     
-    #print(f"{server_info['serverinfo']['port']}")
-    #print(f"{server_info['serverinfo']['database_name']}")
-    #print(f"{server_info['serverinfo']['owner_ids']}")
-    #print(f"{server_info['serverinfo']['whitelisted_servers']}")
-    #print(f"{server_info['serverinfo']['whitelisted_user']}")
-    #print(f"{server_info['serverinfo']['dc_server_name']}")
-    #print(f"{server_info['serverinfo']['dc_server_id']}")     
-    #print("Server information updated successfully")
-
+    # Check if the document was modified or inserted
+    if result.modified_count > 0:
+        print("Your server is updated successfully.")
+    else:
+        print("Server is already up to date.")

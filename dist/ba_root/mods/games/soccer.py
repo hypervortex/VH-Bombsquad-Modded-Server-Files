@@ -2,7 +2,7 @@
 # BY Stary_Agent
 """Hockey game and support classes."""
 
-# ba_meta require api 6
+# ba_meta require api 7
 # (see https://ballistica.net/wiki/meta-tag-system)
 
 from __future__ import annotations
@@ -105,7 +105,7 @@ class Team(ba.Team[Player]):
 class HockeyGame(ba.TeamGameActivity[Player, Team]):
     """Ice hockey game."""
 
-    name = 'Soccer'
+    name = 'Epic Soccer'
     description = 'Score some goals.'
     available_settings = [
         ba.IntSetting(
@@ -129,7 +129,7 @@ class HockeyGame(ba.TeamGameActivity[Player, Team]):
         ba.FloatChoiceSetting(
             'Respawn Times',
             choices=[
-                ('Shorter', 0.25),
+                ('Shorter', 0.1),
                 ('Short', 0.5),
                 ('Normal', 1.0),
                 ('Long', 2.0),
@@ -137,9 +137,6 @@ class HockeyGame(ba.TeamGameActivity[Player, Team]):
             ],
             default=1.0,
         ),
-        ba.BoolSetting('Boxing Gloves', default=False),
-        ba.BoolSetting('Icy Floor', default=True),
-        ba.BoolSetting('Epic Mode', default=False),
     ]
     default_music = ba.MusicType.HOCKEY
 
@@ -154,21 +151,16 @@ class HockeyGame(ba.TeamGameActivity[Player, Team]):
     def __init__(self, settings: dict):
         super().__init__(settings)
         shared = SharedObjects.get()
+        self.slow_motion = True
         self._scoreboard = Scoreboard()
         self._cheer_sound = ba.getsound('cheer')
         self._chant_sound = ba.getsound('crowdChant')
         self._foghorn_sound = ba.getsound('foghorn')
         self._swipsound = ba.getsound('swip')
         self._whistle_sound = ba.getsound('refWhistle')
-        self._boxing_gloves = bool(settings.get('Boxing Gloves', False))
-        self._icy_floor = bool(settings.get('Icy Floor', True))
-        self._epic_mode = bool(settings['Epic Mode'])
-        # Base class overrides:
-        self.slow_motion = self._epic_mode
-        self.default_music = (ba.MusicType.EPIC
-                              if self._epic_mode else ba.MusicType.FOOTBALL)
         self.puck_model = ba.getmodel('bomb')
-        self.puck_tex = ba.gettexture('circleOutlineNoAlpha')
+        self.puck_tex = ba.gettexture('landMine')
+        self.puck_scored_tex = ba.gettexture('landMineLit')
         self._puck_sound = ba.getsound('metalHit')
         self.puck_material = ba.Material()
         self.puck_material.add_actions(actions=(('modify_part_collision',
@@ -213,6 +205,7 @@ class HockeyGame(ba.TeamGameActivity[Player, Team]):
         self._puck: Optional[Puck] = None
         self._score_to_win = int(settings['Score to Win'])
         self._time_limit = float(settings['Time Limit'])
+
     def get_instance_description(self) -> Union[str, Sequence]:
         if self._score_to_win == 1:
             return 'Score a goal.'
@@ -223,21 +216,9 @@ class HockeyGame(ba.TeamGameActivity[Player, Team]):
             return 'score a goal'
         return 'score ${ARG1} goals', self._score_to_win
 
-    def on_transition_in(self) -> None:
-        super().on_transition_in()
-        shared = SharedObjects.get()
-        activity = ba.getactivity()
-        if self._icy_floor:
-            activity.map.is_hockey = True
-        else:
-            activity.map.is_hockey = False
-        activity.map.node.materials = [shared.footing_material]
-        activity.map.floor.materials = [shared.footing_material]
-        activity.map.floor.color = (0.2, 1.0, 0.2)
-        
     def on_begin(self) -> None:
         super().on_begin()
-        ba.screenmessage("Run?",color = (0.2,1,1))
+
         self.setup_standard_time_limit(self._time_limit)
         self.setup_standard_powerup_drops()
         self._puck_spawn_pos = self.map.get_flag_position(None)
@@ -318,7 +299,7 @@ class HockeyGame(ba.TeamGameActivity[Player, Team]):
                         and self._puck.last_players_to_touch[scoring_team.id]):
                     self.stats.player_scored(
                         self._puck.last_players_to_touch[scoring_team.id],
-                        100,
+                        20,
                         big_message=True)
 
                 # End game if we won.
@@ -330,6 +311,8 @@ class HockeyGame(ba.TeamGameActivity[Player, Team]):
 
         self._puck.scored = True
 
+        # Change puck texture to something cool
+        self._puck.node.color_texture = self.puck_scored_tex
         # Kill the puck (it'll respawn itself shortly).
         ba.timer(1.0, self._kill_puck)
 
@@ -380,14 +363,6 @@ class HockeyGame(ba.TeamGameActivity[Player, Team]):
                            })
         ba.animate(light, 'intensity', {0.0: 0, 0.25: 1, 0.5: 0}, loop=True)
         ba.timer(1.0, light.delete)
-
-    def spawn_player(self, player: Player) -> ba.Actor:
-        spaz = self.spawn_player_spaz(player)
-        if self._boxing_gloves:
-            spaz.equip_boxing_gloves()
-        else:
-            pass
-        return spaz
 
     def _spawn_puck(self) -> None:
         ba.playsound(self._swipsound)

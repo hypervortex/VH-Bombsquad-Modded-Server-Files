@@ -2,7 +2,6 @@ Reply_on_cmd = True
 Reply_on_cmd_type = 'Screen' # SHould me "Screen" or "Chat"
 cmd_prefix = '/'
 hide_cmd = True
-complainter = True
 whitelist = False
 whitelist_pb = False
 Show_map_text = True

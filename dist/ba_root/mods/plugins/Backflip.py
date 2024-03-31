@@ -3,8 +3,12 @@
 
 import ba, _ba
 from bastd.actor import spaz
+import setting 
 import random
 
+settings = setting.get_settings_data()
+backflip = settings['backflip']['enable']
+turn = backflip  # Set turn based on the value fetched from settings
 
 def myOnJumpPress(Slade):
     def wrapper(self):
@@ -18,7 +22,7 @@ def myOnJumpPress(Slade):
         if t - self.last_jump_time_ms >= self._jump_cooldown:
             self.node.jump_pressed = True
 
-            if t - self.last_punch_time_ms <= 95 and is_moving and self.node.jump_pressed and self.node.punch_pressed:
+            if turn and t - self.last_punch_time_ms <= 95 and is_moving and self.node.jump_pressed and self.node.punch_pressed:
                 # Apply impulses for a backflip with reduced flip strength for bomb jumping
                 flip_strength = 160  # Adjust this value for the desired flip strength
                 self.node.handlemessage("impulse", self.node.position[0], self.node.position[1] + 3.5, self.node.position[2],

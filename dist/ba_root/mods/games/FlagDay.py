@@ -1,28 +1,32 @@
-# ba_meta require api 7
+
+#Ported by brostos to api 8
+# ba_meta require api 8
 # (see https://ballistica.net/wiki/meta-tag-system)
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-import ba
-import _ba
+import babase
+import bauiv1 as bui
+import bascenev1 as bs
+import _babase
 import json
 import math
 import random
-from bastd.game.elimination import Icon
-from bastd.actor.bomb import Bomb, Blast
-from bastd.actor.playerspaz import PlayerSpaz
-from bastd.actor.scoreboard import Scoreboard
-from bastd.actor.powerupbox import PowerupBox
-from bastd.actor.flag import Flag, FlagPickedUpMessage
-from bastd.actor.spazbot import SpazBotSet, BrawlerBotLite, SpazBotDiedMessage
+from bascenev1lib.game.elimination import Icon
+from bascenev1lib.actor.bomb import Bomb, Blast
+from bascenev1lib.actor.playerspaz import PlayerSpaz
+from bascenev1lib.actor.scoreboard import Scoreboard
+from bascenev1lib.actor.powerupbox import PowerupBox
+from bascenev1lib.actor.flag import Flag, FlagPickedUpMessage
+from bascenev1lib.actor.spazbot import SpazBotSet, BrawlerBotLite, SpazBotDiedMessage
 
 if TYPE_CHECKING:
 	from typing import Any, Sequence
 
 
-lang = ba.app.lang.language
+lang = bs.app.lang.language
 if lang == 'Spanish':
 	name = 'Día de la Bandera'
 	description = ('Recoge las banderas para recibir un premio.\n'
@@ -80,7 +84,7 @@ class Icon(Icon):
 class FlagBearer(PlayerSpaz):
 	def handlemessage(self, msg: Any) -> Any:
 		super().handlemessage(msg)
-		if isinstance(msg, ba.PowerupMessage):
+		if isinstance(msg, bs.PowerupMessage):
 			activity = self.activity
 			player = self.getplayer(Player)
 			if not player.is_alive():
@@ -97,25 +101,25 @@ class FlagBearer(PlayerSpaz):
 				activity._update_scoreboard()
 			if msg.poweruptype == 'health':
 				activity.round_timer = None
-				ba.timer(0.2, activity.setup_next_round)
+				bs.timer(0.2, activity.setup_next_round)
 
 
-class Player(ba.Player['Team']):
+class Player(bs.Player['Team']):
 	"""Our player type for this game."""
 
 	def __init__(self) -> None:
 		self.dead = False
 		self.icons: list[Icon] = []
 
-class Team(ba.Team[Player]):
+class Team(bs.Team[Player]):
 	"""Our team type for this game."""
 
 	def __init__(self) -> None:
 		self.score = 0
 
 
-# ba_meta export game
-class FlagDayGame(ba.TeamGameActivity[Player, Team]):
+# ba_meta export bascenev1.GameActivity
+class FlagDayGame(bs.TeamGameActivity[Player, Team]):
 	"""A game type based on acquiring kills."""
 
 	name = name
@@ -128,31 +132,31 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 
 	@classmethod
 	def get_available_settings(
-		cls, sessiontype: type[ba.Session]
-	) -> list[ba.Setting]:
+		cls, sessiontype: type[bs.Session]
+	) -> list[babase.Setting]:
 		settings = [
-			ba.BoolSetting(slow_motion_deaths, default=True),
-			ba.BoolSetting('Epic Mode', default=False),
+			bs.BoolSetting(slow_motion_deaths, default=True),
+			bs.BoolSetting('Epic Mode', default=False),
 		]
 		return settings
 
 	@classmethod
-	def supports_session_type(cls, sessiontype: type[ba.Session]) -> bool:
+	def supports_session_type(cls, sessiontype: type[bs.Session]) -> bool:
 		return (
-			issubclass(sessiontype, ba.CoopSession)
-			or issubclass(sessiontype, ba.DualTeamSession)
-			or issubclass(sessiontype, ba.FreeForAllSession)
+			issubclass(sessiontype, bs.CoopSession)
+			or issubclass(sessiontype, bs.DualTeamSession)
+			or issubclass(sessiontype, bs.FreeForAllSession)
 		)
 
 	@classmethod
-	def get_supported_maps(cls, sessiontype: type[ba.Session]) -> list[str]:
+	def get_supported_maps(cls, sessiontype: type[bs.Session]) -> list[str]:
 		return ['Courtyard']
 
 	def __init__(self, settings: dict):
 		super().__init__(settings)
 		self.credits()
 		self._scoreboard = Scoreboard()
-		self._dingsound = ba.getsound('dingSmall')
+		self._dingsound = bui.getsound('dingSmall')
 		self._epic_mode = bool(settings['Epic Mode'])
 		self._slow_motion_deaths = bool(settings[slow_motion_deaths])
 		self.current_player: Player | None = None
@@ -163,7 +167,7 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 		self.bombs: list = []
 		self.queue_line: list = []
 		self._bots: SpazBotSet | None = None
-		self.light: ba.Node | None = None
+		self.light: bs.Node | None = None
 		self.last_prize = 'none'
 		self._flag: Flag | None = None
 		self._flag2: Flag | None = None
@@ -174,17 +178,17 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 		self._flag7: Flag | None = None
 		self._flag8: Flag | None = None
 		self.set = False
-		self.round_timer: ba.Timer | None = None
-		self.give_points_timer: ba.Timer | None = None
+		self.round_timer: bs.Timer | None = None
+		self.give_points_timer: bs.Timer | None = None
 
-		self._jackpot_sound = ba.getsound('achievement')
-		self._round_sound = ba.getsound('powerup01')
-		self._dingsound = ba.getsound('dingSmall')
+		self._jackpot_sound = bui.getsound('achievement')
+		self._round_sound = bui.getsound('powerup01')
+		self._dingsound = bui.getsound('dingSmall')
 
 		# Base class overrides.
 		self.slow_motion = self._epic_mode
 		self.default_music = (
-			ba.MusicType.EPIC if self._epic_mode else ba.MusicType.TO_THE_DEATH
+			bs.MusicType.EPIC if self._epic_mode else bs.MusicType.TO_THE_DEATH
 		)
 
 	def on_team_join(self, team: Team) -> None:
@@ -203,7 +207,7 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 		super().on_begin()
 		for player in self.players:
 			if player.actor:
-				player.actor.handlemessage(ba.DieMessage())
+				player.actor.handlemessage(bs.DieMessage())
 				player.actor.node.delete()
 			self.queue_line.append(player)
 		self.spawn_player_spaz(
@@ -217,7 +221,7 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 		self._update_scoreboard()
 
 	def credits(self) -> None:
-		ba.newnode(
+		bs.newnode(
 			'text',
 			attrs={
 				'v_attach': 'bottom',
@@ -282,19 +286,19 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 		if prize == 1:
 			# Curse him aka make him blow up in 5 seconds
 			# give them a nice message
-			ba.screenmessage(you_were, color=(0.1, 0.1, 0.1))
-			ba.screenmessage(cursed_text, color=(1.0, 0.0, 0.0))
+			bs.broadcastmessage(you_were, color=(0.1, 0.1, 0.1))
+			bs.broadcastmessage(cursed_text, color=(1.0, 0.0, 0.0))
 			self.make_health_box((0.0, 0.0, 0.0))
 			self.last_prize = 'curse'
 			self.prize_recipient.actor.curse()
-			# ba.timer(5.5, self.setup_next_round)
+			# bs.timer(5.5, self.setup_next_round)
 		if prize == 2:
 			self.setup_rof()
-			ba.screenmessage(run, color=(1.0, 0.2, 0.1))
+			bs.broadcastmessage(run, color=(1.0, 0.2, 0.1))
 			self.last_prize = 'ring_of_fire'
 		if prize == 3:
 			self.last_prize = 'climb'
-			self.light = ba.newnode(
+			self.light = bs.newnode(
 				'locator',
 				attrs={
 					'shape': 'circle',
@@ -304,9 +308,9 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 					'draw_beauty': True,
 					'additive': True
 				})
-			ba.screenmessage(climb_top, color=(0.5, 0.5, 0.5))
-			ba.timer(3.0, ba.Call(self.make_health_box, (0.0, 6.0, -9.0)))
-			self.round_timer = ba.Timer(10.0, self.setup_next_round)
+			bs.broadcastmessage(climb_top, color=(0.5, 0.5, 0.5))
+			bs.timer(3.0, babase.Call(self.make_health_box, (0.0, 6.0, -9.0)))
+			self.round_timer = bs.Timer(10.0, self.setup_next_round)
 		if prize == 4:
 			self.last_prize = 'land_mines'
 			self.make_health_box((6.0, 5.0, -2.0))
@@ -314,28 +318,28 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 			self.prize_recipient.actor.connect_controls_to_player(
 				enable_bomb=False)
 			self.prize_recipient.actor.node.handlemessage(
-				ba.StandMessage(position=(-6.0, 3.0, -2.0)))
-			self.round_timer = ba.Timer(7.0, self.setup_next_round)
+				bs.StandMessage(position=(-6.0, 3.0, -2.0)))
+			self.round_timer = bs.Timer(7.0, self.setup_next_round)
 		if prize == 5:
 			# Make it rain bombs
 			self.bomb_survivor = self.prize_recipient
-			ba.screenmessage(bomb_rain, color=(1.0, 0.5, 0.16))
+			bs.broadcastmessage(bomb_rain, color=(1.0, 0.5, 0.16))
 			# Set positions for the bombs to drop
 			for bzz in range(-5,6):
 				for azz in range(-5,2):
 					# for each position make a bomb drop there
 					self.make_bomb(bzz, azz)
-			self.give_points_timer = ba.Timer(3.3, self.give_points)
+			self.give_points_timer = bs.Timer(3.3, self.give_points)
 			self.last_prize = 'bombrain'
 		if prize == 6:
 			self.setup_br()
 			self.bomb_survivor = self.prize_recipient
-			self.give_points_timer = ba.Timer(7.0, self.give_points)
+			self.give_points_timer = bs.Timer(7.0, self.give_points)
 			self.last_prize = 'bombroad'
 		if prize == 7:
 			# makes killing a bad guy worth ten points
 			self.bad_guy_cost = 2
-			ba.screenmessage(lame_guys, color=(1.0, 0.5, 0.16))
+			bs.broadcastmessage(lame_guys, color=(1.0, 0.5, 0.16))
 			# makes a set of nine positions
 			for a in range(-1, 2):
 				for b in range(-3, 0):
@@ -346,32 +350,32 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 			self._player.equip_shields()
 			self.last_prize = 'lameguys'
 		if prize == 8:
-			ba.playsound(self._jackpot_sound)
-			ba.screenmessage(jackpot, color=(1.0, 0.0, 0.0))
-			ba.screenmessage(jackpot, color=(0.0, 1.0, 0.0))
-			ba.screenmessage(jackpot, color=(0.0, 0.0, 1.0))
+			self._jackpot_sound.play()
+			bs.broadcastmessage(jackpot, color=(1.0, 0.0, 0.0))
+			bs.broadcastmessage(jackpot, color=(0.0, 1.0, 0.0))
+			bs.broadcastmessage(jackpot, color=(0.0, 0.0, 1.0))
 			team = self.prize_recipient.team
 			# GIVE THEM A WHOPPING 50 POINTS!!!
 			team.score += 50
 			# and update the scores
 			self._update_scoreboard()
 			self.last_prize = 'jackpot'
-			ba.timer(2.0, self.setup_next_round)
+			bs.timer(2.0, self.setup_next_round)
 
 	def setup_next_round(self) -> None:
 		if self._slow_motion_deaths:
-			ba.getactivity().globalsnode.slow_motion = False
+			bs.getactivity().globalsnode.slow_motion = False
 		if self.set:
 			return
 		if self.light:
 			self.light.delete()
 		for bomb in self.bombs:
-			bomb.handlemessage(ba.DieMessage())
+			bomb.handlemessage(bs.DieMessage())
 		self.kill_flags()
 		self._bots.clear()
 		self.reset_flags()
 		self.current_player.actor.handlemessage(
-			ba.DieMessage(how='game'))
+			bs.DieMessage(how='game'))
 		self.current_player.actor.node.delete()
 		c = 0
 		self.player_index += 1
@@ -406,7 +410,7 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 		if self.bomb_survivor is not None and self.bomb_survivor.is_alive():
 			self.bomb_survivor.team.score += 20
 			self._update_scoreboard()
-			self.round_timer = ba.Timer(1.0, self.setup_next_round)
+			self.round_timer = bs.Timer(1.0, self.setup_next_round)
 
 	def make_health_box(self, position: Sequence[float]) -> None:
 		if position == (0.0, 3.0, 0.0):
@@ -426,13 +430,13 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 	def setup_br(self) -> None:
 		self.make_bomb_row(6)
 		self.prize_recipient.actor.handlemessage(
-			ba.StandMessage(position=(6.0, 3.0, -2.0)))
+			bs.StandMessage(position=(6.0, 3.0, -2.0)))
 
 	def make_bomb_row(self, num: int) -> None:
 		if not self.prize_recipient.is_alive():
 			return
 		if num == 0:
-			self.round_timer = ba.Timer(1.0, self.setup_next_round)
+			self.round_timer = bs.Timer(1.0, self.setup_next_round)
 			return
 		for i in range(-11, 7):
 			self.bombs.append(
@@ -440,12 +444,12 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 					 velocity=(12, 0.0, 0.0),
 					 bomb_type='normal',
 					 blast_radius=1.2))
-		ba.timer(1.0, ba.Call(self.make_bomb_row, num-1))
+		bs.timer(1.0, babase.Call(self.make_bomb_row, num-1))
 
 	def setup_rof(self) -> None:
 		self.make_blast_ring(10)
 		self.prize_recipient.actor.handlemessage(
-			ba.StandMessage(position=(0.0, 3.0, -2.0)))
+			bs.StandMessage(position=(0.0, 3.0, -2.0)))
 
 	def make_blast_ring(self, length: float) -> None:
 		if not self.prize_recipient.is_alive():
@@ -461,7 +465,7 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 			x = length * math.cos(math.radians(angle))
 			z = length * math.sin(math.radians(angle))
 			blast = Blast(position=(x, 2.2, z-2), blast_radius=3.5)
-		ba.timer(0.75, ba.Call(self.make_blast_ring, length-1))
+		bs.timer(0.75, babase.Call(self.make_blast_ring, length-1))
 
 	# a method to remake the flags
 	def reset_flags(self) -> None:
@@ -504,13 +508,13 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 
 	def spawn_player_spaz(
 		self,
-		player: PlayerType,
+		player: PlayerT,
 		position: Sequence[float] = (0, 0, 0),
 		angle: float | None = None,
 	) -> PlayerSpaz:
-		from ba import _math
-		from ba._gameutils import animate
-		from ba._coopsession import CoopSession
+		from babase import _math
+		from bascenev1._gameutils import animate
+		from bascenev1._coopsession import CoopSession
 
 		angle = None
 		name = player.getname()
@@ -518,7 +522,7 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 		highlight = player.highlight
 
 		light_color = _math.normalized_color(color)
-		display_color = ba.safecolor(color, target_intensity=0.75)
+		display_color = babase.safecolor(color, target_intensity=0.75)
 
 		spaz = FlagBearer(color=color,
 						  highlight=highlight,
@@ -534,39 +538,39 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 
 		# Move to the stand position and add a flash of light.
 		spaz.handlemessage(
-			ba.StandMessage(
+			bs.StandMessage(
 				position,
 				angle if angle is not None else random.uniform(0, 360)))
-		ba.playsound(self._spawn_sound, 1, position=spaz.node.position)
-		light = ba.newnode('light', attrs={'color': light_color})
+		self._spawn_sound.play(1, position=spaz.node.position)
+		light = bs.newnode('light', attrs={'color': light_color})
 		spaz.node.connectattr('position', light, 'position')
 		animate(light, 'intensity', {0: 0, 0.25: 1, 0.5: 0})
-		ba.timer(0.5, light.delete)
+		bs.timer(0.5, light.delete)
 		return spaz
 
 	def handlemessage(self, msg: Any) -> Any:
-		if isinstance(msg, ba.PlayerDiedMessage):
+		if isinstance(msg, bs.PlayerDiedMessage):
 			# give them a nice farewell
-			if ba.time() < 0.5:
+			if bs.time() < 0.5:
 				return
 			if msg.how == 'game':
 				return
 			player = msg.getplayer(Player)
-			ba.screenmessage(
+			bs.broadcastmessage(
 				diedtxt + str(player.getname()) + diedtxt2, color=player.color)
 			player.dead = True
 			if player is self.current_player:
 				self.round_timer = None
 				self.give_points_timer = None
-				if not msg.how is ba.DeathType.FALL:
+				if not msg.how is bs.DeathType.FALL:
 					if self._slow_motion_deaths:
-						ba.getactivity().globalsnode.slow_motion = True
+						bs.getactivity().globalsnode.slow_motion = True
 					time = 0.5
 				else:
 					time = 0.01
 				# check to see if we can end the game
 				self._check_end_game()
-				ba.timer(time, self.setup_next_round)
+				bs.timer(time, self.setup_next_round)
 		elif isinstance(msg, FlagPickedUpMessage):
 			msg.flag.last_player_to_hold = msg.node.getdelegate(
 				FlagBearer, True
@@ -579,32 +583,32 @@ class FlagDayGame(ba.TeamGameActivity[Player, Team]):
 			).getplayer(Player, True)
 			self.kill_flags()
 			self.give_prize(random.randint(1, 8))
-			ba.playsound(self._round_sound)
+			self._round_sound.play()
 			self.current_player = self.prize_recipient
 		elif isinstance(msg, SpazBotDiedMessage):
 			# find out which team the last person to hold a flag was on
 			team = self.prize_recipient.team
 			# give them their points
 			team.score += self.bad_guy_cost
-			ba.playsound(self._dingsound, 0.5)
+			self._dingsound.play(0.5)
 			# update the scores
 			for team in self.teams:
 				self._scoreboard.set_team_value(team, team.score)
-			ba.timer(0.3, self.check_bots)
+			bs.timer(0.3, self.check_bots)
 		return None
 
 	def _update_scoreboard(self) -> None:
 		for player in self.queue_line:
 			if not player.dead:
 				if player.team.score > 0:
-					ba.playsound(self._dingsound)
+					self._dingsound.play()
 				self._scoreboard.set_team_value(player.team, player.team.score)
 
 	def end_game(self) -> None:
 		if self.set:
 			return
 		self.set = True
-		results = ba.GameResults()
+		results = bs.GameResults()
 		for team in self.teams:
 			results.set_team_score(team, team.score)
 		self.end(results=results)

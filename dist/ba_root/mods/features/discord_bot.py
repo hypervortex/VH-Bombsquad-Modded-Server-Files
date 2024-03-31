@@ -8,6 +8,7 @@ from playersData import pdata
 from serverData import serverdata
 import setting
 from tools import mongo, pinfo
+from chatHandle.ChatCommands.commands.Handlers import send
 from chatHandle.ChatCommands.commands import NormalCommands as nc
 from chatHandle.ChatCommands.commands import CoinCmds as cc
 from bacommon.servermanager import ServerConfig
@@ -16,6 +17,7 @@ import members.members as mid
 from datetime import datetime, timedelta
 from stats import mystats
 import os
+settings = setting.get_settings_data()
 intents = discord.Intents().all()
 client = Bot(command_prefix='v!', intents=intents)
 
@@ -27,6 +29,9 @@ notifyChannelID = 1079019991694839818
 complaintChannelID = 859519868838608970
 whitelisted_servers = 1168272029280112673
 whitelisted_users = 123456789012345678
+CurrencyName = ''
+notify_role = ''
+complaint_role = ''
 prefix = ''
 commands_prefix = ''
 liveChat = True
@@ -83,6 +88,50 @@ async def send_message_chunks(channel, messages):
     for chunk in chunks:
         await channel.send(" ".join(chunk))
 
+
+async def link_pbid_to_discord(user_id_or_name, pbid, clientid):
+    # Find the user by ID or username
+    if user_id_or_name.isdigit():
+        user = await client.fetch_user(int(user_id_or_name))
+    else:
+        user = discord.utils.get(client.users, name=user_id_or_name)
+    
+    if user:
+        # Check if the user already has a linked PBID
+        existing_pbid = mongo.linkedusers.find_one({"discord_id": user.id, "pbid": pbid})
+        if existing_pbid:
+            send(f"\ue048Your PBID is already linked to your Discord ID.", clientid)
+            return
+
+        try:
+            # Send a message to the user's DM
+            link_message = await user.send(f"✨Would you like to link your PBID '{pbid}' to your Discord ID?\nReact with 👍 to confirm.")
+            # Add reaction to the message
+            await link_message.add_reaction('👍')
+            
+            send(f"\ue048You have received a DM on Discord.\n\ue048Plz check it & link your Discord ID.\n\ue048Plz Note that the linking process is only valid for 5 min.", clientid)            
+            # Wait for a reaction from the user
+            def check(reaction, reactor):
+                return reaction.message == link_message and reactor == user and str(reaction.emoji) == '👍'
+            
+            try:
+                reaction, _ = await client.wait_for('reaction_add', timeout=300.0, check=check)
+            except asyncio.TimeoutError:
+                await user.send("You didn't react in time. Linking process aborted.")
+            else:
+                # Add user's PBID to MongoDB
+                count = 3000
+                dc = settings["CurrencyType"]["InDcCurrencySymbol"]    
+                mongo.linkedusers.insert_one({"discord_id": user.id, "pbid": pbid})
+                addcoins(pbid, count)
+                await user.send(f"**🎗️PBID '{pbid}' linked to your Discord ID successfully.\n✨`You have Received {count}`{dc}**")
+        except discord.Forbidden:
+            # Notify the player in the game if DMs are disabled or the user has blocked the bot
+            send(f"✨Couldn't send a DM to you.\nPlease make sure you have enabled DM's\nfrom server members or unblocked the bot.", clientid)
+    else:
+        send(f"🚫 Dc user-ID not found.", clientid)
+
+
 async def send_complaint_to_channel(server_name, time, myself, ign, useracid, fign, acid, linkedaccount, offender, complaint):
     # Replace YOUR_COMPLAINTS_CHANNEL_ID with the actual ID of your complaints channel
     channel_id = complaintChannelID
@@ -94,14 +143,11 @@ async def send_complaint_to_channel(server_name, time, myself, ign, useracid, fi
     
     complaint_message = (
         f":reminder_ribbon:**__{server_name}__\n=========================================**\n> |:arrow_right:`COMPLAINT TIME:` {time}\n> \n> |:arrow_right:`USERNAME(IGN)/ACCOUNT-ID:` {myself} ({ign})/{useracid}\n> \n"
-        f"> |:arrow_right:`OFFENDER(IGN)/ACCOUNT-ID:` {offender} ({fign})/{acid}\n> \n> |:arrow_right:`LINKED-ACCOUNTS OF OFFENDER:` {linkedaccount}\n> \n> |:arrow_right:`TYPE OF COMPLAINT:` **{complaint}**\n> __(paste your discord role here)__\n**=========================================**"
+        f"> |:arrow_right:`OFFENDER(IGN)/ACCOUNT-ID:` {offender} ({fign})/{acid}\n> \n> |:arrow_right:`LINKED-ACCOUNTS OF OFFENDER:` {linkedaccount}\n> \n> |:arrow_right:`TYPE OF COMPLAINT:` **{complaint}**\n> __ {complaint_role} __\n**=========================================**"
     )
     c.update_complaint_count(useracid, myself, mongo)
     c.update_complaints_count(acid, offender, mongo)
     await channel.send(complaint_message)    
-
-async def update_playerinfo(pbid, name, deviceid, ip):
-     pinfo.update_pinfo(pbid, name, deviceid, ip)
 
 
 async def joined_player(pbid, devices_string, time):
@@ -117,7 +163,7 @@ async def joined_player(pbid, devices_string, time):
     
     message = (
         f":reminder_ribbon:**__{serverss}__\n=========================================**\n> |:arrow_right:`PLAYER JOINED TIME:` {time}\n> \n> |:arrow_right:`PLAYER-NAME:` {devices_string}\n> \n"
-        f"> |:arrow_right:`PLAYER ACCOUNT-ID:` {pbid}\n> \n> |:arrow_right:`LINKED-ACCOUNTS OF PLAYER:` {otheraccounts}\n> \n> |:arrow_right:**JOINED THE GAME**\n> __ (paste your discord role here) __\n**=========================================**"
+        f"> |:arrow_right:`PLAYER ACCOUNT-ID:` {pbid}\n> \n> |:arrow_right:`LINKED-ACCOUNTS OF PLAYER:` {otheraccounts}\n> \n> |:arrow_right:**JOINED THE GAME**\n> __ {notify_role} __\n**=========================================**"
     )
     await channel.send(message)
     #print(f"{devices_string}... Notification send Successfully!")
@@ -129,7 +175,6 @@ async def on_message(message):
     if message.author == client.user:
         return
     channel = message.channel
-
     if message.channel.id == logsChannelID:
         _ba.pushcall(Call(ba.internal.chatmessage, message.content), from_other_thread=True)
     else:    
@@ -157,14 +202,14 @@ async def on_message(message):
             guilds = client.get_guild(message.guild.id)
             server_name = guilds.name if guilds else "Unknown Server" 
             dc_servername = server_name
-            currency = "tickets"
+            currency = CurrencyName
             m = message.content[2:].split()
             command = message.content
             userid = message.author.id
             username = message.author.name
             pinfo.update_server_info(command, servers, dc_servername, dc_serverid, server_ip, server_port)
             dcl.log_command(userid, username, command)
-            if m[0] == 'bsunban': #unban in all server xD
+            if len(m) > 0 and m[0] == 'bsunban':  #unban in all server xD
                 if len(m) == 2:
                     pb_id_to_unban = m[1]                	
                     banned = mongo.Banlist.find_one() or {'ban': {'ids': [], 'deviceids': [], 'ips': []}}
@@ -191,6 +236,271 @@ async def on_message(message):
             elif m[0] == 'quit': 
                 await message.channel.send(">>> :arrow_right:**`Successfully restarted all servers` **")                  
                 ba.quit()
+
+            # important settings for discordbot to control :D
+            elif m[0] == 'settings':
+                if len(m) == 3:
+                    setting_name = m[1].lower()
+                    setting_value = m[2].lower()
+                    settings = setting.get_settings_data()
+                    if setting_value == 'on':
+                       setting_value = 'true'
+                    elif setting_value == 'off':
+                       setting_value = 'false'
+
+                    if setting_name == 'joinclaim':
+                        if settings['JoinClaim'] == (setting_value == 'true'):
+                            await message.channel.send(f">>> :information_source:**The `{setting_name}` setting is already `{setting_value.capitalize()}`**")
+                            return
+                        settings['JoinClaim'] = setting_value == 'true'
+                        setting_desc = 'Join Claim'
+                    elif setting_name == 'notify':
+                        if settings['NotifyPlayer'] == (setting_value == 'true'):
+                            await message.channel.send(f">>> :information_source:**The `{setting_name}` setting is already `{setting_value.capitalize()}`**")
+                            return
+                        settings['NotifyPlayer'] = setting_value == 'true'
+                        setting_desc = 'Notify'
+                    elif setting_name == 'comptext':
+                        if settings['compChatText'] == (setting_value == 'true'):
+                            await message.channel.send(f">>> :information_source:**The `{setting_name}` setting is already `{setting_value.capitalize()}`**")
+                            return
+                        settings['compChatText'] = setting_value == 'true'
+                        setting_desc = 'Comp Chat Text'
+                    elif setting_name == 'whitelistplayers':
+                        if settings['ServerForWhitelistplayers'] == (setting_value == 'true'):
+                            await message.channel.send(f">>> :information_source:**The `{setting_name}` setting is already `{setting_value.capitalize()}`**")
+                            return
+                        settings['ServerForWhitelistplayers'] = setting_value == 'true'
+                        setting_desc = 'Server Whitelist-Players'
+                    elif setting_name == 'nightmode':
+                        if settings['NightMode'] == (setting_value == 'true'):
+                            await message.channel.send(f">>> :information_source:**The `{setting_name}` setting is already `{setting_value.capitalize()}`**")
+                            return
+                        settings['NightMode'] = setting_value == 'true'
+                        setting_desc = 'Night Mode'
+                    elif setting_name == 'allowdm':
+                        if settings['allowInGameDm'] == (setting_value == 'true'):
+                            await message.channel.send(f">>> :information_source:**The `{setting_name}` setting is already `{setting_value.capitalize()}`**")
+                            return
+                        settings['allowInGameDm'] = setting_value == 'true'
+                        setting_desc = 'Allow In-Game DM'
+                    #else:
+                        #await message.channel.send(f">>> :arrow_right:**Invalid setting name `{setting_name}`. Supported settings: joinclaim, notify, comptext, whitelistplayers, nightmode, allowdm**")
+                        #return
+
+                    with open(setting_json_path, 'w') as file:
+                         json.dump(settings, file, indent=4)
+                    await message.channel.send(f">>> :arrow_right:**Successfully set `{setting_desc}` to `{setting_value.capitalize()}`**")
+                else:
+                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}settings <setting> <On or Off>`**".format(prefix))
+
+
+            elif m[0] == 'playermod':
+                if len(m) == 3:
+                    setting_name = m[1].lower()
+                    setting_value = m[2].lower()
+                    settings = setting.get_settings_data()
+                    if setting_value == 'on':
+                       setting_value = 'true'
+                    elif setting_value == 'off':
+                       setting_value = 'false'
+
+                    if setting_name == 'changebomb':
+                        # Check if the setting is already set to the provided value
+                        if settings['playermod']['default_bomb'] == setting_value:
+                            await message.channel.send(f">>> :information_source: The `changebomb` setting is already `{setting_value}`.")
+                            return
+                        # Update default bomb type setting
+                        settings['playermod']['default_bomb'] = setting_value
+                    elif setting_name == 'bombcount':
+                        # Check if the setting is already set to the provided value
+                        if settings['playermod']['default_bomb_count'] == int(setting_value):
+                            await message.channel.send(f">>> :information_source: The `bombcount` setting is already `{setting_value}`.")
+                            return
+                        # Update default bomb count setting
+                        try:
+                            settings['playermod']['default_bomb_count'] = int(setting_value)
+                        except ValueError:
+                            await message.channel.send(">>> :x: Invalid value for bomb count. Please provide a valid integer.")
+                            return
+                    elif setting_name == 'shield':
+                        # Check if the setting is already set to the provided value
+                        if settings['playermod']['default_shield'] == (setting_value == 'true'):
+                            await message.channel.send(f">>> :information_source: The `shield` setting is already `{setting_value}`.")
+                            return
+                        # Update default shield setting
+                        settings['playermod']['default_shield'] = setting_value == 'true'
+                    elif setting_name == 'gloves':
+                        # Check if the setting is already set to the provided value
+                        if settings['playermod']['default_gloves'] == (setting_value == 'true'):
+                            await message.channel.send(f">>> :information_source: The `gloves` setting is already `{setting_value}`.")
+                            return
+                        # Update default gloves setting
+                        settings['playermod']['default_gloves'] = setting_value == 'true'
+                    else:
+                        await message.channel.send(">>> :x: Invalid setting name. Use `changebomb`, `bombcount`, `shield`, or `gloves`.")
+                        return
+
+                    # Save the updated settings to the JSON file
+                    with open(setting_json_path, 'w') as file:
+                        json.dump(settings, file, indent=4)
+
+                    # Send success message
+                    await message.channel.send(">>> :white_check_mark: Player modification setting updated successfully.")
+                else:
+                    await message.channel.send(">>> :x: Invalid format! Use `{0}playermod <setting_name> <value>`".format(prefix))
+
+            # link userid to pbid by cmd only for server whitelist users
+            elif m[0] == 'link':         
+                if len(m) == 3:
+                    pbid = m[1]
+                    userid = m[2]
+                    if userid.isdigit():
+                        user = await client.fetch_user(int(userid))
+                    else:
+                        user = discord.utils.get(client.users, name=userid)    
+                    if user:
+                        try:     
+                            existing_pbid = mongo.linkedusers.find_one({"discord_id": user.id, "pbid": pbid})
+                            if existing_pbid:
+                                await message.channel.send(f">>> 🎗️This PBID '{pbid}' is already linked to Discord ID.")
+                            else:
+                                # Add user's PBID to MongoDB
+                                mongo.linkedusers.insert_one({"discord_id": user.id, "pbid": pbid})
+                                await message.channel.send(f"🎗️PBID '{pbid}' linked to Discord ID successfully.")
+                        except Exception as e:
+                            print(f"An error occurred: {e}")
+                            await message.channel.send("An error occurred while processing the command. Error: {e}")
+                    else:
+                        await message.channel.send(f"🚫 Dc user-ID not found.")
+                else:
+                    await message.channel.send(">>> :arrow_right::x:**Invalid Format! Use `{0}link <pbid> <Dc user-ID or UserName>`**".format(prefix))       
+
+            #check discord-id linked pbid
+            elif m[0] == 'checkdclinked':
+                if len(m) == 2:
+                    userid = m[1]        
+                    if userid.isdigit():
+                        user = await client.fetch_user(int(userid))
+                    else:
+                        user = discord.utils.get(client.users, name=userid)
+        
+                    if user:
+                        try:
+                           user_data = mongo.linkedusers.find({"discord_id": user.id})
+                           if user_data:
+                               pbids = [data['pbid'] for data in user_data]
+                               if pbids:
+                                   linked_check = [
+                                         f">>> :arrow_right:**Discord-UserName: {user.name} **",
+                                         f":arrow_right:**Discord-ID: {user.id} **",
+                                         f":arrow_right:**PBID's: {', '.join(pbids)} **"
+                                   ]
+                                   await message.channel.send("\n".join(linked_check))
+                               else:
+                                   await message.channel.send(f">>>  :arrow_right:**Discord-ID `{userid}` is not linked to any pbid's**")    
+                           else:      
+                               await message.channel.send(f">>>  :arrow_right:**Discord-ID `{userid}` is not linked to any pbid's**")
+
+                        except Exception as e:
+                            print(f"An error occurred while retrieving data: {e}")
+                            return None
+                    else:
+                        await message.channel.send(">>> `🚫 DC user-ID not found.`")
+                else:
+                    await message.channel.send(">>> :arrow_right::x:**Invalid Format! Use `{0}checkdclinked <DC user-ID or UserName>`**".format(prefix))      
+
+            #dm anyone who have enabled his dm's
+            elif m[0] == 'dm':
+                # Split the message content into user ID or name and message
+                _, user_id_or_name, *content = message.content.split(' ')
+    
+                # Check if the message content is in the correct format
+                if not user_id_or_name or not content:
+                    await message.channel.send(">>> :arrow_right::x: **Invalid Format! Use `{0}dm <Dc user-ID or UserName> <message>`**".format(prefix))
+                    return
+    
+                message_content = ' '.join(content)
+
+                # Find the user by ID or username
+                if user_id_or_name.isdigit():
+                    user = await client.fetch_user(int(user_id_or_name))
+                else:
+                    user = discord.utils.get(client.users, name=user_id_or_name)
+    
+                if user:
+                    try:
+                        await user.send(message_content)
+                        await message.channel.send(f">>> 🎗️Message sent to {user.name}")
+                    except discord.Forbidden:
+                        await message.channel.send(">>> 🎗️Could not send the message. User may have disabled DMs or blocked the bot.")
+                    except discord.HTTPException:
+                        await message.channel.send(">>> ✨Failed to send the message.")
+                else:
+                    await message.channel.send(">>> `🚫 DC user-ID not found.`")
+
+            # add player data whom u give permission to join the server xD
+            elif m[0] == 'addwhitelist':
+                if len(m) == 4:
+                    data = mongo.whitelist.find_one() or {'whitelist': {'ids': [], 'deviceids': [],'ips': []}}
+                    player_id = m[1]
+                    device_id = m[2]
+                    ip = m[3]
+
+                    if player_id not in data['whitelist']['ids'] and device_id not in data['whitelist']['deviceids'] and ip not in data['whitelist']['ips']: # Use get method to handle potential missing key     
+                        data['whitelist']['ids'].append(player_id)                            
+                        data['whitelist']['deviceids'].append(device_id)
+                        data['whitelist']['ips'].append(ip)      
+                        mongo.whitelist.delete_many({}) # Move the update_whitelist call inside the condition      
+                        mongo.whitelist.insert_one(data)    
+                        await message.channel.send(f">>> :arrow_right:**Successfully added Player ID {player_id} in the Whitelist**")
+                    else:
+                        await message.channel.send(f">>> :arrow_right:**Player ID {player_id} is already in the Whitelist**")                   
+                else:
+                    await message.channel.send(">>> :arrow_right::x:**Invalid Format! Use `{0}addwhitelist <pbid> <device_id> <ip>`**".format(prefix))       
+
+            # remove account ID of a player you don't want to join the server :)                  
+            elif m[0] == 'removewhitelist':
+                if len(m) == 2:
+                    player_id = m[1]
+                    data = mongo.whitelist.find_one() or {'whitelist': {'ids': [], 'deviceids': [],'ips': []}}
+
+                    if player_id in data['whitelist']['ids']:
+                        index = data['whitelist']['ids'].index(player_id)
+                        device_id = data['whitelist']['deviceids'][index]
+                        ip = data['whitelist']['ips'][index]
+
+                        data['whitelist']['ids'].remove(player_id)
+                        data['whitelist']['deviceids'].pop(index)
+                        data['whitelist']['ips'].pop(index)
+                        mongo.whitelist.delete_many({})
+                        mongo.whitelist.insert_one(data)
+                        pdata.dckick(player_id)
+                        await message.channel.send(f">>> :arrow_right:**Successfully Removed Player ID {player_id} from the Whitelist**")
+                    else:
+                        await message.channel.send(f">>> :arrow_right:**Player ID {player_id} is not in the Whitelist**")
+                else:
+                    await message.channel.send(">>> :arrow_right::x:**Invalid Format! Use `{0}removewhitelist <pbid>`**".format(prefix))
+
+            #to check if player is there in whitelist list or not :)
+            elif m[0] == 'checkwhitelist':
+                data = mongo.whitelist.find_one() or {'whitelist': {'ids': [], 'deviceids': [],'ips': []}}
+                if data and 'whitelist' in data:
+                    data_ids = data['whitelist']['ids']
+                    data_device_ids = data['whitelist']['deviceids']
+                    data_ips = data['whitelist']['ips']
+
+                    if len(m) == 2: 
+                        pb_id_to_check = m[1]
+                        if pb_id_to_check in data_ids:
+                            index = data_ids.index(pb_id_to_check)
+                            device_id = data_device_ids[index]
+                            ip = data_ips[index]
+                            await message.channel.send(f">>> :arrow_right:**Player with PB-ID `{pb_id_to_check}` is in the Whitelist**")
+                        else:
+                            await message.channel.send(f">>> :arrow_right:**Player with PB-ID `{pb_id_to_check}` is not found in the Whitelist**")
+                    else:
+                        await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}checkwhilelist <pbid>`**".format(prefix))
 
             # add player data whom notify you want in Discord server xD
             elif m[0] == 'addnotify':
@@ -420,7 +730,7 @@ async def on_message(message):
                 await message.channel.send(f">>> ## __(To find out server code type {prefix}sc) __\n:arrow_right:**__SERVER QUIT COMMANDz:__**\n:arrow_right:`{prefix}quit` - To restart all servers in one click...!\n:arrow_right:`{prefix}(server-code)quit` - To restart a specific server :> ")
   
             elif m[0] == 'user':
-                await message.channel.send(f">>> :arrow_right:**__WHITELIST COMMANDz:__**\n:arrow_right:`{prefix}useradd (dc user-ID)` - To add a user to the whilelist to use all bot commands.\n:arrow_right:`{prefix}userremove (dc user-ID)` - To remove a user from the whitelist.\n:arrow_right:`{prefix}form (role)` - Use this cmd to give a form to user if his eligible for admin or vip")
+                await message.channel.send(f">>> :arrow_right:**__WHITELIST COMMANDz:__**\n:arrow_right:`{prefix}useradd (dc user-ID)` - To add a user to the whilelist to use all bot commands.\n:arrow_right:`{prefix}userremove (dc user-ID)` - To remove a user from the whitelist.")
                 
             # server have a pecific code to use cmd xD and this cmd made to know code of cmd
             elif m[0] == 'sc': 
@@ -472,7 +782,7 @@ async def on_message(message):
                         max_messages = 2000
 
                         if limit > max_messages:
-                            await message.channel.send("<a:arrow:1178624981593227265>**`Limit exceeds maximum word count of 2000.`**")
+                            await message.channel.send(":arrow_right:**`Limit exceeds maximum word count of 2000.`**")
                         else:       
                             # Define the file path within the tools directory
                             directory_path = os.path.join(_ba.env()["python_directory_user"], "tools")
@@ -485,10 +795,10 @@ async def on_message(message):
                                 pbid_messages = [msg for msg in messages if msg.startswith(f'{pbids}')][-limit:]
                                 if pbid_messages:
                                     last_msg = [
-                                        f">>> <a:tag:1180192585277526077> **Player Last {limit} Messages Data of {servers}:**"
+                                        f">>> :reminder_ribbon: **Player Last {limit} Messages Data of {servers}:**"
                                     ]
                                     for msg in pbid_messages:
-                                        last_msg.append(f"<a:arrow:1178624981593227265>**{msg.strip()}**")
+                                        last_msg.append(f":arrow_right:**{msg.strip()}**")
 
                                     total_length = sum(len(msg) for msg in last_msg)
                                     if total_length > max_messages:
@@ -496,13 +806,13 @@ async def on_message(message):
                                     else:
                                         await message.channel.send("\n".join(last_msg))
                                 else:
-                                    await message.channel.send(f"<a:arrow:1178624981593227265>**`No last messages found for the provided player ID in {servers}`**")
+                                    await message.channel.send(f":arrow_right:**`No last messages found for the provided player ID in {servers}`**")
                             else:
-                                await message.channel.send(f"<a:arrow:1178624981593227265>**`No One has messaged in {servers}.`**")
+                                await message.channel.send(f":arrow_right:**`No One has messaged in {servers}.`**")
                     else:
-                        await message.channel.send(">>> <a:arrow:1178627121137074226>**<a:wrong:1178796743681392681>Invalid Format! Use `{0}{1}plm <pbid> <limit>`**".format(prefix, commands_prefix))
+                        await message.channel.send(">>> :arrow_right:**<a:wrong:1178796743681392681>Invalid Format! Use `{0}{1}plm <pbid> <limit>`**".format(prefix, commands_prefix))
                 except:
-                    await message.channel.send("<a:arrow:1178624981593227265>**`Limit exceeds maximum word count of 2000.`**")
+                    await message.channel.send(":arrow_right:**`Limit exceeds maximum word count of 2000.`**")
 
             # quit in single server :)
             elif m[0] == (cmd +'quit'):
@@ -510,7 +820,7 @@ async def on_message(message):
                 ba.quit()
 
            # add tickets to player in a specific server
-            elif m[0] == (cmd +'addtickets'):
+            elif m[0] == (cmd +'add'+ currency):
                 if len(m) == 3:
                     ac = m[1]
                     count = int(m[2])                    
@@ -521,10 +831,10 @@ async def on_message(message):
                     else:
                         await message.channel.send(f">>> :arrow_right:**User `{ac}` is not there in my bankdata in {servers}**")
                 else:
-                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}{1}addtickets <pbid> <count>`**".format(prefix, commands_prefix))
+                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}{1}add{2} <pbid> <count>`**".format(prefix, commands_prefix, currency))
 
           # remove tickets to player in a specific server
-            elif m[0] == (cmd +'removetickets'):
+            elif m[0] == (cmd +'remove'+ currency):
                 if len(m) == 3:
                     ac = m[1]
                     count = int(m[2])                    
@@ -535,10 +845,10 @@ async def on_message(message):
                     else:
                         await message.channel.send(f">>> :arrow_right:**User `{ac}` is not there in my bankdata in {servers}**")
                 else:
-                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}{1}removetickets <pbid> <count>`**".format(prefix, commands_prefix))
+                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}{1}remove{2} <pbid> <count>`**".format(prefix, commands_prefix, currency))
 
            # add tickets to player in all servers
-            elif m[0] == 'addtickets':
+            elif m[0] == ('add'+ currency):
                 if len(m) == 3:
                     ac = m[1]
                     count = int(m[2])                    
@@ -549,10 +859,10 @@ async def on_message(message):
                     else:
                         await message.channel.send(f">>> :arrow_right:**User `{ac}` is not there in my bankdata in {servers}**")
                 else:
-                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}{1}addtickets <pbid> <count>`**".format(prefix))
+                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}add{1} <pbid> <count>`**".format(prefix, currency))
 
           # remove tickets to player in all servers
-            elif m[0] == 'removetickets':
+            elif m[0] == ('remove'+ currency):
                 if len(m) == 3:
                     ac = m[1]
                     count = int(m[2])                    
@@ -563,7 +873,7 @@ async def on_message(message):
                     else:
                         await message.channel.send(f">>> :arrow_right:**User `{ac}` is not there in my bankdata in {servers}**")
                 else:
-                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}removetickets <pbid> <count>`**".format(prefix))
+                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}remove{1} <pbid> <count>`**".format(prefix, currency))
 
             # add server stats data in specific server 
             elif m[0] == (cmd +'csd'):
@@ -727,7 +1037,7 @@ async def on_message(message):
 
                         if banned_ids:
                             ban_messages = [
-                                f">>> <:Cross:1178624823656714280> **Last 10 Banned Players ({len(banned_ids)}):**"
+                                f">>> :x: **Last 10 Banned Players ({len(banned_ids)}):**"
                             ]
 
                             start_index = max(0, len(banned_ids) - 10)
@@ -1685,7 +1995,7 @@ async def on_message(message):
                     if pb_id in custom_data.get('customeffects', {}):
                         await message.channel.send(f">>> :arrow_right:**User already has a [<a:emoji_81:1089458873825497138>CUSTOM-EFFECT: `{custom_data['customeffects'][pb_id]}` ] in {servers}**")
                     else:
-                        custom_data['customeffects'][pb_id] = custom_effect
+                        custom_data['customeffects'][pb_id] = [custom_effect]
                         pdata.update_custom()
                         await message.channel.send(f">>> :arrow_right:**Successfully added [<a:emoji_81:1089458873825497138>CUSTOM-EFFECT: `{custom_effect}` ] to user [ `{pb_id}` ] in {servers}**")
                 else:
@@ -1857,13 +2167,14 @@ async def on_message(message):
                     ac_id = m[1]
                     stats = mystats.get_all_stats()
                     if ac_id in stats:
-                        ac = m[1]
+                        ac = m[1] 
+                        dc = settings["CurrencyType"]["InDcCurrencySymbol"]                        
                         tickets = nc.getcoins(ac)
                         
                         await message.channel.send(">>> :arrow_right:**:reminder_ribbon:|| PlayerData From: {0} **".format(servers))  
                         await message.channel.send(f">>> :arrow_right:**:reminder_ribbon:|| Name: {stats[ac_id]['name']} **")
                         await message.channel.send(f">>> :arrow_right:**:reminder_ribbon:|| Account ID: {ac_id} **")                        
-                        await message.channel.send(f">>> :arrow_right:**:reminder_ribbon:|| Tickets: {tickets}**")
+                        await message.channel.send(f">>> :arrow_right:**:reminder_ribbon:|| {currency.capitalize()}: {tickets}{dc}**")
                         await message.channel.send(f">>> :arrow_right:**:reminder_ribbon:|| Rank: {stats[ac_id]['rank']} **")
                         await message.channel.send(f">>> :arrow_right:**:reminder_ribbon:|| Score: {stats[ac_id]['scores']} **")
                         await message.channel.send(f">>> :arrow_right:**:reminder_ribbon:|| Kills: {stats[ac_id]['kills']} **")
@@ -1901,56 +2212,31 @@ async def on_message(message):
                                      
            #bandata cmd to check all ids
             elif m[0] == 'bandata':
-                player_info = mongo.playerinfo.find_one() or {'pinfo': {'pbid': [], 'name': [], 'deviceid': [], 'ip': [], 'linkedaccount': [], 'accountage': []}}
-                if player_info and 'pinfo' in player_info:
-                    p_ids = player_info['pinfo']['pbid']
-                    p_name = player_info['pinfo']['name']
-                    p_deviceid = player_info['pinfo']['deviceid']
-                    p_ip = player_info['pinfo']['ip']
-                    p_linkedaccount = player_info['pinfo']['linkedaccount']
-                    p_account_age = player_info['pinfo']['accountage']
-
-                    if len(m) == 2: 
-                        pb_id_to_check = m[1]
-                        if pb_id_to_check in p_ids:
-                            index = p_ids.index(pb_id_to_check)
-                            name = p_name[index]
-                            deviceid = p_deviceid[index]
-                            ip = p_ip[index]
-                            player_message = (               
-                                   f">>> :arrow_right:**:reminder_ribbon:|| Name: {name} **\n"
-                                   f":arrow_right:**:reminder_ribbon:|| Account ID: {pb_id_to_check} **\n"
-                                   f":arrow_right:**:reminder_ribbon:|| IP: {ip} \n**"
-                                   f":arrow_right:**:reminder_ribbon:|| Device-id: {deviceid} **"
-                            )
-                            await message.channel.send(player_message)
-                        else:
-                            await message.channel.send(f">>> :arrow_right:**{m[1]} Not played in {servers} yet**")   
-                    else:
-                        await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}bandata <pbid>`**".format(prefix))                                     
-
-
-
-           #bandata list of last 10 players
-            elif m[0] == 'bandatalist':
-                player_info = mongo.playerinfo.find_one() or {'pinfo': {'pbid': [], 'name': [], 'deviceid': [], 'ip': [], 'linkedaccount': [], 'accountage': []}}
-                p_count = len(player_info['pinfo']['pbid'])
-    
-                if p_count > 0:
-                  # Get the last 10 player info entries
-                    last_10_pinfo = list(zip(player_info['pinfo']['pbid'][-10:], 
-                                             player_info['pinfo']['name'][-10:], 
-                                             player_info['pinfo']['deviceid'][-10:], 
-                                             player_info['pinfo']['ip'][-10:]))
-        
-                   # Format the player info entries as a string
-                    player_info_str = f"{p_count} Last 10 Player Info:\n"
-                    for i, p_info in enumerate(last_10_pinfo, start=1):
-                        player_info_str += f"{i}) Player ID: {p_info[0]}, Name: {p_info[1]}\n"        
-                    # Send the player info as a message in the Discord channel
-                    await message.channel.send(player_info_str)
+                if len(m) == 2:
+                   pbid = m[1]             
+                   player_info = mongo.playerinfo.find_one({}, {f"{pbid}.name": 1, f"{pbid}.accountAge": 1, f"{pbid}.lastMsg": 1, f"{pbid}.deviceUUID": 1, f"{pbid}.lastIP": 1, f"{pbid}.display_string": 1, "_id": 0})
+                   if player_info and pbid in player_info:
+                       # Extract specific fields
+                       name = player_info[pbid]['name']
+                       account_age = player_info[pbid]['accountAge']
+                       device_uuid = player_info[pbid]['deviceUUID']
+                       last_ip = player_info[pbid]['lastIP']
+                       display_strings = player_info[pbid]['display_string']
+                       last_msg = player_info[pbid]['lastMsg']
+                       player_message = (               
+                              f">>> :arrow_right:**:reminder_ribbon:|| Name: {name} **\n"
+                              f":arrow_right:**:reminder_ribbon:|| Account ID: {pbid} **\n"
+                              f":arrow_right:**:reminder_ribbon:|| IP: {last_ip} \n**"
+                              f":arrow_right:**:reminder_ribbon:|| Device-id: {device_uuid} **\n"
+                              f":arrow_right:**:reminder_ribbon:|| Linked Account: {display_strings} **\n"
+                              f":arrow_right:**:reminder_ribbon:|| Account-Age: {account_age} **\n"
+                              f":arrow_right:**:reminder_ribbon:|| Last msg: {last_msg} **"
+                       )
+                       await message.channel.send(player_message)
+                   else:
+                       await message.channel.send(f">>> :arrow_right:**{m[1]} Not played in any servers yet**")   
                 else:
-                    await message.channel.send("No player info available.")
+                    await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}bandata <pbid>`**".format(prefix))                                     
 
             # get top 10 player list xD
             elif m[0] == (cmd +'top10'):
@@ -2020,8 +2306,21 @@ async def on_message(message):
                 else:
                     await message.channel.send(">>> :arrow_right:**:x:Invalid Format! Use `{0}userremove <userid>`**".format(prefix))
 
-
-            
+            # get server name by server id xD
+            elif m[0] == 'servername':
+                if len(m) == 2:
+                    try:
+                        server_id = int(m[1])
+                        # Fetch the server object by ID
+                        server = client.get_guild(server_id)
+                        if server:
+                            # Send server name and invite link
+                            await message.channel.send(f"Server Name: {server.name}")
+                            await message.channel.send(f"Invite Link: https://discord.gg/{await server.text_channels[0].create_invite()}") # Create a temporary invite link for the first text channel
+                        else:
+                            await message.channel.send("Server not found.")
+                    except Exception as e:
+                        await message.channel.send(f"Error: {e}")         
 
 
 
@@ -2050,12 +2349,12 @@ async def verify_channel():
     asyncio.run_coroutine_threadsafe(refresh_stats(), client.loop)
     asyncio.run_coroutine_threadsafe(send_logs(), client.loop)
 
-
 async def refresh_stats():
     global stats
     await client.wait_until_ready()
 
     while not client.is_closed():
+        # Your existing code for refreshing server stats goes here
         cpu = psutil.cpu_percent()
         ram = psutil.virtual_memory().percent
         ip = _ba.our_ip

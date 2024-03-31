@@ -86,12 +86,16 @@ def vote(pb_id, client_id, vote_type):
             _ba.chatmessage("/sm")
         elif vote_type == "pes":
             _ba.chatmessage("/playlist 446855")
+            _ba.chatmessage("/end")
         elif vote_type == "pet":
             _ba.chatmessage("/playlist 446856")
+            _ba.chatmessage("/end")
         elif vote_type == "pdg":
             _ba.chatmessage("/playlist 438330")
+            _ba.chatmessage("/end")
         elif vote_type == "pdeg":
             _ba.chatmessage("/playlist 446858")
+            _ba.chatmessage("/end")
 
 def reset_votes():
     global vote_machine

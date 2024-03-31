@@ -74,10 +74,10 @@ def ExcelCommand(command, arguments, clientid, accountid):
         quit(arguments)
 
     elif command in ['mute', 'mutechat']:
-        mute(arguments)
+        mute(arguments, clientid)
 
     elif command in ['unmute', 'unmutechat']:
-        un_mute(arguments)
+        un_mute(arguments, clientid)
 
     elif command in ['remove', 'rm']:
         remove(arguments)
@@ -223,16 +223,16 @@ def partyname(arguments, client_id, ac_id):
             name+= word+" "
         try:
             ba.internal.set_public_party_name(name)
-            _ba.screenmessage(f"{myself} Changed party Name To {name}", color=(1,1,1), transient=True)
+            _ba.screenmessage(f"{myself} Changed PartyName To {name}", color=(1,1,1), transient=True)
         except:
-            _ba.screenmessage("failed to change partys name", color=(1,1,1), transient=True, clients=[client_id])
+            _ba.screenmessage("failed to change PartyName", color=(1,1,1), transient=True, clients=[client_id])
 
 
 def kick(arguments, clientid, ac_id):
     cl_id = int(arguments[0])
-    for pla in ba.internal.get_foreground_host_session().sessionplayers:
-        if pla.inputdevice.client_id == clientid:
-           myself = pla.getname(full=True, icon=True)
+    for me in ba.internal.get_game_roster():
+        if me["client_id"] == clientid:
+            myself = me["display_string"]
     for ros in ba.internal.get_game_roster():
         if ros["client_id"] == cl_id:
             logger.log(f'kicked {ros["display_string"]}')
@@ -324,10 +324,10 @@ def end(arguments):
 def ban(arguments, clientid, ac_id):
     try:
         cl_id = int(arguments[0])
-        for pla in ba.internal.get_foreground_host_session().sessionplayers:
-            if pla.inputdevice.client_id == clientid:
-               myself = pla.getname(full=True, icon=True)
-               duration = int(arguments[1]) if len(arguments) >= 2 else 0.5
+        duration = int(arguments[1]) if len(arguments) >= 2 else 0.5
+        for me in ba.internal.get_game_roster():
+            if me["client_id"] == clientid:
+                myself = me["display_string"]
         for ros in ba.internal.get_game_roster():
             if ros["client_id"] == cl_id:
                 pdata.ban_player(ros['account_id'], duration,
@@ -350,9 +350,9 @@ def ban(arguments, clientid, ac_id):
 def unban(arguments, clientid, ac_id):
     try:
         cl_id = int(arguments[0])
-        for pla in ba.internal.get_foreground_host_session().sessionplayers:
-            if pla.inputdevice.client_id == clientid:
-               myself = pla.getname(full=True, icon=True)
+        for me in ba.internal.get_game_roster():
+            if me["client_id"] == clientid:
+                myself = me["display_string"]
         for account in serverdata.recents:  # backup unban if u by mistakely ban anyone
             if account['client_id'] == cl_id:
                 pdata.unban_player(account["pbid"])
@@ -371,17 +371,21 @@ def quit(arguments):
         ba.quit()
 
            
-def mute(arguments):
+def mute(arguments, clientid):
     if len(arguments) == 0:
         serverdata.muted = True
     try:
         cl_id = int(arguments[0])
         duration = int(arguments[1]) if len(arguments) >= 2 else 0.5
+        for me in ba.internal.get_game_roster():
+            if me["client_id"] == clientid:
+                myself = me["display_string"]
         for ros in ba.internal.get_game_roster():
             if ros["client_id"] == cl_id:
                 ac_id = ros['account_id']
-                logger.log(f'muted {ros["display_string"]}')
+                logger.log(f'muted {ros["display_string"]}')                
                 pdata.mute(ac_id, duration, "muted by chat command")
+                sendchat(f'{myself} muted {ros["display_string"]}') 
                 return
         for account in serverdata.recents:  # backup case if player left the server
             if account['client_id'] == int(arguments[0]):
@@ -392,15 +396,19 @@ def mute(arguments):
     return
 
 
-def un_mute(arguments):
+def un_mute(arguments, clientid):
     if len(arguments) == []:
         serverdata.muted = False
     try:
         cl_id = int(arguments[0])
+        for me in ba.internal.get_game_roster():
+            if me["client_id"] == clientid:
+                myself = me["display_string"]        
         for ros in ba.internal.get_game_roster():
             if ros["client_id"] == cl_id:
                 pdata.unmute(ros['account_id'])
                 logger.log(f'unmuted {ros["display_string"]} by chat command')
+                sendchat(f'{myself} unmuted {ros["display_string"]}') 
                 return
         for account in serverdata.recents:  # backup case if player left the server
             if account['client_id'] == int(arguments[0]):

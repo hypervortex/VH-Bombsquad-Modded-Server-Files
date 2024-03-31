@@ -1,16 +1,27 @@
 #
-
+#
+#
 coin = True
 tell_time = True
-askQuestions = True
-JoinClaim = False
 #
 #
-questionsList = {'If you want to use these server files visit here :https://github.com/hypervortex/VH-Bombsquad-Modded-Server-Files.git': ['ok'],
-                 'Who is owner of this server ?': ['vortex'], 
+#
+#
+#
+#
+#
+askQuestions = False
+#
+#
+#
+questionsList = {'If you lost your ranks worry not.. Reclaim your scores, kills and deaths by joining the discord server...!': ['ok'],
+                 'add': [None], 
                  'multiply': [None]}
 #
+#
+#
 questionDelay = 10 #60 #seconds
+#
 #
 #
 availablecommands = {'nv': 100,
@@ -70,6 +81,7 @@ availableeffects = {'ice': 500,
    'darkmagic': 1300,
    'fire': 200,
    'new_rainbow': 250}
+#
 #
 #
 tags = {'tag': 10000}

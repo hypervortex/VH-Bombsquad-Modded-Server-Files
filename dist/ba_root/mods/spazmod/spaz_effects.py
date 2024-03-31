@@ -15,6 +15,7 @@ RANK_EFFECT_MAP = {
     2: ["sweat"],
     3: ["metal"],
     4: ["iceground"],
+    5: ["slime"],
 }
 def effect(repeat_interval=0):
     def _activator(method):
@@ -113,7 +114,6 @@ class NewPlayerSpaz(PlayerSpaz):
             "splinter": self._add_splinter,
             "rainbow": self._add_rainbow,
             "fairydust": self._add_fairydust,
-            "noeffect": lambda: None,
             "fire":self._add_fire,
             "stars":self._add_stars,
             "new_rainbow":self._add_new_rainbow,
@@ -122,7 +122,8 @@ class NewPlayerSpaz(PlayerSpaz):
             "darkmagic": self._add_darkmagic,
             "colorfullspark": self._add_colorful_spark,
             "ring": self._add_aure,
-            "brust": self._add_galactic_burst
+            "brust": self._add_galactic_burst,
+            "ringstars": self._add_star_ring
         }
 
         for effect in self.effects:
@@ -143,41 +144,7 @@ class NewPlayerSpaz(PlayerSpaz):
             chunk_type="spark",
         )
 
-    @effect(repeat_interval= 1.0)   
-    def _add_colorful_spark(self) -> None:
-        ba.emitfx(
-            position=self.node.position,
-            velocity=self.node.velocity,
-            count=random.randint(1, 10),
-            scale=0.8,
-            spread=0.2,
-            chunk_type="spark",
-        )
-        ba.emitfx(
-            position=self.node.position,
-            velocity=self.node.velocity,
-            count=random.randint(1, 7),
-            scale=0.4,
-            spread=0.2,
-            chunk_type="sweat",
-            emit_type="stickers",
-        )
-        keys = {
-             0.0: (2.0, 0.0, 0.0),
-             0.2: (2.0, 1.5, 0.5),
-             0.4: (2.0, 2.0, 0.0),
-             0.6: (0.0, 2.0, 0.0),
-             0.8: (0.0, 2.0, 2.0),
-             1.0: (0.0, 0.0, 2.0),
-            }.items()
 
-        def _changecolor(color: Sequence[float]) -> None:
-            if self.node.exists():
-                self.node.color = color
-
-        for time, color in keys:
-            ba.timer(time, ba.Call(_changecolor, color))
-  
     @effect(repeat_interval=0.1)
     def _add_sparkground(self):
         ba.emitfx(
@@ -248,6 +215,7 @@ class NewPlayerSpaz(PlayerSpaz):
             tendril_type="smoke",
         )
 
+        
     @effect(repeat_interval=3.0)
     def _add_shine(self):
         shine_factor = 1.2
@@ -357,6 +325,7 @@ class NewPlayerSpaz(PlayerSpaz):
             emit_type="stickers",
         )
 
+
     @effect(repeat_interval=0.25)
     def _add_slime(self):
         ba.emitfx(
@@ -367,6 +336,7 @@ class NewPlayerSpaz(PlayerSpaz):
             spread=0.2,
             chunk_type="slime",
         )
+
 
     @effect(repeat_interval=0.25)
     def _add_metal(self):
@@ -379,6 +349,7 @@ class NewPlayerSpaz(PlayerSpaz):
             chunk_type="metal",
         )
 
+
     @effect(repeat_interval=0.75)
     def _add_splinter(self):
         ba.emitfx(
@@ -389,6 +360,7 @@ class NewPlayerSpaz(PlayerSpaz):
             spread=0.2,
             chunk_type="splinter",
         )
+
 
     @effect(repeat_interval=0.001)
     def _add_fairydust(self):
@@ -418,6 +390,7 @@ class NewPlayerSpaz(PlayerSpaz):
             ba.emitfx(position=self.node.position,
             scale=3,count=50*2,spread=0.3,
             chunk_type='sweat')
+
 
     @effect(repeat_interval=0.1)
     def _add_stars(self) -> None:
@@ -479,8 +452,17 @@ class NewPlayerSpaz(PlayerSpaz):
                 node.connectattr('position', light, 'position')
                 ba.timer(0.25, ba.Call(die, node))
 
-    @effect(repeat_interval= 1.0)   
+
+    @effect(repeat_interval=1.2)   
     def _add_new_rainbow(self) -> None:
+        animate = {
+             0.0: (2.0, 0.0, 0.0),
+             0.2: (2.0, 1.5, 0.5),
+             0.4: (2.0, 2.0, 0.0),
+             0.6: (0.0, 2.0, 0.0),
+             0.8: (0.0, 2.0, 2.0),
+             1.0: (0.0, 0.0, 2.0)
+        }
         keys = {
              0.0: (2.0, 0.0, 0.0),
              0.2: (2.0, 1.5, 0.5),
@@ -489,15 +471,17 @@ class NewPlayerSpaz(PlayerSpaz):
              0.8: (0.0, 2.0, 2.0),
              1.0: (0.0, 0.0, 2.0),
             }.items()
-
+        
         def _changecolor(color: Sequence[float]) -> None:
             if self.node.exists():
                 self.node.color = color
 
         for time, color in keys:
+            ba.animate_array(self.node, "highlight", 3, animate, loop=True)
             ba.timer(time, ba.Call(_changecolor, color))
+  
    
-    @effect(repeat_interval=0.5) 
+    @effect(repeat_interval=0.15)   
     def _add_footprint(self) -> None:
         if not self.node.exists():
             self._cm_effect_timer = None
@@ -506,14 +490,17 @@ class NewPlayerSpaz(PlayerSpaz):
               attrs={
                      'position': self.node.position,
                      'shape': 'circle',
-                     'color': self.node.color,
+                     'color': (random.uniform(0.5, 1.5),
+                               random.uniform(0.5, 1.5),
+                               random.uniform(0.5, 1.5)),
                      'size': [0.2],
                      'draw_beauty': False,
                      'additive': False})
             ba.animate(loc, 'opacity', {0: 1.0, 1.9: 0.0})
             ba.timer(2.0, loc.delete)
-            
-    @effect(repeat_interval=0.2)
+
+
+    @effect(repeat_interval=0.1)
     def _add_chispitas(self) -> None:
         def die(node: ba.Node) -> None:
             if node:
@@ -628,7 +615,7 @@ class NewPlayerSpaz(PlayerSpaz):
                 node.connectattr('position', light, 'position')
                 ba.timer(0.25, ba.Call(die, node)) 
 
-    @effect(repeat_interval=0.3)
+
     def _add_aure(self) -> None:
         def anim(node: ba.Node) -> None:
             ba.animate_array(node, 'color', 3,
@@ -648,82 +635,22 @@ class NewPlayerSpaz(PlayerSpaz):
                          'additive': False})
             self.node.connectattr(pos, loc, 'position')
             ba.timer(0.1 * i, ba.Call(anim, loc))
-       
 
-    @effect(repeat_interval=1.5)
+
     def _add_galactic_burst(self) -> None:
-        def die(node: ba.Node) -> None:
-            if node:
-                m = node.model_scale
-                ba.animate(node, 'model_scale', {0: m, 0.1: 0})
-                ba.timer(0.1, node.delete)
+        self._add_new_rainbow()
+        self._add_fairydust()
 
-        if not self.node.exists() or self._dead:
-            self._cm_effect_timer = None
-        else:
-            c = 0.3
-            pos_list = [
-                (c, 0, 0), (0, 0, c),
-                (-c, 0, 0), (0, 0, -c)]
+ 
+    def _add_colorful_spark(self) -> None:
+        self._add_spark()
+        self._add_sweatground()
+        self._add_new_rainbow()
 
-            for p in pos_list:
-                m = 1.5
-                np = self.node.position
-                pos = (np[0] + p[0], np[1] + p[1] + 0.0, np[2] + p[2])
-                vel = (random.uniform(-m, m), random.uniform(2, 7), random.uniform(-m, m))
 
-                tex = ba.gettexture('bombStickyColor')
-                mesh = ba.getmodel('flash')
-                factory = SpazFactory.get()
-
-                mat = ba.Material()
-                mat.add_actions(
-                    conditions=('they_have_material', factory.punch_material),
-                    actions=(
-                        ('modify_part_collision', 'collide', False),
-                        ('modify_part_collision', 'physical', False),
-                    ))
-                node = ba.newnode('prop',
-                                  owner=self.node,
-                                  attrs={'body': 'sphere',
-                                         'position': pos,
-                                         'velocity': vel,
-                                         'model': mesh,
-                                         'model_scale': 0.1,
-                                         'body_scale': 0.0,
-                                         'shadow_size': 0.0,
-                                         'gravity_scale': 0.5,
-                                         'color_texture': tex,
-                                         'reflection': 'soft',
-                                         'reflection_scale': [1.5],
-                                         'materials': [mat]})
-                light = ba.newnode('light',
-                                   owner=node,
-                                   attrs={
-                                       'intensity': 0.3,
-                                       'volume_intensity_scale': 0.5,
-                                       'color': (random.uniform(0.5, 1.5),
-                                                 random.uniform(0.5, 1.5),
-                                                 random.uniform(0.5, 1.5)),
-                                       'radius': 0.035})
-                node.connectattr('position', light, 'position')
-                ba.timer(0.25, ba.Call(die, node))
-
-            keys = {
-                0.0: (2.0, 0.0, 0.0),
-                0.2: (2.0, 1.5, 0.5),
-                0.4: (2.0, 2.0, 0.0),
-                0.6: (0.0, 2.0, 0.0),
-                0.8: (0.0, 2.0, 2.0),
-                1.0: (0.0, 0.0, 2.0),
-            }.items()
-
-            def _changecolor(color: Sequence[float]) -> None:
-                if self.node.exists():
-                    self.node.color = color
-
-            for time, color in keys:
-                ba.timer(time, ba.Call(_changecolor, color))
+    def _add_star_ring(self) -> None:
+        self._add_fairydust()
+        self._add_aure()
 
 
 def apply() -> None:

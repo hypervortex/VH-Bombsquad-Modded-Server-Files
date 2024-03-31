@@ -20,14 +20,16 @@ from tools import logger, mongo
 import set
 import json
 Commands = ['cjt', 'checkjointime', 'shop', 'donate','removepaideffect']
-CommandAliases = ['give', 'buy', 'cts', 'stc', 'rpe', 'bsc', 'bombsquad-card', 'claim']
+CommandAliases = ['give', 'buy', 'cts', 'stc', 'rpe']
 
 BANK_PATH = _ba.env().get("python_directory_user", "") + "/bank.json"
 base_path = os.path.join(_ba.env()['python_directory_user'], "stats" + os.sep)
 statsfile = base_path + 'stats.json'
 python_path = _ba.env()["python_directory_user"]
 settings = setting.get_settings_data()
-tic = settings["CurrencyType"]["YourCurrency"]
+ticket = settings["CurrencyType"]["CurrencyName"]
+tic = settings["CurrencyType"]["Currency"] #dont change this or it will give an error
+
 
 
 def CoinCommands(command, arguments, clientid, accountid):
@@ -57,18 +59,12 @@ def CoinCommands(command, arguments, clientid, accountid):
     elif command == 'buy':
         buy(arguments, clientid, accountid)
 
-    elif command == 'claim':
-        claim_ticket(arguments, clientid, accountid)
-
     elif command in ['rpe', 'removepaideffect']:
         rpe(arguments, clientid, accountid)
 
     elif command in ['cjt', 'checkjointime']:
         check_claim_time(arguments, clientid, accountid)
-
-    elif command in ['bsc', 'bombsquad-card']:
-        bombsquad_card(clientid, accountid)
-        
+       
 
 def getcoins(accountid: str):
   with open(BANK_PATH, 'r') as f:
@@ -201,7 +197,7 @@ def donate(arguments, clientid, accountid):
                    if sendersID == receiversID: 
                         send(f"You can't transfer to your own account", clientid)  
                    elif getcoins(sendersID) < transfer: 
-                        send(f"Not enough {tic}tickets to perform the transaction", clientid)
+                        send(f"Not enough {tic}{ticket} to perform the transaction", clientid)
                         send(f"You have {havecoins}{tic} only....", clientid)
                    else:
                         addcoins(sendersID, transfer * -1)
@@ -225,7 +221,7 @@ def cts(arguments, clientid, accountid):
        coins = int(a[0])
        havecoins = getcoins(accountid)
        if havecoins < coins:
-           send(f"Not enough {tic}tickets to perform the transaction", clientid)
+           send(f"Not enough {tic}{ticket} to perform the transaction", clientid)
            send(f"You have {havecoins}{tic} only....", clientid)
        elif coins < 100:
            send(f"You can only convert more than 100{tic}", clientid)
@@ -280,53 +276,3 @@ def rpe(arguments, clientid, accountid):
         send(f"paid {aeffect} effect have been removed Successfully", clientid)
     except:
         return
-
-
-def claim_ticket(arguments, clientid, accountid):
-    players = _ba.get_foreground_host_activity().players
-    player = _ba.get_foreground_host_activity()
-    session = ba.internal.get_foreground_host_session()  
-
-    if arguments == [] or arguments == ['']:    
-     with ba.Context(player):  
-       customers = pdata.get_custom()['ticketclaimed']
-
-       for i in session.sessionplayers:
-            if i.inputdevice.client_id == clientid:    
-               name = i.getname(full=True, icon=True)
-
-               if accountid not in customers:
-                   expiry = datetime.now() + timedelta(seconds=1)
-                   customers[accountid] = {'name': name, 'expiry': expiry.strftime('%d-%m-%Y %H:%M:%S')}
-                   coin_claim = 50
-                   addcoins(accountid, coin_claim)
-                   _ba.chatmessage(f"Successfully added {coin_claim}{tic} into {name}'s account..")
-               else:
-                   till = customers[accountid]['expiry']
-                   send(f"Hey, you've already claimed your reward.\nNext chance: {till}", clientid)
-
-# Function to check credit card details by player ID
-def check_credit_card_by_pbid(accountid):
-    card_data = mongo.collection.find_one({"player_id": accountid})
-    if card_data:
-        return card_data
-    else:
-        return None
-
-# Function to handle the /cc command
-def bombsquad_card(clientid, accountid):
-    card_data = check_credit_card_by_pbid(accountid)
-    if card_data:
-        message = (
-            f"Credit card details found:\n"
-            f"Player ID: {card_data['player_id']}\n"
-            f"Player Name: {card_data['player_name']}\n"
-            f"Main Bs Number: {card_data['main_bs_number']}\n"
-  
-        )
-        send(message, clientid)
-    else:
-        send(f"No Main Bs Number details found for player ID: {pbid}", clientid)
-
-
-       

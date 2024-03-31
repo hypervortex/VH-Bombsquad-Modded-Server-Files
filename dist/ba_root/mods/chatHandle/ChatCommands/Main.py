@@ -7,7 +7,7 @@ from .commands import Fun
 from .commands import Cheats
 from .commands import NewCmds
 from .commands import CoinCmds
-
+from chatHandle.ChatCommands.commands.Handlers import send
 from .Handlers import clientid_to_accountid
 from .Handlers import check_permissions
 from chatHandle.chatFilter import ChatFilter
@@ -63,35 +63,31 @@ def Command(msg, clientid):
     command = msg.lower().split(" ")[0].split("/")[1]
     arguments = msg.lower().split(" ")[1:]
     accountid = clientid_to_accountid(clientid)
-    ARGUMENTS = msg.upper().split(" ")[1:]
-    
+    ARGUMENTS = msg.upper().split(" ")[1:]   
+
     role = return_role(accountid)
     if role == 'owner':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED OWNER\ue00c ||\ue049'
-    elif role in ['co-owner', 'coowner']:
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED CO-OWNER\ue00c ||\ue049'
     elif role == 'admin':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED ADMIN\ue00c ||\ue049'
     elif role == 'vip':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED VIP\ue00c ||\ue049'
     elif role == 'moderator':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED MODERATOR\ue00c ||\ue049'
-    elif role in ['leadstaff', 'lead-staff']:
+    elif role == 'leadstaff':
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED LEAD-STAFF\ue00c ||\ue049'
-    elif role == 'tcs':
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED T-CS\ue00c ||\ue049'
-    elif role in ['cs', 'staff']:
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED CS\ue00c ||\ue049'
+    elif role == 'staff':
+        reply = '\ue049|| \ue00cCOMMAND ACCEPTED STAFF\ue00c ||\ue049'
     
     else:
         reply = '\ue043|| PLAYER COMMAND ACCEPTED ||\ue043'
 
     if command_type(command) == "Normal":
-        NormalCommands.ExcelCommand(command, arguments, clientid, accountid, ARGUMENTS)     
+        NormalCommands.ExcelCommand(command, arguments, clientid, accountid, ARGUMENTS)                 
 
     elif command_type(command) == "CoinCmd":
         CoinCmds.CoinCommands(command, arguments, clientid, accountid)                
-            
+
     elif command_type(command) == "Manage":
         if check_permissions(accountid, command):
             Management.ExcelCommand(command, arguments, clientid, accountid)
@@ -132,9 +128,15 @@ def Command(msg, clientid):
         _ba.screenmessage("You are on mute", transient=True,
                           clients=[clientid])
         return None
+
     if serverdata.muted:
         return None
-    if settings["ChatCommands"]["BrodcastCommand"]:
+    prefixes = settings["CmdChatDisable"]["Commands"]
+    if any(msg.startswith(f"/{prefix}") for prefix in prefixes) and settings["CmdChatDisable"]["disable"]:
+        return None
+    elif msg.startswith("/comp") and not settings["compChatText"]:
+        return None  # Disable the "/comp" command if compChatText setting is False
+    elif settings["ChatCommands"]["BrodcastCommand"]:
         return msg
     return None
 
@@ -154,6 +156,36 @@ def QuickAccess(msg, client_id):
                                   color=(0.3, 0.6, 0.3), transient=True)
 
         return None
+    elif msg.startswith("/dm"):
+       name = ""
+       a = msg.lower().split()[1:]
+       if len(a) < 2:  # Check if there are enough arguments
+           send(f"Usage: /dm [clientid] [message]", client_id)
+       else:
+           clientid = int(a[0]) 
+           message = ' '.join(a[1:])  # Join the message list into a single string    
+
+           # Check if the specified client ID exists in the session players and lobby
+           player_found = False
+           for me in ba.internal.get_game_roster():
+               if me["client_id"] == client_id:
+                   pname = me["display_string"]
+                   player_found = True
+               if me["client_id"] == clientid:
+                   name = me["display_string"]         
+                   break
+
+           if player_found:
+               try:
+                   # Send DM message to the specified client ID
+                   send(f"{pname}: {message}", clientid)
+                   send(f"DM sent successfully to {name}", client_id)
+               except Exception as e:
+                   print(f"Failed to send DM to {name}: {e}")
+                   send(f"Failed to send DM to {name}.", client_id)
+           else:
+               send(f"Player not found with client ID {clientid}.", client_id)
+#-----------------------------------------------------------------------------------
     elif msg.startswith("."):
         msg = msg[1:]
         msgAr = msg.split(" ")

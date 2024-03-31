@@ -18,8 +18,6 @@ import time
 import os
 import ba
 import _ba
-import setchat
-#import ChatText
 import logging
 from bastd.activity import dualteamscore, multiteamscore, drawscore
 from bastd.activity.coopscore import CoopScoreScreen
@@ -188,6 +186,7 @@ def import_discord_bot() -> None:
         discord_bot.whitelisted_users = settings["discordbot"]["allowed_user_ids"]
         discord_bot.notify_role = settings["discordbot"]["notify_role"]
         discord_bot.complaint_role = settings["discordbot"]["complaint_role"]
+        discord_bot.CurrencyName = settings["CurrencyType"]["CurrencyName"]
         discord_bot.prefix = settings["discordbot"]["bot_prefix"]
         discord_bot.commands_prefix = settings["discordbot"]["commands_prefix"]
         discord_bot.liveChat = settings["discordbot"]["liveChat"]
@@ -266,7 +265,12 @@ ba._activity.Activity.on_player_join = on_player_join
 
 def night_mode() -> None:
     """Checks the time and enables night mode."""
+    #Night Mode for permanently
+    if settings['NightMode']:
+       activity = _ba.get_foreground_host_activity()
+       activity.globalsnode.tint = (0.5, 0.7, 1.0)
 
+    #Auto Night Mode with start and end time
     if settings['autoNightMode']['enable']:
 
         start = datetime.strptime(

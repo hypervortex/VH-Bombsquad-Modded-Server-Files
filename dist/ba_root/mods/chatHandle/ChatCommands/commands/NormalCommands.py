@@ -10,9 +10,14 @@ import ba.internal
 from stats import mystats
 from ba._general import Call
 import _thread
+import setting
+settings = setting.get_settings_data()
+ticket = settings["CurrencyType"]["CurrencyName"]
+tic = settings["CurrencyType"]["Currency"] #dont change this or it will give an error
+
 Commands = ['me', 'list', 'uniqeid', 'ping', 'vp', 'uid', 'pbid', 'comp', 'complaintstep']
 CommandAliases = ['stats', 'score', 'rank',
-                  'myself', 'l', 'id', 'pb-id', 'pme', 'pb', 'accountid', 'coinhelp', 'voting-playlist', 'complaint', 'cs']
+                  'myself', 'l', 'id', 'link', 'pb-id', 'dclink', 'pme', 'pb', 'accountid', 'coinhelp', 'voting-playlist', 'complaint', 'cs']
 
 
 def ExcelCommand(command, arguments, clientid, accountid, ARGUMENTS):
@@ -55,12 +60,16 @@ def ExcelCommand(command, arguments, clientid, accountid, ARGUMENTS):
 
     elif command == 'coinhelp':
         coinhelp(arguments, clientid)
+
+    elif command == 'link':
+        linked_user(arguments, clientid, accountid)
         
     elif command in ['comp', 'complaint']:
-        get_complaint(arguments, clientid, accountid, ARGUMENTS)         
+        get_complaint(arguments, clientid, accountid, ARGUMENTS)
 
-settings = setting.get_settings_data()
-tic = settings["CurrencyType"]["YourCurrency"] #dont change this or it will give an error
+    elif command == 'dclink':
+        linkingdc(arguments, clientid)       
+
 
 def get_ping(arguments, clientid):
     if arguments == [] or arguments == ['']:
@@ -94,7 +103,7 @@ def stats(ac_id, clientid):
         reply = (
             f"\ue048| Name: {stats['name']}\n"
             f"\ue048| PB-ID: {stats['aid']}\n"
-            f"\ue048| Tickets: {tickets}{tic}\n"
+            f"\ue048| {ticket.capitalize()}: {tickets}{tic}\n"
             f"\ue048| Rank: {stats['rank']}\n"
             f"\ue048| Score: {stats['scores']}\n"
             f"\ue048| Games: {stats['games']}\n"
@@ -132,7 +141,7 @@ def stats_to_clientid(arguments, clid, acid):
                      reply = (
                          f"\ue048| Name: {fname}\n"
                          f"\ue048| PB-ID: {stats['aid']}\n"
-                         f"\ue048| Tickets: {tickets}{tic}\n"
+                         f"\ue048| {ticket.capitalize()}: {tickets}{tic}\n"
                          f"\ue048| Rank: {stats['rank']}\n"
                          f"\ue048| Score: {stats['scores']}\n"
                          f"\ue048| Games: {stats['games']}\n"
@@ -206,12 +215,23 @@ def coinhelp(arguments, clientid):
         send(f"\ue048| Type /jct to check next join claim time", clientid)
         send(f"\ue048| Type /rpe to remove paid effect..", clientid)
         send(f"\ue048| Type /buy (effect) to buy effects ", clientid)
-        send(f"\ue048| Type /donate (amount of coins) (clientid of player) to donate your coins to a player", clientid)        
-        #send(f"\ue048| Type /stc (amount) to convert score to cash (not available)", clientid)
-        #send(f"ue048| Type /cts (amount) to convert cash to score (not available)", clientid)
+        send(f"\ue048| Type /donate (amount of {ticket}) (clientid of player) to donate your {ticket} to a player", clientid)        
+        send(f"\ue048| Type /stc (amount) to convert score to cash (not available)", clientid)
+        send(f"\ue048| Type /cts (amount) to convert cash to score (not available)", clientid)
     
-        
-        
+       
+def linkingdc(arguments, clientid):
+    """Linking pbid to discord-id Step"""
+
+    if arguments == [] or arguments == ['']:
+        send(f"\ue048|  LINKING PBIDs TO DISCORD IDs STEPS:", clientid)
+        send(f"\ue048| Type /link (Discord user ID or Username) to link your PBID.", clientid)
+        send(f"\ue048| If a user successfully links their PBID to their Discord-ID", clientid)
+        send(f"\ue048| U will receive reward of 3000{tic}.", clientid)
+        send(f"\ue048| This offer valid only for 3 month so hurry up and link your PBID", clientid)
+        send(f"\ue048| Note: The linking process is valid only for 5 min.", clientid)
+
+       
 def accountid_request(arguments, clientid, accountid):
     """Returns The Account Id Of Players"""
 
@@ -245,7 +265,17 @@ def accountid_clientid(arguments, clientid, accountid):
               names = i.getname(full=True, icon=True)
               accountid = i.get_v1_account_id()
               send(f" {names}'s account id is '{accountid}' ", clientid)
+
   
+def linked_user(arguments, clid, acid):
+    player = _ba.get_foreground_host_activity()    
+    if not arguments or arguments == ['']:
+        with ba.Context(player):
+            send(f"Using: /link [DC user-ID or Dc User-Name]", clid)
+    else:
+        userid = arguments[0]
+        asyncio.ensure_future(dc.link_pbid_to_discord(user_id_or_name=userid,pbid=acid,clientid=clid))
+
 
 def get_complaint(arguments, clientid, acid, ARGUMENTS):
     players = _ba.get_foreground_host_activity().players
@@ -289,8 +319,9 @@ def get_complaint(arguments, clientid, acid, ARGUMENTS):
                     if not complaint:
                         send("Please provide a complaint reason.", clientid)
                         return
-                    
-                    expiry = datetime.now() + timedelta(hours=3)
+
+                    settime = settings["complaintTimeoutInHours"]
+                    expiry = datetime.now() + timedelta(hours=settime)
                     customers[acid] = {'expiry': expiry.strftime('%d-%m-%Y %I:%M:%S %p')}
                     
                     # Call the send_complaint_to_channel function                

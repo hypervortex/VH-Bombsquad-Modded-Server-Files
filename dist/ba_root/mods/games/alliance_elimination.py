@@ -2,7 +2,7 @@
 #
 """Elimination mini-game."""
 
-# ba_meta require api 6
+# ba_meta require api 7
 # (see https://ballistica.net/wiki/meta-tag-system)
 
 from __future__ import annotations
@@ -14,7 +14,7 @@ from bastd.actor.spazfactory import SpazFactory
 from bastd.actor.scoreboard import Scoreboard
 
 if TYPE_CHECKING:
-    from typing import (Any, Tuple, Dict, Type, List, Sequence, Optional,
+    from typing import (Any, Tuple, Type, List, Sequence, Optional,
                         Union)
 
 
@@ -178,6 +178,8 @@ class AllianceEliminationGame(ba.TeamGameActivity[Player, Team]):
                                  none_is_winner=True)
     # Show messages when players die since it's meaningful here.
     announce_player_deaths = True
+
+    allow_mid_activity_joins = False
 
     @classmethod
     def get_available_settings(

@@ -1,4 +1,3 @@
-#season end time by SAEA
 import ba, _ba
 
 class TEXTONMAP:
@@ -24,7 +23,7 @@ class TEXTONMAP:
         days, hours, minutes, seconds = remaining_time
         self._text_node = ba.newnode('text',
                                      attrs={
-                                         'text': f"Season ends in: {days} days {hours:02d}:{minutes:02d}:{seconds:02d}",
+                                         'text': f"Season ends in: {days} days, {hours:02d}:{minutes:02d}:{seconds:02d}",
                                          'flatness': 1.0,
                                          'h_align': 'right',
                                          'v_attach': 'bottom',
@@ -46,7 +45,7 @@ class TEXTONMAP:
             remaining_minutes = (total_seconds % 3600) // 60
             remaining_seconds = total_seconds % 60
             self._remaining_time = remaining_days, remaining_hours, remaining_minutes, remaining_seconds
-            self._text_node.text = f'Season ends in: {days} days {hours:02d}:{minutes:02d}:{seconds:02d}'
+            self._text_node.text = f'Season ends in: {days} days, {hours:02d}:{minutes:02d}:{seconds:02d}'
         else:
             ba.print_error('Error: Remaining days cannot be negative.')
             self._text_node.delete()

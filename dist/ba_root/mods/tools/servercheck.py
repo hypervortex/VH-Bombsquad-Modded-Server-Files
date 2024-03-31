@@ -1,4 +1,6 @@
 # Released under the MIT License. See LICENSE for details.
+
+
 from serverData import serverdata
 from playersData import pdata
 import _ba
@@ -19,15 +21,13 @@ from features import discord_bot as dc
 import asyncio
 import setting
 import _thread
-import asyncio
-import set
 from tools import logger, mongo, pinfo
 from features import profanity
 from playersData import pdata
 from . import notification_manager
 blacklist = pdata.get_blacklist()
-settings = setting.get_settings_data()
 
+settings = setting.get_settings_data()
 new_member_count = os.path.join(
     _ba.env()["python_directory_user"], "members" + os.sep)
 
@@ -78,7 +78,6 @@ class checkserver(object):
                 # new player joined lobby
 
                 d_str = ros['display_string']
-                acc = ros["account_id"]
                 d_str2 = profanity.censor(d_str)
                 try:
                     logger.log(
@@ -122,7 +121,7 @@ class checkserver(object):
         self.players = newPlayers
 
 def check_ban_mongo(clid, pbid):
-    blackdata = mongo.Banlist.find_one() or {'ban': {'ids': [], 'deviceids': [], 'ips': []}}
+    blackdata = mongo.Banlist.find_one()
     if blackdata is None:
         return False
     ip = _ba.get_client_ip(clid)
@@ -134,59 +133,90 @@ def check_ban_mongo(clid, pbid):
         ba.internal.disconnect_client(clid)
         return True
     return False
-#----------------------------------------------------------------------------------
+
+def check_notify_mongo(clid, pbid):
+    data = mongo.notify_list.find_one() or {'notify': {'ids': [], 'deviceids': [],'ips': []}}
+    try:
+       ip = _ba.get_client_ip(clid)
+       device_id = _ba.get_client_public_device_uuid(clid)
+       if device_id is None:
+           device_id = _ba.get_client_device_uuid(clid)
+       for ras in ba.internal.get_game_roster():
+         if ras["account_id"] == pbid:
+            devices_string = ras['display_string']
+            nows = datetime.now().strftime('%d-%m-%Y %I:%M:%S %p')
+            if pbid in data['notify']['ids'] or device_id in data['notify']['deviceids'] or ip in data['notify']['ips']:
+                # Replace 'YOUR_DISCORD_CHANNEL_ID' with your actual Discord channel ID
+                asyncio.ensure_future(dc.joined_player(pbid=pbid,devices_string=devices_string,time=nows))
+                #print(f"{pbid} joined the game")     
+            #else:
+                #print(f"{pbid} is not in notify list ")
+    except Exception as e:
+        print(f"Error updating notify json file: {e}")
+        return False
+
+
+def check_permissions(accountid):
+    roles = pdata.get_roles()
+    for role in roles:
+        if accountid in roles[role]["ids"] and (role == "owner" or role == "staff" or role == "moderator"): # change the role which players have to join the server
+            return role  # Return the role if found
+    return None  # Return None if no special role is found
+
+
+def check_whitelist_player(clid, pbid):
+    # Check if the player has a special role
+    special_role = check_permissions(pbid)
+    if special_role:
+        _ba.screenmessage(f"You have a special role: {special_role}",
+                          color=(0.0, 1.0, 0.0),  # Green neon color
+                          transient=True,
+                          clients=[clid])
+        return  # Skip whitelist check if player has a special role
+    
+    # If player does not have a special role, check whitelist status
+    data = mongo.whitelist.find_one() or {'whitelist': {'ids': [], 'deviceids': [], 'ips': []}}
+    try:
+        ip = _ba.get_client_ip(clid)
+        device_id = _ba.get_client_public_device_uuid(clid)
+        if device_id is None:
+            device_id = _ba.get_client_device_uuid(clid)
+        for ras in ba.internal.get_game_roster():
+            if ras["account_id"] == pbid:
+                devices_string = ras['display_string']
+                if pbid in data['whitelist']['ids'] or device_id in data['whitelist']['deviceids'] or ip in data['whitelist']['ips']:
+                    _ba.screenmessage("You are Whitelisted Player " + devices_string,
+                                      color=(0.60, 0.9, 0.6),  # Default color for whitelisted players
+                                      transient=True,
+                                      clients=[clid])
+                else:
+                    _ba.chatmessage('You need access to enter this private server. For access, contact the owner.',
+                                    clients=[clid])
+                    logger.log(f"{pbid} kicked > reason: Not a Whitelisted Player")
+                    # Disconnect client for 2 minutes (120 seconds)
+                    ba.internal.disconnect_client(clid, 120)
+    except Exception as e:
+        print(f"Error updating whitelist json file: {e}")
+        return False
+
 
 def on_player_join_server(pbid, player_data, ip, device_id):
     global ipjoin
     now = time.time()
 #-------------------------------------------------------
+    player_data=pdata.get_info(pbid)
     try:
         existing_members = members.members
         if pbid not in existing_members:
             existing_members.append(pbid)
             with open(new_member_count + "members.py", "w") as f:
                 f.write(f"members = {json.dumps(existing_members, indent=4)}")
-        #else:
-            #print(f"{pbid} is already in members_count.")
+        else:
+            print(f"{pbid} is already in members_count.")
     except Exception as e:
         print(f"Error updating members file: {e}")
         return False
-    
-#-----------------------------------------------------------
-    # stopped pushing cause of lag
-    # data = mongo.notify_list.find_one() or {'notify': {'ids': [], 'deviceids': [],'ips': []}}
-    # try:
-    #    for raos in ba.internal.get_game_roster():
-    #      if raos["account_id"] == pbid:
-    #         clid = raos["client_id"]
-    #         devices_string = raos['display_string']
-    #         nows = datetime.now().strftime('%d-%m-%Y %I:%M:%S %p')
-    #         if pbid in data['notify']['ids'] or device_id in data['notify']['deviceids'] or ip in data['notify']['ips']:
-    #             # Replace 'YOUR_DISCORD_CHANNEL_ID' with your actual Discord channel ID
-    #             asyncio.ensure_future(dc.joined_player(pbid=pbid,devices_string=devices_string,time=nows))
-    #             #print(f"{pbid} joined the game")     
-    #         #else:
-    #             #print(f"{pbid} is not in notify list ")
-    # except Exception as e:
-    #     print(f"Error updating notify json file: {e}")
-    #     return False
-#----------------------------------------------------------------------------------
-    player_info = mongo.playerinfo.find_one()    
-    try:            
-       if player_info is None:
-           return False
-       for rs in ba.internal.get_game_roster():
-           if rs["account_id"] == pbid:
-              name = rs['display_string']
-              if pbid in player_info["pinfo"]["pbid"]:
-                   return       
-              else:
-                  asyncio.ensure_future(dc.update_playerinfo(pbid=pbid,name=name,deviceid=device_id,ip=ip))
-                  print(f"stats updated..!")      
-    except Exception as e:
-        print(f"Error updating stats in mongo {e}")
-        return False
-#----------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------
     clid = 113
     device_string = ""
     for ros in ba.internal.get_game_roster():
@@ -235,7 +265,7 @@ def on_player_join_server(pbid, player_data, ip, device_id):
            pdata.checkExpiredItems()
            pdata.checkExpiredclaim()
         # to check expired complainter xD
-        if fs.complainter:    
+        if settings["ComplainterExpired"]:    
            pdata.checkExpiredcomp()
         if get_account_age(player_data["accountAge"]) < \
                 settings["minAgeToJoinInHours"]:
@@ -268,15 +298,20 @@ def on_player_join_server(pbid, player_data, ip, device_id):
             if (device_id == None):
                 device_id = _ba.get_client_device_uuid(clid)
             serverdata.clients[pbid]["deviceUUID"] = device_id
-            verify_account(pbid, player_data)  # checked for spoofed ids
+            verify_account(pbid, player_data)  # checked for spoofed ids            
             logger.log(
                 f'{pbid} ip: {serverdata.clients[pbid]["lastIP"]} , Device id: {device_id}')
+            if settings["ServerForWhitelistplayers"]:
+                check_whitelist_player(clid,pbid)      
             _ba.screenmessage(settings["regularWelcomeMsg"] + " " + device_string,
                               color=(0.60, 0.8, 0.6), transient=True,
                               clients=[clid])
-            if set.JoinClaim:
-                jc.join_claim(device_string, clid, pbid)
             notification_manager.player_joined(pbid)
+            if settings["JoinClaim"]:
+                jc.join_claim(device_string, clid, pbid)
+            # notify players
+            if settings["NotifyPlayer"]:
+                check_notify_mongo(clid,pbid)
     else:
         # fetch id for first time.
         thread = FetchThread(
@@ -287,11 +322,16 @@ def on_player_join_server(pbid, player_data, ip, device_id):
         )
 
         thread.start()
+        if settings["ServerForWhitelistplayers"]:
+            check_whitelist_player(clid,pbid)
         _ba.screenmessage(settings["firstTimeJoinMsg"], color=(0.6, 0.8, 0.6),
                           transient=True, clients=[clid])
-        jc.join_claim(device_string, clid, pbid)
         notification_manager.player_joined(pbid)
-
+        if settings["JoinClaim"]:
+            jc.join_claim(device_string, clid, pbid)
+        # notify players
+        if settings["NotifyPlayer"]:
+            check_notify_mongo(clid,pbid)              
     # pdata.add_profile(pbid,d_string,d_string)
 
 

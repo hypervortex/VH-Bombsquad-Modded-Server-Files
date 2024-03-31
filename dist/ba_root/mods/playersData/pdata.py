@@ -172,7 +172,9 @@ def get_database():
 def update_database():
     mongo.Banlist.delete_many({})
     x = mongo.Banlist.insert_one(bandata)
+
     print(x.inserted_id)
+
 
 def commit_profiles(data={}) -> None:
     """Commits the given profiles in the database.
@@ -292,7 +294,7 @@ def add_profile(
             return
 
     if database_data and "ban" in database_data and "deviceids" in database_data["ban"]:
-        if device_id in database_data["ban"]["deviceids"]:
+        if database_data["ban"]["deviceids"] and device_id in database_data["ban"]["deviceids"]:
             serverdata.clients[account_id]["isBan"] = True
             ba.internal.disconnect_client(cid)
     else:
@@ -500,7 +502,7 @@ def checkExpiredItems():
         now = datetime.now()
         expiry = datetime.strptime(y, '%d-%m-%Y %H:%M:%S')
         if expiry < now:
-            #print("Expired effect found")
+            print("Expired effect found")
             expired_keys.append(x)
 
     # Remove expired keys
@@ -517,7 +519,7 @@ def checkExpiredcomp():
         now = datetime.now()
         expiry = datetime.strptime(y, '%d-%m-%Y %I:%M:%S %p')
         if expiry < now:
-            #print("Expired complainter found")
+            print("Expired complainter found")
             expired_keys.append(x)
 
     # Remove expired keys
@@ -534,12 +536,39 @@ def checkExpiredclaim():
         now = datetime.now()
         expiry = datetime.strptime(y, '%d-%m-%Y %H:%M:%S')
         if expiry < now:
-            #print("Expired claimed player found")
+            print("Expired claimed player found")
             expired_keys.append(x)
 
     # Remove expired keys
     for key in expired_keys:
         customers.pop(key)
+
+
+def get_teams():
+    data = {}
+    session = ba.internal.get_foreground_host_session()
+    if session:
+        # Retrieving team information from the session
+        teams = session.sessionteams
+        for team in teams:
+            # Processing each team and its players
+            data[str(team.id)] = {
+                'name': team.name if isinstance(team.name, str) else team.name.evaluate(),
+                'color': list(team.color),
+                'score': team.customdata['score'],
+                'players': []
+            }
+            for player in team.players:
+                # Retrieving player information for each team
+                teamplayer = {
+                    'name': player.getname(),
+                    'device_id': player.inputdevice.get_v1_account_name(True),
+                    'inGame': player.in_game,
+                    'character': player.character,
+                    'account_id': player.get_v1_account_id()
+                }
+                data[str(team.id)]['players'].append(teamplayer)
+    return data
 
 
 def unmute_mongo(account_id: str) -> None:
@@ -610,7 +639,7 @@ def player_count(account_id):
         serverdata.clients[account_id] = profiles[account_id]
         CacheData.profiles = profiles
         commit_profiles(profiles)
-        #print(f"Rejoin count for {account_id}: {profiles[account_id]['rejoincount']}")
+        print(f"Rejoin count for {account_id}: {profiles[account_id]['rejoincount']}")
 
 
 def commit_roles(data: dict) -> None:
@@ -842,7 +871,7 @@ def set_effect(effect: str, accout_id: str) -> None:
     return
 
 
-def set_effect(effect: str, accout_id: str) -> None:
+def set_effect(effect: str, account_id: str) -> None:
     """Sets the costum effect for the player.
 
     Parameters
@@ -853,7 +882,13 @@ def set_effect(effect: str, accout_id: str) -> None:
         account id of the client
     """
     custom = get_custom()
-    custom["customeffects"][accout_id] = effect
+    if account_id in custom["customeffects"]:
+        effects = [custom["customeffects"][account_id]] if type(
+            custom["customeffects"][account_id]) is str else custom["customeffects"][account_id]
+        effects.append(effect)
+        custom["customeffects"][account_id] = effects
+    else:
+        custom["customeffects"][account_id] = [effect]
     CacheData.custom = custom
     commit_c()
 

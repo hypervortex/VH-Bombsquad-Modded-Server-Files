@@ -12,6 +12,8 @@ from ba._actor import Actor
 import random
 from datetime import date, datetime
 import pytz
+import setting
+settings = setting.get_settings_data()
 
 if TYPE_CHECKING:
     from typing import Set, List, Type, Optional, Sequence, Any, Tuple
@@ -190,8 +192,7 @@ class Map(Actor):
         return None
                         
     def show_text(self):
-        import files.settings as settings
-        texts = settings.map_text
+        texts = settings["TopMapText"]["msg"]
         t = _ba.newnode('text',
                     attrs={
                         'text': random.choice(texts),
@@ -216,20 +217,23 @@ class Map(Actor):
         ba.animate(t,'opacity', {0.0: 0, 1.0: 2, 4.0: 2, 5.0: 0})
         ba.timer(5.0, t.delete)       
 
-
+    
     def show_date_time(self):
-        t = _ba.newnode('text',
-                    attrs={
-                        'text': u"" + "Date : " + str(datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%A, %B %d, %Y")) + "\nTime : " + str(datetime.now(pytz.timezone('Asia/Kolkata')).strftime("%I:%M:%S %p")),
-                        'scale': 0.85,
-                        'flatness': 1,
-                        'maxwidth': 0,
-                        'h_attach': 'center',
-                        'h_align': 'center',
-                        'v_attach':'top',
-                        'position':(400,-60),
-                        'color':(1,1,1)})
-        ba.timer(0.1, t.delete)   
+        enabled = settings["timetext"]["enable"]
+        if enabled:
+                  time = settings["timetext"]["timezone"]
+                  t = _ba.newnode('text',
+                              attrs={
+                                  'text': u"" + "Date : " + str(datetime.now(pytz.timezone(time)).strftime("%A, %B %d, %Y")) + "\nTime : " + str(datetime.now(pytz.timezone(time)).strftime("%I:%M:%S %p")),
+                                  'scale': 0.85,
+                                  'flatness': 1,
+                                  'maxwidth': 0,
+                                  'h_attach': 'center',
+                                  'h_align': 'center',
+                                  'v_attach':'top',
+                                  'position':(400,-60),
+                                  'color':(1,1,1)})
+                  ba.timer(0.1, t.delete)   
                
     def __init__(self,
                  vr_overlay_offset: Optional[Sequence[float]] = None) -> None:
@@ -256,15 +260,13 @@ class Map(Actor):
         # Set various globals.
         gnode = _ba.getactivity().globalsnode
         import ba
-        import files.settings as settings
         import custom_hooks
         custom_hooks.on_map_init()
         
         self.credits = ba.NodeActor(
                 _ba.newnode('text',
                             attrs={
-                                'text': " ",
-                                
+                                'text': " ",                                
                                 'flatness': 1.0,
                                 'h_align': 'center',
                                 'v_attach':'bottom',
@@ -305,7 +307,7 @@ class Map(Actor):
              loop=True,
        )            
                  
-        if settings.Show_map_text:         
+        if settings["TopMapText"]["enable"]
                                                
             ba.timer(0.1, ba.Call(self.show_date_time), repeat = True)
         

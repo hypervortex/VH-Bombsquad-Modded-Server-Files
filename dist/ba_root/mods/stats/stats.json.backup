@@ -23,9 +23,61 @@
             "deaths": 5,
             "games": 46,
             "kd": 0.0,
-            "avg_score": 17.044,
+            "avg_score": 16.673,
             "last_seen": "2022-07-17 16:39:27.777148",
             "aid": "pb-IF4RU2ECAg=="
+        },
+        "pb-IF4DUFgxNA==": {
+            "rank": 574,
+            "name": "Android67042361",
+            "scores": 0,
+            "total_damage": 0.0,
+            "kills": 0,
+            "deaths": 3,
+            "games": 1,
+            "kd": 0.0,
+            "avg_score": 0.0,
+            "last_seen": "2024-03-11 01:19:58.170862",
+            "aid": "pb-IF4DUFgxNA=="
+        },
+        "pb-IF4wU1AYEQ==": {
+            "rank": 431,
+            "name": "lol",
+            "scores": 660,
+            "total_damage": 0.0,
+            "kills": 3,
+            "deaths": 4,
+            "games": 8,
+            "kd": 0.75,
+            "avg_score": 82.5,
+            "last_seen": "2024-03-13 09:26:49.563064",
+            "aid": "pb-IF4wU1AYEQ=="
+        },
+        "pb-IF4NUEpaHA==": {
+            "rank": 352,
+            "name": "TriciaMae1",
+            "scores": 350,
+            "total_damage": 0.0,
+            "kills": 6,
+            "deaths": 25,
+            "games": 11,
+            "kd": 0.24,
+            "avg_score": 31.818,
+            "last_seen": "2024-03-12 20:29:06.465118",
+            "aid": "pb-IF4NUEpaHA=="
+        },
+        "pb-IF4dUk4IPA==": {
+            "rank": 575,
+            "name": "Android58835058",
+            "scores": 0,
+            "total_damage": 0.0,
+            "kills": 0,
+            "deaths": 2,
+            "games": 2,
+            "kd": 0.0,
+            "avg_score": 0.0,
+            "last_seen": "2024-03-11 01:43:45.597198",
+            "aid": "pb-IF4dUk4IPA=="
         }
     }
 }
