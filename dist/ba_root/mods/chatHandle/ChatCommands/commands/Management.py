@@ -374,6 +374,8 @@ def quit(arguments):
 def mute(arguments, clientid):
     if len(arguments) == 0:
         serverdata.muted = True
+        logger.log("Server muted by chat command")
+        sendchat("Server muted")
     try:
         cl_id = int(arguments[0])
         duration = int(arguments[1]) if len(arguments) >= 2 else 0.5
@@ -397,9 +399,14 @@ def mute(arguments, clientid):
 
 
 def un_mute(arguments, clientid):
-    if len(arguments) == []:
-        serverdata.muted = False
     try:
+        if len(arguments) == 0:
+            # Unmute the entire server
+            serverdata.muted = False
+            logger.log("Server unmuted by chat command")
+            sendchat("Server unmuted")
+            return
+
         cl_id = int(arguments[0])
         for me in ba.internal.get_game_roster():
             if me["client_id"] == clientid:
@@ -411,12 +418,23 @@ def un_mute(arguments, clientid):
                 sendchat(f'{myself} unmuted {ros["display_string"]}') 
                 return
         for account in serverdata.recents:  # backup case if player left the server
-            if account['client_id'] == int(arguments[0]):
+            if account['client_id'] == cl_id:
                 pdata.unmute(account["pbid"])
                 logger.log(
-                    f'unmuted {ros["display_string"]} by chat command, recents')
-    except:
-        pass
+                    f'unmuted {account["display_string"]} by chat command, recents')
+                sendchat(f'{myself} unmuted {account["display_string"]} from recent players')
+                return
+        # If the specified player is not found
+        logger.error(f"Player with client ID {cl_id} not found")
+        sendchat("Player not found. Make sure to specify a valid player ID.")
+    except ValueError:
+        # Handle the case where int(arguments[0]) fails to convert to an integer
+        logger.error("Invalid argument provided for un_mute function.")
+        sendchat("Invalid argument provided. Make sure to specify a valid player ID.")
+    except Exception as e:
+        # Handle other exceptions (e.g., network errors, etc.)
+        logger.error(f"An error occurred in un_mute function: {e}")
+        sendchat("An error occurred while processing the command. Please try again later.")
 
 
 def remove(arguments):
