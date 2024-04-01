@@ -197,47 +197,48 @@ class Effect(ba.Actor):
                 elif effect == 'metgsgsgsal': self.metalTimer = ba.Timer(500, ba.WeakCall(self.emitMetal), repeat=True, timetype=tt, timeformat=tf)
                 elif effect == 'surrounder': self.surround = SurroundBall(spaz, shape="bones")
             elif cl_str in custom_effects:
-                effect = custom_effects[cl_str]
-                if effect == 'ichshshse':
-                    self.emitIce()
-                    self.snowTimer = ba.Timer(
-                        0.5, self.emitIce, repeat=True, timetype=TimeType.SIM)
-                    return
-                elif effect == 'swehshshsheat':
-                    self.smokeTimer = ba.Timer(
-                        0.6, self.emitSmoke, repeat=True, timetype=TimeType.SIM)
-                    return
-                elif effect == 'scorhshshshch':
-                    self.scorchTimer = ba.Timer(
-                        500, self.update_Scorch, repeat=True, timetype=tt, timeformat=tf)
-                    return
-                elif effect == 'glhshshshshshow':
-                    self.addLightColor((1, 0.6, 0.4))
-                    self.checkDeadTimer = ba.Timer(
-                        150, self.checkPlayerifDead, repeat=True, timetype=tt, timeformat=tf)
-                    return
-                elif effect == 'distohshshsrtion':
-                    self.DistortionTimer = ba.Timer(
-                        1000, self.emitDistortion, repeat=True, timetype=tt, timeformat=tf)
-                    return
-                elif effect == 'slihshehdhme':
-                    self.slimeTimer = ba.Timer(
-                        250, self.emitSlime, repeat=True, timetype=tt, timeformat=tf)
-                    return
-                elif effect == 'methshshshsal':
-                    self.metalTimer = ba.Timer(
-                        500, self.emitMetal, repeat=True, timetype=tt, timeformat=tf)
-                    return
-                elif effect == 'surrounder':
-                    self.surround = SurroundBall(spaz, shape="bones")
-                    return
-                elif effect == 'sphshshhsark':
-                    self.sparkTimer = ba.Timer(
-                        100, self.emitSpark, repeat=True, timetype=tt, timeformat=tf)
-                    return
+                effects = custom_effects[cl_str]
+                for effect in effects:
+                    if effect == 'ichshshse':
+                        self.emitIce()
+                        self.snowTimer = ba.Timer(
+                            0.5, self.emitIce, repeat=True, timetype=TimeType.SIM)
+                        return
+                    elif effect == 'swehshshsheat':
+                        self.smokeTimer = ba.Timer(
+                            0.6, self.emitSmoke, repeat=True, timetype=TimeType.SIM)
+                        return
+                    elif effect == 'scorhshshshch':
+                        self.scorchTimer = ba.Timer(
+                            500, self.update_Scorch, repeat=True, timetype=tt, timeformat=tf)
+                        return
+                    elif effect == 'glhshshshshshow':
+                        self.addLightColor((1, 0.6, 0.4))
+                        self.checkDeadTimer = ba.Timer(
+                            150, self.checkPlayerifDead, repeat=True, timetype=tt, timeformat=tf)
+                        return
+                    elif effect == 'distohshshsrtion':
+                        self.DistortionTimer = ba.Timer(
+                            1000, self.emitDistortion, repeat=True, timetype=tt, timeformat=tf)
+                        return
+                    elif effect == 'slihshehdhme':
+                        self.slimeTimer = ba.Timer(
+                            250, self.emitSlime, repeat=True, timetype=tt, timeformat=tf)
+                        return
+                    elif effect == 'methshshshsal':
+                        self.metalTimer = ba.Timer(
+                            500, self.emitMetal, repeat=True, timetype=tt, timeformat=tf)
+                        return
+                    elif effect == 'surrounder':
+                        self.surround = SurroundBall(spaz, shape="bones")
+                        return
+                    elif effect == 'sphshshhsark':
+                        self.sparkTimer = ba.Timer(
+                            100, self.emitSpark, repeat=True, timetype=tt, timeformat=tf)
+                        return
         except:
             pass
-
+          
         if _settings['enablestats']:
             pats = mystats.get_all_stats()
             if cl_str in pats and _settings['enableTop5effects']:
