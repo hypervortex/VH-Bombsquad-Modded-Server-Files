@@ -27,7 +27,8 @@ Requirements
 
 Download files on terminal -
 ```
-sudo git clone https://github.com/hypervortex/Bombsuqad-Modded-Server-Files.git
+sudo git clone https://github.com/hypervortex/Bombsuqad-Modded-Server-Files
+cd Bombsuqad-Modded-Server-Files
 ```
 
 ## 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣 𝙋𝙧𝙤𝙘𝙚𝙨𝙨 - 𝘼𝙪𝙩𝙤𝙢𝙖𝙩𝙞𝙘 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣:
