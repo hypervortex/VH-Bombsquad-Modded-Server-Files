@@ -379,16 +379,6 @@
         ],
         "ids": []
     },
-    "tag": {
-        "tag": "tag",
-        "tagcolor": [
-            1,
-            1,
-            1
-        ],
-        "commands": [],
-        "ids": []
-    },
     "tcs": {
         "tag": "\u2728T-COMPLAINT-STAFF\u2728",
         "tagcolor": [
@@ -401,6 +391,18 @@
         ],
         "ids": [
             "pb-IF4iVW4PCA=="
+        ]
+    },
+    "whitelist": {
+        "tag": "\\dWHITELIST_PLAYER\\d",
+        "tagcolor": [
+            1,
+            1,
+            1
+        ],
+        "commands": [],
+        "ids": [
+            "pb-JiNJARFeXENAVF5FEkFQXFVBGUJWTlVH"
         ]
     }
 }
