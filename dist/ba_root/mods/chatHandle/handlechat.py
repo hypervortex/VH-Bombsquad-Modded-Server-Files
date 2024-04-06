@@ -70,7 +70,7 @@ def filter_chat_message(msg, client_id):
                 return Main.QuickAccess(msg, client_id)
             elif msg.startswith(".") and settings["allowInGameChat"]:
                 return Main.QuickAccess(msg, client_id)
-            elif msg.startswith("-dm") and settings["allowInGameDm"]:
+            elif msg.startswith("/dm") and settings["allowInGameDm"]:
                 return Main.QuickAccess(msg, client_id)            
             return msg
 
