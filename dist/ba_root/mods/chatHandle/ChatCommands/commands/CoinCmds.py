@@ -18,9 +18,10 @@ from bastd.gameutils import SharedObjects
 from tools import playlist
 from tools import logger, mongo
 import set
+import threading
 import json
 Commands = ['cjt', 'checkjointime', 'shop', 'donate','removepaideffect']
-CommandAliases = ['give', 'buy', 'cts', 'stc', 'rpe']
+CommandAliases = ['give', 'buy', 'cts', 'stc', 'rpe', 'scoretocash', 'cashtoscore']
 
 BANK_PATH = _ba.env().get("python_directory_user", "") + "/bank.json"
 base_path = os.path.join(_ba.env()['python_directory_user'], "stats" + os.sep)
@@ -114,7 +115,7 @@ def shop(arguments, clientid):
     with ba.Context(player):
         string = '==You can buy following items==\n'
         if a == []:
-            send("Usage: /shop commands, /shop effects and /shop tag", clientid)
+            send("Usage: /shop commands, /shop effects", clientid)
         elif a[0].startswith('effects'):
             for x in set.availableeffects:
                 string += f"{x} ---- {tic}{str(set.availableeffects[x])} ---- for 1 day\n"
@@ -145,31 +146,59 @@ def check_claim_time(arguments, clientid, accountid):
 
 
 def stc(arguments, clientid, accountid):
-  players = _ba.get_foreground_host_activity().players
-  player = _ba.get_foreground_host_activity()
-  a = arguments
-  with ba.Context(player):
-   try:
-       score = int(a[0])
-       stats = mystats.get_all_stats()
-       havescore = stats[accountid]['scores']
-       if havescore < score:
-           send(f"Not enough scores to perform the transaction", clientid)
-           send(f"You have {havescore} Score only....", clientid)
-       elif score < 500:
-           send(f"You can only convert more than 500 scores", clientid)
-       else:
-           stats[accountid]['scores'] -= score
-           mystats.dump_stats(stats)
-           equivalentCoins = int(score / 5 * 0.9)
-           addcoins(accountid, equivalentCoins)
-           ba.screenmessage('Transaction Successful', color=(0,1,0))           
-           _ba.chatmessage(f"{str(equivalentCoins)}{tic} added to your account. [10% transaction fee deducted]")
-           mystats.refreshStats()
-   except:
-       send("Usage: /scoretocash or stc amount_of_score", clientid)     
+    players = _ba.get_foreground_host_activity().players
+    player = _ba.get_foreground_host_activity()
+    a = arguments
+    with ba.Context(player, exit_result=None):
+        try:
+            score = int(a[0])
+            stats = mystats.get_all_stats()
+            havescore = stats[accountid]['scores']
+            if havescore < score:
+                send(f"Not enough scores to perform the transaction", clientid)
+                send(f"You have {havescore} Score only....", clientid)
+            elif score < 500:
+                send(f"You can only convert more than 500 scores", clientid)
+            else:
+                stats[accountid]['scores'] -= score
+                equivalentCoins = int(score / 5 * 0.9)
+                addcoins(accountid, equivalentCoins)
+                mystats.dump_stats(stats)
+                ba.screenmessage('Transaction Successful', color=(0,1,0))           
+                _ba.chatmessage(f"{str(equivalentCoins)}{tic} added to your account. [10% transaction fee deducted]")
+                thread=threading.Thread(target=mystats.refreshStats)
+                thread.start()
+        except:
+            send("Usage: /scoretocash or stc amount_of_score", clientid)
 
-   
+def cts(arguments, clientid, accountid):
+    players = _ba.get_foreground_host_activity().players
+    player = _ba.get_foreground_host_activity()
+    a = arguments
+    with ba.Context(player, exit_result=None):
+        try:
+            coins = int(a[0])
+            havecoins = getcoins(accountid)
+            if havecoins < coins:
+                send(f"Not enough {tic}{ticket} to perform the transaction", clientid)
+                send(f"You have {havecoins}{tic} only....", clientid)
+            elif coins < 100:
+                send(f"You can only convert more than 100{tic}", clientid)
+            else:
+                addcoins(accountid, coins * -1)
+                stats = mystats.get_all_stats()
+                equivalentScore = int(coins * 5 * 0.9)
+                stats[accountid]['scores'] += equivalentScore
+                mystats.dump_stats(stats)
+                ba.playsound(ba.getsound("cashRegister"))
+                ba.screenmessage(f'Transaction Successful', color=(0,1,0))
+                _ba.chatmessage(f"{str(equivalentScore)} scores added to your account stats. [10% transaction fee deducted]")
+                thread=threading.Thread(target=mystats.refreshStats)
+                thread.start()
+        except:
+            send("Usage: /cashtoscore or cts amount_of_cash", clientid)
+
+
 def donate(arguments, clientid, accountid):
   players = _ba.get_foreground_host_activity().players
   player = _ba.get_foreground_host_activity()
@@ -212,33 +241,6 @@ def donate(arguments, clientid, accountid):
            ba.screenmessage('An error occurred. Check the console for details.', transient=True, clients=[clientid])     
 
  
-def cts(arguments, clientid, accountid):
-  players = _ba.get_foreground_host_activity().players
-  player = _ba.get_foreground_host_activity()
-  a = arguments
-  with ba.Context(player):
-   try:
-       coins = int(a[0])
-       havecoins = getcoins(accountid)
-       if havecoins < coins:
-           send(f"Not enough {tic}{ticket} to perform the transaction", clientid)
-           send(f"You have {havecoins}{tic} only....", clientid)
-       elif coins < 100:
-           send(f"You can only convert more than 100{tic}", clientid)
-       else:
-           addcoins(accountid, coins * -1)
-           stats = mystats.get_all_stats()
-           equivalentScore = int(coins * 5 * 0.9)
-           stats[accountid]['scores'] += equivalentScore
-           ba.playsound(ba.getsound("cashRegister"))
-           ba.screenmessage(f'Transaction Successful', color=(0,1,0))
-           mystats.dump_stats(stats)
-           _ba.chatmessage(f"{str(equivalentScore)} scores added to your account stats. [10% transaction fee deducted]")
-           mystats.refreshStats()
-   except:
-       send("Usage: /cashtoscore or cts amount_of_cash", clientid)  
-
-  
 def buy(arguments, clientid, accountid):
   global effectCustomers
   players = _ba.get_foreground_host_activity().players
@@ -254,7 +256,9 @@ def buy(arguments, clientid, accountid):
        if havecoins >= costofeffect:
            customers = pdata.get_custom()['paideffects']
            if accountid not in customers:
-               expiry = datetime.now() + timedelta(days=1)
+               dayss = settings["Paideffects"]["timedelta"]
+               settime = settings["Paideffects"]["ExpriyPaideffectTime"]
+               expiry = datetime.now() + timedelta(dayss=settime)
                customers[accountid] = {'effect': effect, 'expiry': expiry.strftime('%d-%m-%Y %H:%M:%S')}
                addcoins(accountid, costofeffect * -1)         
                _ba.chatmessage(f"Success! That cost you {str(costofeffect)}{tic}")
