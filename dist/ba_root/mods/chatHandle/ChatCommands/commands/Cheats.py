@@ -60,12 +60,6 @@ def ExcelCommand(command, arguments, clientid, accountid):
 
 	elif command in ['speedon', 'speedy']:
 		speedy(arguments, clientid)
-	
-	elif command in ['acl']:
-		acl(arguments, clientid)
-
-	elif command in ['vcl']:
-		vcl(arguments, clientid)
 
 
 def kill(arguments, clientid):
