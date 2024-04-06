@@ -236,7 +236,7 @@ def kick(arguments, clientid, ac_id):
     for ros in ba.internal.get_game_roster():
         if ros["client_id"] == cl_id:
             logger.log(f'kicked {ros["display_string"]}')
-            sendchat(f'{myself} kicked {ros["display_string"]} Goodbye 👋')
+            sendchat(f'{myself} kicked {ros["display_string"]} Goodbye ðŸ‘‹')
     ba.internal.disconnect_client(int(arguments[0]))
     return
 
@@ -333,7 +333,7 @@ def ban(arguments, clientid, ac_id):
                 pdata.ban_player(ros['account_id'], duration,
                                  "by chat command")
                 logger.log(f'banned {ros["display_string"]} by chat command')
-                sendchat(f'{myself} banned {ros["display_string"]} Goodbye 👋')
+                sendchat(f'{myself} banned {ros["display_string"]} Goodbye ðŸ‘‹')
         ba.internal.disconnect_client(int(arguments[0]))
         ## backup part 
         for account in serverdata.recents:  # backup case if player left the server
