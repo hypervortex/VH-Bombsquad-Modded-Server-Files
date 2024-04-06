@@ -548,24 +548,6 @@ def play_sound(arguments, clientid):
     except Exception as e:
         send(f"Using: /playsound [music sound] [time] [volume]", clientid)
         
-        
-def acl(arguments, client_id):
-    role = "admin"
-    admin_commands = pdata.roles_cmdlist(role)
-    if not admin_commands:
-        send("Error: Admin role not found.", client_id)
-        return
-    msg = "\ue046______________|ADMIN-CMDS-LISTS|________________\ue046\n"
-    admin_commands_list = admin_commands.split(', ')
-    for i, cmd in enumerate(admin_commands_list, 1):
-        if i % 10 == 0:
-            msg += "\n\ue046 || " + cmd
-        elif i == 1:  # Add \ue046 || only to the first command of each line
-            msg += "\ue046 || " + cmd
-        else:
-            msg += ', ' + cmd
-    send(msg, client_id)
-
 
 def protect_players(arguments, clientid):
     if arguments == [] or arguments == ['']:
@@ -595,6 +577,24 @@ def protect_players(arguments, clientid):
             player.node.invincible = True 
         else:
             player.node.invincible = False
+
+        
+def acl(arguments, client_id):
+    role = "admin"
+    admin_commands = pdata.roles_cmdlist(role)
+    if not admin_commands:
+        send("Error: Admin role not found.", client_id)
+        return
+    msg = "\ue046______________|ADMIN-CMDS-LISTS|________________\ue046\n"
+    admin_commands_list = admin_commands.split(', ')
+    for i, cmd in enumerate(admin_commands_list, 1):
+        if i % 10 == 0:
+            msg += "\n\ue046 || " + cmd
+        elif i == 1:  # Add \ue046 || only to the first command of each line
+            msg += "\ue046 || " + cmd
+        else:
+            msg += ', ' + cmd
+    send(msg, client_id)
 
 
 def vcl(arguments, client_id):
