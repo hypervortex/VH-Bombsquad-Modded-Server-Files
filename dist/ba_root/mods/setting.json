@@ -7,10 +7,11 @@
     "useV2Account": false,
     "Anti-IdRevealer": false,
     "ServerForWhitelistplayers": {
-         "enable": true,
+         "enable": false,
          "AllowedRoles": [
              "owner",
              "staff",
+             "tcs",
              "moderator",
              "whitelist"
          ]
