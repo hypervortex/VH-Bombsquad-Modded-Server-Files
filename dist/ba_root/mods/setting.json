@@ -53,7 +53,8 @@
                 "\ue043PLEASE RESPECT OTHER PLAYERS\ue043",
                 "\ue049JOIN OUR DISCORD SERVER BY CLICKING ON STATS BUTTON\ue049",
                 "\ue046DO NOT TEAMING WITH ANY PLAYER OR YOU WILL BE PUNISHED\ue046",
-                "\ue046TYPE (/shop effects) TO KNOW AVILABLE EFFECTS\ue046"
+                "\ue046TYPE (/shop effects) TO KNOW AVILABLE EFFECTS\ue046",
+                "\ue046TYPE (/shop commands) TO KNOW COMMANDS\ue046"                
             ]
         }
     },
@@ -77,7 +78,8 @@
             "get notification when friends join this server, checkout leaderboard",
             "abusers, spammers will get auto ban",
             "doesnt matter who starts fight, if you abuse- you will get ban too.",
-            "type (/shop effects) to know available effects"
+            "type (/shop effects) to know available effects",
+            "type (/shop commands) to know commands"            
         ]
     },
     "TopMapText": {
