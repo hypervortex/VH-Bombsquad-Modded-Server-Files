@@ -114,6 +114,7 @@ class NewPlayerSpaz(PlayerSpaz):
             "splinter": self._add_splinter,
             "rainbow": self._add_rainbow,
             "fairydust": self._add_fairydust,
+            "noeffect": lambda: None,
             "fire":self._add_fire,
             "stars":self._add_stars,
             "new_rainbow":self._add_new_rainbow,
@@ -215,7 +216,6 @@ class NewPlayerSpaz(PlayerSpaz):
             tendril_type="smoke",
         )
 
-        
     @effect(repeat_interval=3.0)
     def _add_shine(self):
         shine_factor = 1.2
@@ -248,7 +248,7 @@ class NewPlayerSpaz(PlayerSpaz):
         }
         ba.animate_array(self.node, "highlight", 3, animation)
 
-    @effect(repeat_interval=0.05)
+    @effect(repeat_interval=4.0)
     def _add_rainbow(self):
     # Increase intensity by multiplying each component by a factor
         intensity_factor = 8.0
@@ -258,11 +258,13 @@ class NewPlayerSpaz(PlayerSpaz):
         highlight = ba.safecolor(highlight)
 
         animation = {
-            0: self.node.highlight,
-            2: highlight,
+            0: (1,0,0),
+            1: (0,1,0),
+            2: (1,0,1),
+            3: (0,1,1),
+            4: (1,0,0),
         }
-        ba.animate_array(self.node, "highlight", 3, animation)
-
+        ba.animate_array(self.node, "color", 3, animation, loop=True)
 
 
     @node(check_interval=0.5)
@@ -547,18 +549,18 @@ class NewPlayerSpaz(PlayerSpaz):
                 light = ba.newnode('light',
                                    owner=node,
                                    attrs={
-                                       'intensity': 0.3,
-                                       'volume_intensity_scale': 0.5,
+                                       'intensity': 0.2,
+                                       'volume_intensity_scale': 0.4,
                                        'color': (random.uniform(0.5, 1.5),
                                                  random.uniform(0.5, 1.5),
                                                  random.uniform(0.5, 1.5)),
-                                        'radius': 0.035})
+                                        'radius': 0.025})
                 node.connectattr('position', light, 'position')
                 ba.timer(0.25, ba.Call(die, node)) 
 
 
 
-    @effect(repeat_interval=0.1)
+    @effect(repeat_interval=0.2)
     def _add_darkmagic(self) -> None:
         def die(node: ba.Node) -> None:
             if node:
@@ -608,8 +610,8 @@ class NewPlayerSpaz(PlayerSpaz):
                 light = ba.newnode('light',
                                    owner=node,
                                    attrs={
-                                       'intensity': 3.1,
-                                       'volume_intensity_scale': 1.3,
+                                       'intensity': 0.8,
+                                       'volume_intensity_scale': 0.5,
                                        'color': (0.5, 0.0, 1.0),
                                        'radius': 0.035})
                 node.connectattr('position', light, 'position')
