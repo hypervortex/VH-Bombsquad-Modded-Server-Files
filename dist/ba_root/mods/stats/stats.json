@@ -1,8 +1,8 @@
 {
-    "startDate": "17-07-2022",
+    "startDate": "29-03-2024",
     "stats": {
         "pb-IF4VAk4a": {
-            "rank": 1,
+            "rank": 6,
             "name": "pb-IF4VAk4a",
             "scores": 0,
             "total_damage": 0.0,
@@ -14,70 +14,70 @@
             "aid": "pb-IF4VAk4a",
             "last_seen": "2022-04-26 17:01:13.715014"
         },
-        "pb-IF4RU2ECAg==": {
+        "pb-IF5dU1Q-IQ==": {
             "rank": 2,
-            "name": "PC452402",
-            "scores": 767,
+            "name": "KART1K",
+            "scores": 2475,
             "total_damage": 0.0,
-            "kills": 0,
-            "deaths": 5,
-            "games": 46,
-            "kd": 0.0,
-            "avg_score": 16.673,
-            "last_seen": "2022-07-17 16:39:27.777148",
-            "aid": "pb-IF4RU2ECAg=="
+            "kills": 244,
+            "deaths": 335,
+            "games": 114,
+            "kd": 0.728,
+            "avg_score": 21.71,
+            "last_seen": "2024-04-02 19:04:28.209908",
+            "aid": "pb-IF5dU1Q-IQ=="
         },
-        "pb-IF4DUFgxNA==": {
-            "rank": 574,
-            "name": "Android67042361",
-            "scores": 0,
+        "pb-IF4CNEE7": {
+            "rank": 1,
+            "name": "Ekam07",
+            "scores": 3670,
             "total_damage": 0.0,
-            "kills": 0,
-            "deaths": 3,
-            "games": 1,
-            "kd": 0.0,
-            "avg_score": 0.0,
-            "last_seen": "2024-03-11 01:19:58.170862",
-            "aid": "pb-IF4DUFgxNA=="
+            "kills": 304,
+            "deaths": 263,
+            "games": 127,
+            "kd": 1.155,
+            "avg_score": 28.897,
+            "last_seen": "2024-04-06 17:54:54.662130",
+            "aid": "pb-IF4CNEE7"
         },
-        "pb-IF4wU1AYEQ==": {
-            "rank": 431,
-            "name": "lol",
-            "scores": 660,
+        "pb-IF4gUnMlCg==": {
+            "rank": 3,
+            "name": "Cybernova",
+            "scores": 2470,
+            "total_damage": 0.0,
+            "kills": 190,
+            "deaths": 175,
+            "games": 71,
+            "kd": 1.085,
+            "avg_score": 34.788,
+            "last_seen": "2024-04-06 17:51:03.938444",
+            "aid": "pb-IF4gUnMlCg=="
+        },
+        "pb-JiNJARFeXENAVF5FEkFQXFVBGUJWTlVH": {
+            "rank": 4,
+            "name": "SARA0786",
+            "scores": 35340,
+            "total_damage": 0.0,
+            "kills": 117,
+            "deaths": 176,
+            "games": 106,
+            "kd": 0.664,
+            "avg_score": 333.396,
+            "last_seen": "2024-04-06 17:34:05.902189",
+            "aid": "pb-JiNJARFeXENAVF5FEkFQXFVBGUJWTlVH"
+        },
+        "pb-IF4vU1A9EA==": {
+            "rank": 5,
+            "name": "Y0Y0",
+            "scores": 25,
             "total_damage": 0.0,
             "kills": 3,
-            "deaths": 4,
-            "games": 8,
-            "kd": 0.75,
-            "avg_score": 82.5,
-            "last_seen": "2024-03-13 09:26:49.563064",
-            "aid": "pb-IF4wU1AYEQ=="
-        },
-        "pb-IF4NUEpaHA==": {
-            "rank": 352,
-            "name": "TriciaMae1",
-            "scores": 350,
-            "total_damage": 0.0,
-            "kills": 6,
-            "deaths": 25,
-            "games": 11,
-            "kd": 0.24,
-            "avg_score": 31.818,
-            "last_seen": "2024-03-12 20:29:06.465118",
-            "aid": "pb-IF4NUEpaHA=="
-        },
-        "pb-IF4dUk4IPA==": {
-            "rank": 575,
-            "name": "Android58835058",
-            "scores": 0,
-            "total_damage": 0.0,
-            "kills": 0,
-            "deaths": 2,
-            "games": 2,
-            "kd": 0.0,
-            "avg_score": 0.0,
-            "last_seen": "2024-03-11 01:43:45.597198",
-            "aid": "pb-IF4dUk4IPA=="
-        } 
+            "deaths": 7,
+            "games": 5,
+            "kd": 0.428,
+            "avg_score": 5.0,
+            "last_seen": "2024-04-02 23:21:39.746473",
+            "aid": "pb-IF4vU1A9EA=="
+        }
     }
 }
