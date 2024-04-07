@@ -238,7 +238,7 @@ class Effect(ba.Actor):
                         return
         except:
             pass
-          
+
         if _settings['enablestats']:
             pats = mystats.get_all_stats()
             if cl_str in pats and _settings['enableTop5effects']:
