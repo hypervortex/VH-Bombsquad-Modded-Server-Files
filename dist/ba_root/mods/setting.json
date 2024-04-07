@@ -237,6 +237,10 @@
         "Currency": "\ue01f",
         "InDcCurrencySymbol": "<:Ticket:1187034254715125872>"
     },
+    "Paideffects": {
+        "timedelta": "days",
+        "ExpriyPaideffectTime": "1"
+    },    
     "discordWebHook": {
         "enable": false,
         "webhookURL": "https://discord.com/api/webhooks/82649239/e7s0zyBJIuczXL7_CGSO5WM"
@@ -283,6 +287,7 @@
     "enablestats": true,
     "enableHitTexts": true,
     "enableeffects": true,
-    "enableTop5effects": false,
+    "enableTop5effects": true,
+    "EnablePlayerProfilesTag": true,
     "enableTagAnimation": true
 }
