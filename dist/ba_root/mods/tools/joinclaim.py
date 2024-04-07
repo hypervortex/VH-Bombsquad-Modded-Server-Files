@@ -25,13 +25,13 @@ def join_claim(name, clid, accountid):
         customers[accountid] = {'name': name, 'expiry': expiry.strftime('%d-%m-%Y %H:%M:%S')}
 
         if coin_claim == 50:
-            message = f"Congratulations,{name}You've claimed..! {coin_claim}{tic}.\n"
+            message = f"Congratulations,{name} You've claimed..! {coin_claim}{tic}.\n"
         elif coin_claim == 60:
-            message = f"Wow, {name}You've claimed {coin_claim}{tic}.Nice..! \n"
+            message = f"Wow, {name} You've claimed {coin_claim}{tic}.Nice..! \n"
         elif coin_claim == 70:
-            message = f"Incredible,{name}!You've claimed {coin_claim}{tic}.\n"
+            message = f"Incredible,{name}! You've claimed {coin_claim}{tic}.\n"
         elif coin_claim == 80:
-            message = f"{name},you're on fire..! You've claimed {coin_claim}{tic}.\n"
+            message = f"{name}, you're on fire..! You've claimed {coin_claim}{tic}.\n"
 
         cc.addcoins(accountid, coin_claim)
         sendchatclid(message, clid)
