@@ -2,11 +2,19 @@
     "JoinClaim": true,
     "NotifyPlayer": false,
     "compChatText": false,
-    "ServerForWhitelistplayers": false,
     "NightMode": false,
     "whitelist": false,
     "useV2Account": false,
     "Anti-IdRevealer": false,
+    "ServerForWhitelistplayers": {
+         "enable": true,
+         "AllowedRoles": [
+             "owner",
+             "staff",
+             "moderator",
+             "whitelist"
+         ]
+    },    
     "ChatCommands": {
         "BrodcastCommand": true
     },
@@ -49,7 +57,7 @@
         }
     },
     "ScoreScreenAnnouncement": {
-        "enable": false,
+        "enable": true,
         "msg": [
             "enjoy here :)",
             "click stats button to join discord",
@@ -88,7 +96,7 @@
         "barsBehindName": true
     },
     "autoNightMode": {
-        "enable": false,
+        "enable": true,
         "startTime": "18:30",
         "endTime": "06:00",
         "fireflies": true,
@@ -214,10 +222,10 @@
             471365451209900043,
             803681951109873724
 ],
-        "bot_prefix": "v!",
-        "commands_prefix": "vs",
-        "complaint_role": "",
-        "notify_role": ""
+        "bot_prefix": "<your_bot_prefix_here>",
+        "commands_prefix": "<server-code_here>",
+        "complaint_role": "<complaint_role_id_here",
+        "notify_role": "<notify_role_id_here>"
     },
     "autoadmin": {
         "enable": true,
