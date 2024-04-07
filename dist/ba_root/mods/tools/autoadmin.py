@@ -92,11 +92,11 @@ def update_admins_and_vips():
         if player_id not in roles_data:
             if rank == 1 and score >= admin_score and player_id not in current_admin_ids:
                 add_ids_to_role('admin', [player_id])
-            elif rank in [2, 4] and score >= vip_score and player_id not in current_vip_ids:
+            elif rank in [2, 3] and score >= vip_score and player_id not in current_vip_ids:
                  add_ids_to_role('vip', [player_id])
         else:
             if rank != 1 and score <= admin_score and player_id in current_admin_ids:
                 remove_all_ids_from_role('admin', [player_id])
-            elif rank not in [2, 4] and score <= vip_score and player_id in current_vip_ids:
+            elif rank not in [2, 3] and score <= vip_score and player_id in current_vip_ids:
                  remove_all_ids_from_role('vip', [player_id])
 
