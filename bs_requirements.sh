@@ -9,6 +9,7 @@ fi
 
 # Update package information
 sudo apt-get update -y
+sudo apt update; sudo apt install software-properties-common -y
 sudo chmod 777 bombsquad_server dist/bombsquad_headless
 
 
