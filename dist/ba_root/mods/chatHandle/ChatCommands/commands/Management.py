@@ -229,17 +229,28 @@ def partyname(arguments, client_id, ac_id):
 
 
 def kick(arguments, clientid, ac_id):
-    cl_id = int(arguments[0])
-    for me in ba.internal.get_game_roster():
-        if me["client_id"] == clientid:
-            myself = me["display_string"]
-    for ros in ba.internal.get_game_roster():
-        if ros["client_id"] == cl_id:
-            logger.log(f'kicked {ros["display_string"]}')
-            sendchat(f'{myself} kicked {ros["display_string"]} Goodbye 👋')
-    ba.internal.disconnect_client(cl_id)  # Disconnect the player being kicked
-    return
-            
+    try:
+        # Extract client IDs
+        cl_ids = [int(arg) for arg in arguments]
+        
+        # Get display string of the player issuing the command
+        for me in ba.internal.get_game_roster():
+            if me["client_id"] == clientid:
+                myself = me["display_string"]
+                break
+        
+        # Iterate over the provided client IDs
+        for cl_id in cl_ids:
+            for ros in ba.internal.get_game_roster():
+                if ros["client_id"] == cl_id:
+                    logger.log(f'kicked {ros["display_string"]}')
+                    sendchat(f'{myself} kicked {ros["display_string"]} Goodbye ðŸ‘‹')
+                    ba.internal.disconnect_client(cl_id)  # Disconnect the player being kicked
+        
+    except:
+        pass
+
+
 
 def kikvote(arguments, clientid):
     if arguments == [] or arguments == [''] or len(arguments) < 2:
@@ -324,25 +335,33 @@ def end(arguments):
 
 def ban(arguments, clientid, ac_id):
     try:
-        cl_id = int(arguments[0])
-        duration = int(arguments[1]) if len(arguments) >= 2 else 0.5
+        # Extract client IDs and duration
+        cl_ids = [int(arg) for arg in arguments]
+        duration = int(arguments[-1]) if len(arguments) >= 2 else 0.5
+        
+        # Get display string of the player issuing the command
         for me in ba.internal.get_game_roster():
             if me["client_id"] == clientid:
                 myself = me["display_string"]
-        for ros in ba.internal.get_game_roster():
-            if ros["client_id"] == cl_id:
-                pdata.ban_player(ros['account_id'], duration,
-                                 "by chat command")
-                logger.log(f'banned {ros["display_string"]} by chat command')
-                sendchat(f'{myself} banned {ros["display_string"]} Goodbye 👋')
-                ba.internal.disconnect_client(cl_id)  # Changed here
+                break
+        
+        # Iterate over the provided client IDs
+        for cl_id in cl_ids:
+            for ros in ba.internal.get_game_roster():
+                if ros["client_id"] == cl_id:
+                    pdata.ban_player(ros['account_id'], duration, "by chat command")
+                    logger.log(f'banned {ros["display_string"]} by chat command')
+                    sendchat(f'{myself} banned {ros["display_string"]} Goodbye ðŸ‘‹')
+
+                    # Disconnect the banned player
+                    ba.internal.disconnect_client(cl_id)
+
         ## backup part 
         for account in serverdata.recents:  # backup case if player left the server
-            if account['client_id'] == int(arguments[0]):
-                pdata.ban_player(
-                    account["pbid"], duration, "by chat command")
-                logger.log(
-                    f'banned {account["deviceId"]} by chat command, recents')    
+            if account['client_id'] in cl_ids:
+                pdata.ban_player(account["pbid"], duration, "by chat command")
+                logger.log(f'banned {account["deviceId"]} by chat command, recents')
+                
     except:
         pass
 
@@ -738,20 +757,46 @@ def remove_custom_tag(arguments):
 
 def remove_custom_effect(arguments):
     try:
+        # Extract effect(s) and client ID(s)
+        if arguments[0].lower() == "all":
+            client_ids = [int(arg) for arg in arguments[1:]]
+            effects = None  # No specific effects to remove
+        else:
+            effects = arguments[:-1]  # All arguments except the last one (which is the client ID)
+            client_ids = [int(arguments[-1])]  # Convert client ID to integer
+        
         session = ba.internal.get_foreground_host_session()
-        for i in session.sessionplayers:
-            if i.inputdevice.client_id == int(arguments[0]):
-                pdata.remove_effect(i.get_v1_account_id())
+        
+        # Iterate over each client ID
+        for client_id in client_ids:
+            for player in session.sessionplayers:
+                if player.inputdevice.client_id == client_id:
+                    if effects:
+                        # Remove specified effects for the player
+                        for effect in effects:
+                            pdata.remove_effect(player.get_v1_account_id(), effect)
+                    else:
+                        # Remove all effects for the player
+                        pdata.remove_all_effects(player.get_v1_account_id())
     except:
         return
 
 
 def set_custom_effect(arguments):
     try:
+        # Extract effect(s) and client ID(s)
+        effects = arguments[:-1]  # All arguments except the last one (which is the client ID)
+        client_ids = [int(arg) for arg in arguments[-1].split(',')]  # Split client IDs if multiple are provided
+        
         session = ba.internal.get_foreground_host_session()
-        for i in session.sessionplayers:
-            if i.inputdevice.client_id == int(arguments[1]):
-                pdata.set_effect(arguments[0], i.get_v1_account_id())
+        
+        # Iterate over each client ID
+        for client_id in client_ids:
+            for i in session.sessionplayers:
+                if i.inputdevice.client_id == client_id:
+                    # Iterate over each effect and set it for the player
+                    for effect in effects:
+                        pdata.set_effect(effect, i.get_v1_account_id())
     except:
         return
 
