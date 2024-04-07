@@ -331,4 +331,3 @@ def get_complaint(arguments, clientid, acid, ARGUMENTS):
                 else:
                     till = customers[acid]['expiry']
                     send(f"You can use the complaint command again at {till}", clientid)
-      
