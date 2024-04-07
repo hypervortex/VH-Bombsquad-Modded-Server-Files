@@ -236,9 +236,10 @@ def kick(arguments, clientid, ac_id):
     for ros in ba.internal.get_game_roster():
         if ros["client_id"] == cl_id:
             logger.log(f'kicked {ros["display_string"]}')
-            sendchat(f'{myself} kicked {ros["display_string"]} Goodbye ðŸ‘‹')
-    ba.internal.disconnect_client(int(arguments[0]))
+            sendchat(f'{myself} kicked {ros["display_string"]} Goodbye 👋')
+    ba.internal.disconnect_client(cl_id)  # Disconnect the player being kicked
     return
+            
 
 def kikvote(arguments, clientid):
     if arguments == [] or arguments == [''] or len(arguments) < 2:
@@ -333,16 +334,15 @@ def ban(arguments, clientid, ac_id):
                 pdata.ban_player(ros['account_id'], duration,
                                  "by chat command")
                 logger.log(f'banned {ros["display_string"]} by chat command')
-                sendchat(f'{myself} banned {ros["display_string"]} Goodbye ðŸ‘‹')
-        ba.internal.disconnect_client(int(arguments[0]))
+                sendchat(f'{myself} banned {ros["display_string"]} Goodbye 👋')
+                ba.internal.disconnect_client(cl_id)  # Changed here
         ## backup part 
         for account in serverdata.recents:  # backup case if player left the server
             if account['client_id'] == int(arguments[0]):
                 pdata.ban_player(
                     account["pbid"], duration, "by chat command")
                 logger.log(
-                    f'banned {account["deviceId"]} by chat command, recents')
-        ba.internal.disconnect_client(account['client_id'])         
+                    f'banned {account["deviceId"]} by chat command, recents')    
     except:
         pass
 
