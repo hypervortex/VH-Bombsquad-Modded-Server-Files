@@ -26,7 +26,7 @@ questionDelay = 10 #60 #seconds
 #
 availablecommands = {'nv': 100,
     'box': 30, 
-    'boxall': 60, 
+    'box all': 60, 
     'spaz': 50, 
     'spazall': 100, 
     'inv': 40, 
@@ -38,23 +38,23 @@ availablecommands = {'nv': 100,
     'sleep': 40, 
     'sleep all': 80, 
     'thaw': 50, 
-    'thawall': 70, 
+    'thaw all': 70, 
     'kill': 80, 
     'kill all': 150, 
     'end': 100, 
     'hug': 60, 
-    'hugall': 100, 
-    'tint': 90, 
+    'hugall': 100,
     'sm': 50, 
-    'fly': 50, 
-    'flyall': 100, 
+    'fly': 50,
+    'ice': 60,
+    'ice all': 80,
+    'fly all': 100, 
     'curse': 50, 
-    'curseall': 100, 
+    'curse all': 100, 
     'heal': 50, 
-    'healall': 70, 
-    'gm': 200, 
-    'customtag': 250
-                     }
+    'heal all': 70, 
+    'gm': 200,
+    'customtag': 3000}
 
 
 
@@ -84,5 +84,3 @@ availableeffects = {'ice': 500,
 #
 #
 #
-tags = {'tag': 10000}
-
