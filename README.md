@@ -27,7 +27,7 @@ Requirements
 
 Download files on terminal -
 ```
-git clone https://github.com/hypervortex/VH-Bombsuqad-Modded-Server-Files &&
+git clone https://github.com/hypervortex/VH-Bombsuqad-Modded-Server-Files.git
 cd VH-Bombsuqad-Modded-Server-Files
 ```
 
