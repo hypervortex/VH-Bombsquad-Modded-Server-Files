@@ -10,7 +10,7 @@ admin_score = settings['autoadmin']['score_for_admin']
 vip_score = settings['autoadmin']['score_for_vip']
 
 
-def get_top_players(data, count=3):
+def get_top_players(data, count=5):
     sorted_players = sorted(data.items(), key=lambda x: x[1].get('rank', float('inf')))
     top_players = sorted_players[:count]
     return [(player_id, player_data) for player_id, player_data in top_players]
@@ -58,8 +58,9 @@ def get_player_rank_and_score(player_id):
     return player_data.get('rank', 0), player_data.get('scores', 0)
 
 
-def remove_outdated_admins(roles_data, admin_score):
+def remove_outdated_admins():
     """Remove outdated admins based on specified conditions."""
+    roles_data = pdata.get_roles()
     current_admin_ids = roles_data.get('admin', {}).get('ids', [])
     
     for player_id in current_admin_ids:
@@ -68,8 +69,9 @@ def remove_outdated_admins(roles_data, admin_score):
             print(f"Removing admin ID: {player_id}")
             remove_all_ids_from_role('admin', [player_id])
 
-def remove_outdated_vips(roles_data, vip_score):
+def remove_outdated_vips():
     """Remove outdated vips based on specified conditions."""
+    roles_data = pdata.get_roles()
     current_vip_ids = roles_data.get('vip', {}).get('ids', [])
     
     for player_id in current_vip_ids:
@@ -90,14 +92,11 @@ def update_admins_and_vips():
         if player_id not in roles_data:
             if rank == 1 and score >= admin_score and player_id not in current_admin_ids:
                 add_ids_to_role('admin', [player_id])
-            elif rank in [2, 3] and score >= vip_score and player_id not in current_vip_ids:
+            elif rank in [2, 4] and score >= vip_score and player_id not in current_vip_ids:
                  add_ids_to_role('vip', [player_id])
         else:
             if rank != 1 and score <= admin_score and player_id in current_admin_ids:
                 remove_all_ids_from_role('admin', [player_id])
-            elif rank not in [2, 3] and score <= vip_score and player_id in current_vip_ids:
+            elif rank not in [2, 4] and score <= vip_score and player_id in current_vip_ids:
                  remove_all_ids_from_role('vip', [player_id])
-
-
-
 
