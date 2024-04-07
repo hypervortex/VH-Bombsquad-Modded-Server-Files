@@ -1,6 +1,4 @@
 # Released under the MIT License. See LICENSE for details.
-
-
 from serverData import serverdata
 from playersData import pdata
 import _ba
@@ -21,6 +19,7 @@ from features import discord_bot as dc
 import asyncio
 import setting
 import _thread
+from tools import autoadmin as aa
 from tools import logger, mongo, pinfo
 from features import profanity
 from playersData import pdata
@@ -158,46 +157,56 @@ def check_notify_mongo(clid, pbid):
 
 def check_permissions(accountid):
     roles = pdata.get_roles()
+    special_roles = settings["ServerForWhitelistplayers"]["AllowedRoles"]
     for role in roles:
-        if accountid in roles[role]["ids"] and (role == "owner" or role == "staff" or role == "moderator"): # change the role which players have to join the server
+        if accountid in roles[role]["ids"] and role in special_roles:
             return role  # Return the role if found
     return None  # Return None if no special role is found
-
-
+##
 def check_whitelist_player(clid, pbid):
     # Check if the player has a special role
     special_role = check_permissions(pbid)
     if special_role:
-        _ba.screenmessage(f"You have a special role: {special_role}",
-                          color=(0.0, 1.0, 0.0),  # Green neon color
-                          transient=True,
-                          clients=[clid])
-        return  # Skip whitelist check if player has a special role
-    
-    # If player does not have a special role, check whitelist status
-    data = mongo.whitelist.find_one() or {'whitelist': {'ids': [], 'deviceids': [], 'ips': []}}
-    try:
-        ip = _ba.get_client_ip(clid)
-        device_id = _ba.get_client_public_device_uuid(clid)
-        if device_id is None:
-            device_id = _ba.get_client_device_uuid(clid)
-        for ras in ba.internal.get_game_roster():
-            if ras["account_id"] == pbid:
-                devices_string = ras['display_string']
-                if pbid in data['whitelist']['ids'] or device_id in data['whitelist']['deviceids'] or ip in data['whitelist']['ips']:
+        if special_role != 'whitelist':
+            _ba.screenmessage(f"You have a special role: {special_role}",
+                              color=(0.0, 1.0, 0.0),  # Green neon color
+                              transient=True,
+                              clients=[clid])
+        elif special_role == 'whitelist':
+            for ras in ba.internal.get_game_roster():
+                if ras["account_id"] == pbid:
+                    devices_string = ras['display_string']
                     _ba.screenmessage("You are Whitelisted Player " + devices_string,
                                       color=(0.60, 0.9, 0.6),  # Default color for whitelisted players
                                       transient=True,
                                       clients=[clid])
-                else:
-                    _ba.chatmessage('You need access to enter this private server. For access, contact the owner.',
-                                    clients=[clid])
-                    logger.log(f"{pbid} kicked > reason: Not a Whitelisted Player")
-                    # Disconnect client for 2 minutes (120 seconds)
-                    ba.internal.disconnect_client(clid, 120)
-    except Exception as e:
-        print(f"Error updating whitelist json file: {e}")
-        return False
+                    return  # Return after sending the Whitelisted Player message
+    else:
+        # If player does not have a special role, check whitelist status and handle accordingly
+        data = mongo.whitelist.find_one() or {'whitelist': {'ids': [], 'deviceids': [], 'ips': []}}
+        try:
+            ip = _ba.get_client_ip(clid)
+            device_id = _ba.get_client_public_device_uuid(clid)
+            if device_id is None:
+                device_id = _ba.get_client_device_uuid(clid)
+            for ras in ba.internal.get_game_roster():
+                if ras["account_id"] == pbid:
+                    devices_string = ras['display_string']
+                    if pbid in data['whitelist']['ids'] or device_id in data['whitelist']['deviceids'] or ip in data['whitelist']['ips']:
+                        _ba.screenmessage("You are Whitelisted Player " + devices_string,
+                                          color=(0.60, 0.9, 0.6),  # Default color for whitelisted players
+                                          transient=True,
+                                          clients=[clid])
+                    else:
+                        _ba.chatmessage('You need access to enter this private server. For access, contact the owner.',
+                                        clients=[clid])
+                        logger.log(f"{pbid} kicked > reason: Not a Whitelisted Player")
+                        # Disconnect client for 2 minutes (120 seconds)
+                        ba.internal.disconnect_client(clid, 120)
+                        return  # Return after handling whitelist status
+        except Exception as e:
+            print(f"Error updating whitelist json file: {e}")
+            return False
 
 
 def on_player_join_server(pbid, player_data, ip, device_id):
@@ -264,6 +273,11 @@ def on_player_join_server(pbid, player_data, ip, device_id):
         if set.coin:
            pdata.checkExpiredItems()
            pdata.checkExpiredclaim()
+        # auto admin system code :D
+        if settings["autoadmin"]["enable"]:
+          aa.update_admins_and_vips()
+          aa.remove_outdated_admins()
+          aa.remove_outdated_vips()
         # to check expired complainter xD
         if settings["ComplainterExpired"]:    
            pdata.checkExpiredcomp()
@@ -301,7 +315,7 @@ def on_player_join_server(pbid, player_data, ip, device_id):
             verify_account(pbid, player_data)  # checked for spoofed ids            
             logger.log(
                 f'{pbid} ip: {serverdata.clients[pbid]["lastIP"]} , Device id: {device_id}')
-            if settings["ServerForWhitelistplayers"]:
+            if settings["ServerForWhitelistplayers"]["enable"]:
                 check_whitelist_player(clid,pbid)      
             _ba.screenmessage(settings["regularWelcomeMsg"] + " " + device_string,
                               color=(0.60, 0.8, 0.6), transient=True,
@@ -322,7 +336,7 @@ def on_player_join_server(pbid, player_data, ip, device_id):
         )
 
         thread.start()
-        if settings["ServerForWhitelistplayers"]:
+        if settings["ServerForWhitelistplayers"]["enable"]:
             check_whitelist_player(clid,pbid)
         _ba.screenmessage(settings["firstTimeJoinMsg"], color=(0.6, 0.8, 0.6),
                           transient=True, clients=[clid])
