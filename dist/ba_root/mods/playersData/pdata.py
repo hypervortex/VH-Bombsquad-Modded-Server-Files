@@ -1,8 +1,6 @@
 """Module to manage players data."""
-
 # ba_meta require api 6
 # (see https://ballistica.net/wiki/meta-tag-system)
-
 from __future__ import annotations
 import shutil
 import copy
@@ -166,12 +164,12 @@ def update_custom():
         json.dump(custom, f, indent=4)
 
 def get_database():
-    bannedplayers = mongo.Banlist.find_one()
+    bannedplayers = mongo.banlist.find_one()
     return bannedplayers 
 
 def update_database():
-    mongo.Banlist.delete_many({})
-    x = mongo.Banlist.insert_one(bandata)
+    mongo.banlist.delete_many({})
+    x = mongo.banlist.insert_one(bandata)
 
     print(x.inserted_id)
 
@@ -385,7 +383,7 @@ def ban_player_mongo(account_id: str) -> None:
         device_id = _ba.get_client_device_uuid(cid)
 
     global bandata
-    bandata = mongo.Banlist.find_one()
+    bandata = mongo.banlist.find_one()
     bandata["ban"]["ips"].append(ip)
     bandata["ban"]["ids"].append(account_id)
     bandata["ban"]["deviceids"].append(device_id)
@@ -921,16 +919,34 @@ def update_custom_perks(custom):
     CacheData.custom = custom
 
 
-def remove_effect(account_id: str) -> None:
-    """Removes the effect from player.
+def remove_effect(account_id: str, effect: str) -> None:
+    """Removes a specific effect from a player.
 
     Parameters
     ----------
     account_id : str
-        account id of the client
+        Account ID of the client
+    effect : str
+        The effect to be removed
     """
     custom = get_custom()
-    custom["customeffects"].pop(account_id)
+    if account_id in custom["customeffects"]:
+        if effect in custom["customeffects"][account_id]:
+            custom["customeffects"][account_id].remove(effect)
+            CacheData.custom = custom
+
+
+def remove_all_effects(account_id: str) -> None:
+    """Removes all effects from a player.
+
+    Parameters
+    ----------
+    account_id : str
+        Account ID of the client
+    """
+    custom = get_custom()
+    if account_id in custom["customeffects"]:
+        custom["customeffects"].pop(account_id)
     CacheData.custom = custom
 
 
