@@ -28,6 +28,7 @@ Requirements
 Download files on terminal -
 ```
 git clone https://github.com/hypervortex/VH-Bombsquad-Modded-Server-Files.git &&
+cd VH-Bombsquad-Modded-Server-Files
 ```
 
 ## 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣 𝙋𝙧𝙤𝙘𝙚𝙨𝙨 - 𝘼𝙪𝙩𝙤𝙢𝙖𝙩𝙞𝙘 𝙄𝙣𝙨𝙩𝙖𝙡𝙡𝙖𝙩𝙞𝙤𝙣:
