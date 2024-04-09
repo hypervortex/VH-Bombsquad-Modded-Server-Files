@@ -1,20 +1,45 @@
 # Released under the MIT License. See LICENSE for details.
 #created by vortex
+#edited by sara
 from playersData import pdata
 from stats import mystats
 import setting
 stats = mystats.get_all_stats()
 settings = setting.get_settings_data()
 
+top_player_count = settings['autoadmin']['top_rank_count']
+admin_rank = settings['autoadmin']['admin_rank']
 admin_score = settings['autoadmin']['score_for_admin']
+vip_rank = settings['autoadmin']['vip_rank']
 vip_score = settings['autoadmin']['score_for_vip']
-
-
-def get_top_players(data, count=5):
+BLUE = '\033[34m'
+RESET = '\033[0m'
+BLACK = '\033[30m'
+##
+## Check if autoadmin is enabled
+autoadmin_enabled = settings.get('autoadmin', {}).get('enable', False)
+if autoadmin_enabled:
+    print(f"{BLACK}AutoAdmin is Enabled...{RESET}")
+##
+    ## Validate and handle blank or empty admin_rank setting
+    admin_ranks = settings['autoadmin'].get('admin_rank', [])
+    if not admin_ranks:
+        print(f"{BLUE}No admin ranks specified. Skipping admin role assignment.{RESET}")
+    else:
+        pass
+##
+    ## Validate and handle blank or empty vip_rank setting
+    vip_ranks = settings['autoadmin'].get('vip_rank', [])
+    if not vip_ranks:
+        print(f"{BLUE}No VIP ranks specified. Skipping VIP role assignment.{RESET}")
+    else:
+        pass
+##
+##
+def get_top_players(data, count=top_player_count):
     sorted_players = sorted(data.items(), key=lambda x: x[1].get('rank', float('inf')))
     top_players = sorted_players[:count]
     return [(player_id, player_data) for player_id, player_data in top_players]
-
 
 
 def remove_all_ids_from_role(role_name, player_ids):
@@ -65,7 +90,7 @@ def remove_outdated_admins():
     
     for player_id in current_admin_ids:
         rank, score = get_player_rank_and_score(player_id)
-        if rank != 1 and score < admin_score:
+        if rank not in admin_rank and score < admin_score:
             print(f"Removing admin ID: {player_id}")
             remove_all_ids_from_role('admin', [player_id])
 
@@ -76,27 +101,26 @@ def remove_outdated_vips():
     
     for player_id in current_vip_ids:
         rank, score = get_player_rank_and_score(player_id)
-        if rank not in [2, 3] and score < vip_score:
+        if rank not in vip_rank and score < vip_score:
             print(f"Removing VIP ID: {player_id}")
             remove_all_ids_from_role('vip', [player_id])
 
 
 def update_admins_and_vips():
-    top3 = get_top_players(stats)
+    top_player = get_top_players(stats)
     roles_data = pdata.get_roles()
     current_admin_ids = roles_data.get('admin', {}).get('ids', [])
     current_vip_ids = roles_data.get('vip', {}).get('ids', [])
 
-    for rank, (player_id, player_data) in enumerate(top3, start=1):
+    for rank, (player_id, player_data) in enumerate(top_player, start=1):
         score = player_data.get('scores', 0)
         if player_id not in roles_data:
-            if rank == 1 and score >= admin_score and player_id not in current_admin_ids:
+            if rank in admin_rank and score >= admin_score and player_id not in current_admin_ids:
                 add_ids_to_role('admin', [player_id])
-            elif rank in [2, 3] and score >= vip_score and player_id not in current_vip_ids:
+            elif rank in vip_rank and score >= vip_score and player_id not in current_vip_ids:
                  add_ids_to_role('vip', [player_id])
         else:
-            if rank != 1 and score <= admin_score and player_id in current_admin_ids:
+            if rank not in admin_rank and score <= admin_score and player_id in current_admin_ids:
                 remove_all_ids_from_role('admin', [player_id])
-            elif rank not in [2, 3] and score <= vip_score and player_id in current_vip_ids:
+            elif rank not in vip_rank and score <= vip_score and player_id in current_vip_ids:
                  remove_all_ids_from_role('vip', [player_id])
-
