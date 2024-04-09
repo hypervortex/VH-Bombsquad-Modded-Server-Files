@@ -164,12 +164,12 @@ def update_custom():
         json.dump(custom, f, indent=4)
 
 def get_database():
-    bannedplayers = mongo.banlist.find_one()
+    bannedplayers = mongo.Banlist.find_one()
     return bannedplayers 
 
 def update_database():
-    mongo.banlist.delete_many({})
-    x = mongo.banlist.insert_one(bandata)
+    mongo.Banlist.delete_many({})
+    x = mongo.Banlist.insert_one(bandata)
 
     print(x.inserted_id)
 
@@ -383,7 +383,7 @@ def ban_player_mongo(account_id: str) -> None:
         device_id = _ba.get_client_device_uuid(cid)
 
     global bandata
-    bandata = mongo.banlist.find_one()
+    bandata = mongo.Banlist.find_one()
     bandata["ban"]["ips"].append(ip)
     bandata["ban"]["ids"].append(account_id)
     bandata["ban"]["deviceids"].append(device_id)
