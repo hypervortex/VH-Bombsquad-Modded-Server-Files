@@ -131,6 +131,8 @@ def bootstraping():
         from features import StumbledScoreScreen
     if settings["colorfullMap"]:
         from plugins import colorfulmaps2
+    if settings['backflip']['enable']:
+        from plugins import Backflip
     try:
         pass
         # from tools import healthcheck
