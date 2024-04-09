@@ -2,7 +2,7 @@
 #
 """Defines assault minigame."""
 
-# ba_meta require api 6
+# ba_meta require api 7
 # (see https://ballistica.net/wiki/meta-tag-system)
 
 from __future__ import annotations
@@ -160,8 +160,8 @@ class BaseRaidGame(ba.TeamGameActivity[Player, Team]):
                            'color': (0.7,0.88,1.0,1.1),
                            'shadow': 1.0,
                            'flatness': 1.0,
-                           'position': (0, -120),
-                           'scale': 1.7,
+                           'position': (0, -70),
+                           'scale': 0.8,
                            'text': "..."})
         self.setup_standard_time_limit(self._time_limit)
         ba.timer(4.5, ba.WeakCall(self.selection, first_run = True))

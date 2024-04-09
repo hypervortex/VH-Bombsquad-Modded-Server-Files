@@ -1,53 +1,48 @@
-"""Defines a Tnt-dodging mini-game."""
+# Made by: Froshlee14
+# Ported by: Freaku / @[Just] Freak#4999
 
-# ba_meta require api 7
+
+
+
 
 from __future__ import annotations
-
-import random
 from typing import TYPE_CHECKING
-
-import ba
-import _ba
-from bastd.actor.bomb import Bomb
+import ba, random
+from bastd.actor import bomb, spazbot, powerupbox, bomb
+from bastd.gameutils import SharedObjects
 from bastd.actor.onscreentimer import OnScreenTimer
-
 if TYPE_CHECKING:
-    from typing import Any, Sequence, Optional, List, Dict, Type, Type
-    from bastd.ui.coop.browser import CoopBrowserWindow
+    from typing import Any, Sequence, Union, Optional, List, Dict, Type, Literal
 
+
+
+## MoreMinigames.py support ##
 def ba_get_api_version():
     return 6
-
 def ba_get_levels():
-	return [ba._level.Level(
-            'TnT Error',
-			gametype=TntErrorGame,
-			settings={},
-			preview_texture_name='rampagePreview'), ba._level.Level(
-            'Epic TnT Error',
-			gametype=TntErrorGame,
-			settings={'Epic Mode':True},
-			preview_texture_name='rampagePreview')]
+    return [ba._level.Level('Runners',gametype=RunnersGame, settings={}, preview_texture_name = 'achievementGotTheMoves')]
+## MoreMinigames.py support ##
+
+
+
+class SpookyBot(spazbot.BrawlerBot):
+    character = 'Bones'
+    color = (1,1,1)
 
 class Player(ba.Player['Team']):
     """Our player type for this game."""
-
     def __init__(self) -> None:
         super().__init__()
         self.death_time: Optional[float] = None
-
-
 class Team(ba.Team[Player]):
     """Our team type for this game."""
 
 
+# ba_meta require api 7
 # ba_meta export game
-class TntErrorGame(ba.TeamGameActivity[Player, Team]):
-    """Minigame involving dodging falling bombs."""
-
-    name = 'TnT Error'
-    description = 'Boom Goes The TNT :)'
+class RunnersGame(ba.TeamGameActivity[Player, Team]):
+    name = 'Runners'
+    description = 'Run for your Life!'
     available_settings = [ba.BoolSetting('Epic Mode', default=False)]
     scoreconfig = ba.ScoreConfig(label='Survived',
                                  scoretype=ba.ScoreType.MILLISECONDS,
@@ -59,7 +54,7 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
     # we're currently hard-coded for one map..
     @classmethod
     def get_supported_maps(cls, sessiontype: Type[ba.Session]) -> List[str]:
-        return ['Rampage']
+        return ['Dak']
 
     # We support teams, free-for-all, and co-op sessions.
     @classmethod
@@ -70,11 +65,10 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
 
     def __init__(self, settings: dict):
         super().__init__(settings)
-
         self._epic_mode = settings.get('Epic Mode', False)
         self._last_player_death_time: Optional[float] = None
-        self._meteor_time = 2.0
         self._timer: Optional[OnScreenTimer] = None
+        self._time2Object = 1 if self._epic_mode else 1.5
 
         # Some base class overrides:
         self.default_music = (ba.MusicType.EPIC
@@ -82,28 +76,51 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
         if self._epic_mode:
             self.slow_motion = True
 
+
     def on_begin(self) -> None:
         super().on_begin()
-
-        # Drop a wave every few seconds.. and every so often drop the time
-        # between waves ..lets have things increase faster if we have fewer
-        # players.
-        delay = 5.0 if len(self.players) > 2 else 2.5
-        if self._epic_mode:
-            delay *= 0.25
-        ba.timer(delay, self._decrement_meteor_time, repeat=True)
-
-        # Kick off the first wave in a few seconds.
-        delay = 3.0
-        if self._epic_mode:
-            delay *= 0.25
-        ba.timer(delay, self._set_meteor_timer)
 
         self._timer = OnScreenTimer()
         self._timer.start()
 
         # Check for immediate end (if we've only got 1 player, etc).
         ba.timer(5.0, self._check_end_game)
+        self._bots = spazbot.SpazBotSet()
+        for i in range(6+len(self.players)):
+            self.addBot()
+
+        self.obstacleTime = 5
+        ba.timer(3,self.start)
+
+    def start(self):
+        self._obsTimer = ba.timer(self._time2Object,self.doObstacle,repeat=True)
+        self._move = ba.timer(0.8,ba.WeakCall(self.movePlayers),repeat=True)
+        self._fast = ba.timer(5,ba.WeakCall(self.faster),repeat=True)
+
+    def faster(self):
+        if self.obstacleTime > 1:
+            self.obstacleTime -= 0.1
+
+    def addBot(self):
+        ba.timer(1, ba.Call(self._bots.spawn_bot, SpookyBot, pos=(random.randint(-4,4),5,-7.3), spawn_time=0))
+
+    def doObstacle(self):
+        for i in range(random.randrange(4,8)):
+            type = random.choice(['tnt','land_mine','land_mine','land_mine','powerup','land_mine','land_mine','land_mine','tnt','tnt','land_mine'])
+            pos = (random.randrange(-5,5),4.8 if type != 'land_mine' else 4.6,8)
+            if type == 'powerup':
+                b = powerupbox.PowerupBox(position=pos,poweruptype=random.choice(['health','shield'])).autoretain()
+                b.node.model_scale = 0.6
+            else:
+                b = bomb.Bomb(position=pos,velocity=(0,0,0),bomb_type = type, bomb_scale = 0.6).autoretain()
+                if type == 'land_mine': b.arm()
+            pos = b.node.position
+            ba.animate_array(b.node,'position',3,{0:b.node.position,self.obstacleTime:(pos[0],pos[1],pos[2]-16)})
+
+    def movePlayers(self):
+        for p in self.players:
+            if p.is_alive():
+                p.actor.node.move_up_down = -10
 
     def on_player_join(self, player: Player) -> None:
         # Don't allow joining after we start
@@ -130,7 +147,7 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
 
     # overriding the default character spawning..
     def spawn_player(self, player: Player) -> ba.Actor:
-        spaz = self.spawn_player_spaz(player)
+        spaz = self.spawn_player_spaz(player, self.map.defs.points['spawn'])
 
         # Let's reconnect this player's controls to this
         # spaz but *without* the ability to attack or pick stuff up.
@@ -168,7 +185,8 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
                 self._last_player_death_time = curtime
             else:
                 ba.timer(1.0, self._check_end_game)
-
+        elif isinstance(msg, spazbot.SpazBotDiedMessage):
+            self.addBot()
         else:
             # Default handler:
             return super().handlemessage(msg)
@@ -190,41 +208,6 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
         else:
             if living_team_count <= 1:
                 self.end_game()
-
-    def _set_meteor_timer(self) -> None:
-        ba.timer((1.0 + 0.2 * random.random()) * self._meteor_time,
-                 self._drop_bomb_cluster)
-
-    def _drop_bomb_cluster(self) -> None:
-
-        # Random note: code like this is a handy way to plot out extents
-        # and debug things.
-        loc_test = False
-        if loc_test:
-            ba.newnode('locator', attrs={'position': (8, 6, -5.5)})
-            ba.newnode('locator', attrs={'position': (8, 6, -2.3)})
-            ba.newnode('locator', attrs={'position': (-7.3, 6, -5.5)})
-            ba.newnode('locator', attrs={'position': (-7.3, 6, -2.3)})
-
-        # Drop several bombs in series.
-        delay = 0.0
-        for _i in range(random.randrange(1, 3)):
-            # Drop them somewhere within our bounds with velocity pointing
-            # toward the opposite side.
-            pos = (-7.3 + 15.3 * random.random(), 11,
-                   -5.5 + 2.1 * random.random())
-            dropdir = (-1.0 if pos[0] > 0 else 1.0)
-            vel = ((-5.0 + random.random() * 30.0) * dropdir, -4.0, 0)
-            ba.timer(delay, ba.Call(self._drop_bomb, pos, vel))
-            delay += 0.1
-        self._set_meteor_timer()
-
-    def _drop_bomb(self, position: Sequence[float],
-                   velocity: Sequence[float]) -> None:
-        Bomb(position=position, velocity=velocity,bomb_type = random.choice(["tnt","tnt","impact"])).autoretain()
-
-    def _decrement_meteor_time(self) -> None:
-        self._meteor_time = max(0.01, self._meteor_time * 0.9)
 
     def end_game(self) -> None:
         cur_time = ba.time()
@@ -277,3 +260,80 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
             results.set_team_score(team, int(1000.0 * longest_life))
 
         self.end(results=results)
+
+
+
+
+
+class dakDefs():
+    points = {}
+    boxes = {}
+    points['spawn'] = (0,5,0) + (0, 0, 0) + (10,0,0.5)
+    boxes['area_of_interest_bounds'] = (0,-1,-5) + (0, 0, 0) + (0, 0, 0)
+    boxes['map_bounds'] = (0,5,0) + (0, 0, 0) + (10,10,16)
+
+class dakMap(ba.Map):
+    defs = dakDefs()
+    name = 'Dak'
+
+    @classmethod
+    def get_play_types(cls) -> List[str]:
+        """Return valid play types for this map."""
+        return []
+
+    @classmethod
+    def get_preview_texture_name(cls) -> str:
+        return 'achievementGotTheMoves'
+
+    @classmethod
+    def on_preload(cls) -> Any:
+        data: Dict[str, Any] = {
+            'tex': ba.gettexture('white'),
+            'bgmodel': ba.getmodel('thePadBG')
+        }
+        return data
+
+    def __init__(self) -> None:
+        super().__init__()
+        shared = SharedObjects.get()
+        self._playMaterial = ba.Material()
+        self._playMaterial.add_actions(
+            conditions=("they_have_material",shared.player_material),
+            actions=(("modify_part_collision","collide",True),("modify_part_collision","physical",True)))
+        self._bombMaterial = ba.Material()
+        self._bombMaterial.add_actions(
+            conditions=("they_have_material",bomb.BombFactory.get().bomb_material),
+            actions=(("modify_part_collision","collide",True),("modify_part_collision","physical",True)))
+        self.ground = ba.newnode('region', attrs={'position':(0,4,0),'scale':(10,1,20),'type': 'box',
+                                              'materials':(self._playMaterial,self._bombMaterial,shared.footing_material)})
+        self.playWall = ba.newnode('region', attrs={'position':(0,4,1.5),'scale':(10,10,0.5),'type': 'box',
+                                              'materials':(self._playMaterial,shared.footing_material)})
+        self.botWall = ba.newnode('region', attrs={'position':(0,4,-1),'scale':(10,10,0.25),'type': 'box',
+                                              'materials':(self._playMaterial,shared.footing_material)})
+        self.rightWall = ba.newnode('region', attrs={'position':(4,4,0),'scale':(0.5,10,10),'type': 'box',
+                                              'materials':(self._playMaterial,shared.footing_material)})
+        self.leftWall = ba.newnode('region', attrs={'position':(-4,4,0),'scale':(0.5,10,10),'type': 'box',
+                                              'materials':(self._playMaterial,shared.footing_material)})
+        self.bg = ba.newnode(
+            'terrain',
+            attrs={
+                'model': self.preloaddata['bgmodel'],
+                'lighting': False,
+                'background': True,
+                'color_texture': self.preloaddata['tex']
+            })
+        gnode = ba.getactivity().globalsnode
+        gnode.tint = (1.3, 1.2, 1.0)
+        gnode.ambient_color = (1.3, 1.2, 1.0)
+        gnode.vignette_outer = (0.57, 0.57, 0.57)
+        gnode.vignette_inner = (0.9, 0.9, 0.9)
+        gnode.vr_camera_offset = (0, -0.8, -1.1)
+        gnode.vr_near_clip = 0.5
+
+
+
+
+
+
+
+ba._map.register_map(dakMap)

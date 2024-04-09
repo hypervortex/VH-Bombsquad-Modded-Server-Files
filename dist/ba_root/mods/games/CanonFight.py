@@ -29,11 +29,11 @@ class Team(ba.Team[Player]):
 
 
 # ba_meta export game
-class BountyGame(ba.TeamGameActivity[Player, Team]):
+class CanonFightGame(ba.TeamGameActivity[Player, Team]):
     """A game type based on acquiring kills."""
 
-    name = 'Bounty'
-    description = 'Score Maximum Stars To Win'
+    name = 'Canon Fight'
+    description = 'Kill a set number of enemies to win.'
 
     # Print messages when players die since it matters here.
     announce_player_deaths = True
@@ -41,20 +41,29 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
     @classmethod
     def get_available_settings(
             cls, sessiontype: type[ba.Session]) -> list[ba.Setting]:
-        settings = [ba.IntChoiceSetting(
+        settings = [
+            ba.IntSetting(
+                'Kills to Win Per Player',
+                min_value=1,
+                default=5,
+                increment=1,
+            ),
+            ba.IntChoiceSetting(
                 'Time Limit',
                 choices=[
-                    ('30 Seconds', 30),
+                    ('None', 0),
                     ('1 Minute', 60),
-                    ('1½ Minute', 90),
                     ('2 Minutes', 120),
                     ('5 Minutes', 300),
-                    ('10 Minutes', 600)],
-                default=120,
+                    ('10 Minutes', 600),
+                    ('20 Minutes', 1200),
+                ],
+                default=0,
             ),
             ba.FloatChoiceSetting(
                 'Respawn Times',
                 choices=[
+                    ('Shorter', 0.25),
                     ('Short', 0.5),
                     ('Normal', 1.0),
                     ('Long', 2.0),
@@ -83,7 +92,7 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
 
     @classmethod
     def get_supported_maps(cls, sessiontype: type[ba.Session]) -> list[str]:
-        return ba.getmaps('melee')
+        return ["Step Right Up"]
 
     def __init__(self, settings: dict):
         super().__init__(settings)
@@ -91,6 +100,8 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
         self._score_to_win: Optional[int] = None
         self._dingsound = ba.getsound('dingSmall')
         self._epic_mode = bool(settings['Epic Mode'])
+        self._kills_to_win_per_player = int(
+            settings['Kills to Win Per Player'])
         self._time_limit = float(settings['Time Limit'])
         self._allow_negative_scores = bool(
             settings.get('Allow Negative Scores', False))
@@ -101,10 +112,10 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
                               ba.MusicType.TO_THE_DEATH)
 
     def get_instance_description(self) -> Union[str, Sequence]:
-        return 'Collect Stars of your enemies.'
+        return 'Crush ${ARG1} of your enemies.', self._score_to_win
 
     def get_instance_description_short(self) -> Union[str, Sequence]:
-        return 'Collect Stars of your enemies.'
+        return 'kill ${ARG1} enemies', self._score_to_win
 
     def on_team_join(self, team: Team) -> None:
         if self.has_begun():
@@ -116,44 +127,9 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
         self.setup_standard_powerup_drops()
 
         # Base kills needed to win on the size of the largest team.
+        self._score_to_win = (self._kills_to_win_per_player *
+                              max(1, max(len(t.players) for t in self.teams)))
         self._update_scoreboard()
-
-    def spawn_player(self, player: Player) -> ba.Actor:
-        
-        spaz = self.spawn_player_spaz(player)
-
-        assert spaz.node
-        mathnode = ba.newnode('math',
-                              owner=spaz.node,
-                              attrs={
-                                  'input1': (0, 1.4, 0),
-                                  'operation': 'add'
-                              })
-        spaz.node.connectattr('torso_position', mathnode, 'input2')
-        players_star = ba.newnode('text',
-                                  owner=spaz.node,
-                                  attrs={
-                                      'text': '*',
-                                      'in_world': True,
-                                      'color': (1, 1, 0.4),
-                                      'scale': 0.02,
-                                      'h_align': 'center'
-                                  })
-        player.tag = players_star
-        mathnode.connectattr('output', players_star, 'position')
-        return spaz
-
-    def _update_stars(self, player: Player) -> None:
-    	oldstar = player.tag.text.count("*")
-    	if player.is_alive():
-    		if oldstar < 3:
-    			player.tag.text = "*" * (oldstar + 1)
-    		elif oldstar == 3:
-    			player.tag.text = "**\n**"
-    		elif oldstar == 4:
-    			player.tag.text = "**\n***"
-    		else:
-    			player.tag.text = player.tag.text
 
     def handlemessage(self, msg: Any) -> Any:
 
@@ -168,11 +144,6 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
             killer = msg.getkillerplayer(Player)
             if killer is None:
                 return None
-
-            try:
-            	star = player.tag.text.count("*")
-            except:
-            	star = 0
 
             # Handle team-kills.
             if killer.team is player.team:
@@ -189,19 +160,17 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
                     ba.playsound(self._dingsound)
                     for team in self.teams:
                         if team is not killer.team:
-                            team.score += star
-                            if not killer == player:
-                                self._update_stars(killer)
+                            team.score += 1
 
             # Killing someone on another team nets a kill.
             else:
-                killer.team.score += star
-                self._update_stars(killer)
+                killer.team.score += 1
                 ba.playsound(self._dingsound)
 
                 # In FFA show scores since its hard to find on the scoreboard.
                 if isinstance(killer.actor, PlayerSpaz) and killer.actor:
-                    killer.actor.set_score_text("+ 1",
+                    killer.actor.set_score_text(str(killer.team.score) + '/' +
+                                                str(self._score_to_win),
                                                 color=killer.team.color,
                                                 flash=True)
 
@@ -210,6 +179,9 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
             # If someone has won, set a timer to end shortly.
             # (allows the dust to clear and draws to occur if deaths are
             # close enough)
+            assert self._score_to_win is not None
+            if any(team.score >= self._score_to_win for team in self.teams):
+                ba.timer(0.5, self.end_game)
 
         else:
             return super().handlemessage(msg)
@@ -218,7 +190,7 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
     def _update_scoreboard(self) -> None:
         for team in self.teams:
             self._scoreboard.set_team_value(team, team.score,
-                                            None)
+                                            self._score_to_win)
 
     def end_game(self) -> None:
         results = ba.GameResults()

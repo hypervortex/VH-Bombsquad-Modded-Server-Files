@@ -1,6 +1,9 @@
-"""Defines a Tnt-dodging mini-game."""
+# Released under the MIT License. See LICENSE for details.
+#
+"""Defines a bomb-dodging mini-game."""
 
 # ba_meta require api 7
+# (see https://ballistica.net/wiki/meta-tag-system)
 
 from __future__ import annotations
 
@@ -8,27 +11,12 @@ import random
 from typing import TYPE_CHECKING
 
 import ba
-import _ba
 from bastd.actor.bomb import Bomb
 from bastd.actor.onscreentimer import OnScreenTimer
 
 if TYPE_CHECKING:
     from typing import Any, Sequence, Optional, List, Dict, Type, Type
-    from bastd.ui.coop.browser import CoopBrowserWindow
 
-def ba_get_api_version():
-    return 6
-
-def ba_get_levels():
-	return [ba._level.Level(
-            'TnT Error',
-			gametype=TntErrorGame,
-			settings={},
-			preview_texture_name='rampagePreview'), ba._level.Level(
-            'Epic TnT Error',
-			gametype=TntErrorGame,
-			settings={'Epic Mode':True},
-			preview_texture_name='rampagePreview')]
 
 class Player(ba.Player['Team']):
     """Our player type for this game."""
@@ -43,12 +31,24 @@ class Team(ba.Team[Player]):
 
 
 # ba_meta export game
-class TntErrorGame(ba.TeamGameActivity[Player, Team]):
+class MeteorShowerModGame(ba.TeamGameActivity[Player, Team]):
     """Minigame involving dodging falling bombs."""
 
-    name = 'TnT Error'
-    description = 'Boom Goes The TNT :)'
-    available_settings = [ba.BoolSetting('Epic Mode', default=False)]
+    name = 'Meteor Shower+'
+    description = 'Dodge the falling bombs.'
+    available_settings = [
+    ba.BoolSetting('Epic Mode', default=False),
+    ba.BoolSetting('Normal Bombs', default=True),
+    ba.BoolSetting('Frozen Bombs', default=False),
+    ba.BoolSetting('Impact Bombs', default=False),
+    ba.BoolSetting('Sticky Bombs', default=False),
+    ba.BoolSetting('TNTs', default=False),
+    ba.IntSetting('Bomb Drop Rate',min_value=0.05,default=2.0,increment=0.05),
+    ba.IntChoiceSetting('Bomb Velocity',choices=[
+                ('Random', 1),('No Velocity', 2),
+            ],
+            default=1,
+        )]
     scoreconfig = ba.ScoreConfig(label='Survived',
                                  scoretype=ba.ScoreType.MILLISECONDS,
                                  version='B')
@@ -74,6 +74,20 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
         self._epic_mode = settings.get('Epic Mode', False)
         self._last_player_death_time: Optional[float] = None
         self._meteor_time = 2.0
+        self._bomb_entries = []
+        if settings.get('Normal Bombs',True):
+            self._bomb_entries += ['normal']
+        if settings.get('Frozen Bombs',True):
+            self._bomb_entries += ['ice']
+        if settings.get('Impact Bombs',True):
+            self._bomb_entries += ['impact']
+        if settings.get('Sticky Bombs',True):
+            self._bomb_entries += ['sticky']
+        if settings.get('TNTs',True):
+            self._bomb_entries += ['tnt']
+        if self._bomb_entries == []: self._bomb_entries = ['normal']
+        self._bool = settings.get('Bomb Velocity')
+        self._bool_2 = settings.get('Bomb Drop Rate')
         self._timer: Optional[OnScreenTimer] = None
 
         # Some base class overrides:
@@ -103,7 +117,7 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
         self._timer.start()
 
         # Check for immediate end (if we've only got 1 player, etc).
-        ba.timer(5.0, self._check_end_game)
+        #ba.timer(5.0, self._check_end_game)
 
     def on_player_join(self, player: Player) -> None:
         # Don't allow joining after we start
@@ -192,7 +206,7 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
                 self.end_game()
 
     def _set_meteor_timer(self) -> None:
-        ba.timer((1.0 + 0.2 * random.random()) * self._meteor_time,
+        ba.timer(int((1 + self._bool_2 * random.random())) * self._meteor_time,
                  self._drop_bomb_cluster)
 
     def _drop_bomb_cluster(self) -> None:
@@ -212,16 +226,19 @@ class TntErrorGame(ba.TeamGameActivity[Player, Team]):
             # Drop them somewhere within our bounds with velocity pointing
             # toward the opposite side.
             pos = (-7.3 + 15.3 * random.random(), 11,
-                   -5.5 + 2.1 * random.random())
+                   -6.3 + random.uniform(0.1,4.2))
             dropdir = (-1.0 if pos[0] > 0 else 1.0)
-            vel = ((-5.0 + random.random() * 30.0) * dropdir, -4.0, 0)
+            if self._bool == 2:
+                vel = ((-5.0 + random.random() * 30.0) * dropdir, -4.0, 0)
+            else:
+            	vel = (0,0,0)
             ba.timer(delay, ba.Call(self._drop_bomb, pos, vel))
             delay += 0.1
         self._set_meteor_timer()
 
     def _drop_bomb(self, position: Sequence[float],
                    velocity: Sequence[float]) -> None:
-        Bomb(position=position, velocity=velocity,bomb_type = random.choice(["tnt","tnt","impact"])).autoretain()
+        Bomb(position=position, velocity=velocity, bomb_type=random.choice(self._bomb_entries)).autoretain()
 
     def _decrement_meteor_time(self) -> None:
         self._meteor_time = max(0.01, self._meteor_time * 0.9)

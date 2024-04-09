@@ -1,5 +1,5 @@
 # Made by Froshlee14
-# ba_meta require api 6
+# ba_meta require api 7
 
 from __future__ import annotations
 
@@ -221,7 +221,7 @@ class GetTheTargetGame(ba.TeamGameActivity[Player, Team]):
                          'maxwidth':100,  'h_align':'center',
                          'v_align':'center', 'shadow':1.0,
                          'flatness':1.0, 'color':(1,1,1),
-                         'scale':2,'position':(0,-100)}))
+                         'scale':1.2,'position':(0,-50)}))
         self._time_remaining -= 1
         ba.playsound(self._tick_sound)
         

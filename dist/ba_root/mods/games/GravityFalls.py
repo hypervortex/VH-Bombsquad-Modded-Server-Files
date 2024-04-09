@@ -7,7 +7,7 @@ from bastd.game.elimination import EliminationGame
 
 
 
-# ba_meta require api 6
+# ba_meta require api 7
 # ba_meta export game
 class GFGame(EliminationGame):
     name = 'Gravity Falls'

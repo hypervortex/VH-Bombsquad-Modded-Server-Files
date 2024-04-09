@@ -1,4 +1,4 @@
-# ba_meta require api 6
+# ba_meta require api 7
 #self._has_boxing_gloves = True
 from __future__ import annotations
 

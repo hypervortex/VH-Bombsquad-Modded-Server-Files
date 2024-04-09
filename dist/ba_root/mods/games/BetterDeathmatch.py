@@ -1,9 +1,9 @@
-# Released under the MIT License. See LICENSE for details.
-#
-"""DeathMatch game and support classes."""
+#BetterDeathMatch
+#Made by your friend: @[Just] Freak#4999
+
+"""Defines a very-customisable DeathMatch mini-game"""
 
 # ba_meta require api 7
-# (see https://ballistica.net/wiki/meta-tag-system)
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ from bastd.actor.playerspaz import PlayerSpaz
 from bastd.actor.scoreboard import Scoreboard
 
 if TYPE_CHECKING:
-    from typing import Any, Union, Sequence, Optional
+    from typing import Any, Type, List, Dict, Tuple, Union, Sequence, Optional
 
 
 class Player(ba.Player['Team']):
@@ -29,32 +29,41 @@ class Team(ba.Team[Player]):
 
 
 # ba_meta export game
-class BountyGame(ba.TeamGameActivity[Player, Team]):
+class BetterDeathMatchGame(ba.TeamGameActivity[Player, Team]):
     """A game type based on acquiring kills."""
 
-    name = 'Bounty'
-    description = 'Score Maximum Stars To Win'
+    name = 'Btrr Death Match'
+    description = 'Kill a set number of enemies to win.\nbyFREAK'
 
     # Print messages when players die since it matters here.
     announce_player_deaths = True
 
     @classmethod
     def get_available_settings(
-            cls, sessiontype: type[ba.Session]) -> list[ba.Setting]:
-        settings = [ba.IntChoiceSetting(
+            cls, sessiontype: Type[ba.Session]) -> List[ba.Setting]:
+        settings = [
+            ba.IntSetting(
+                'Kills to Win Per Player',
+                min_value=1,
+                default=5,
+                increment=1,
+            ),
+            ba.IntChoiceSetting(
                 'Time Limit',
                 choices=[
-                    ('30 Seconds', 30),
+                    ('None', 0),
                     ('1 Minute', 60),
-                    ('1½ Minute', 90),
                     ('2 Minutes', 120),
                     ('5 Minutes', 300),
-                    ('10 Minutes', 600)],
-                default=120,
+                    ('10 Minutes', 600),
+                    ('20 Minutes', 1200),
+                ],
+                default=0,
             ),
             ba.FloatChoiceSetting(
                 'Respawn Times',
                 choices=[
+                    ('Shorter', 0.25),
                     ('Short', 0.5),
                     ('Normal', 1.0),
                     ('Long', 2.0),
@@ -63,7 +72,19 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
                 default=1.0,
             ),
             ba.BoolSetting('Epic Mode', default=False),
+
+
+## Add settings ##
+            ba.BoolSetting('Enable Gloves', False),
+            ba.BoolSetting('Enable Powerups', True),
+            ba.BoolSetting('Night Mode', False),
+            ba.BoolSetting('Icy Floor', False),
+            ba.BoolSetting('One Punch Kill', False),
+            ba.BoolSetting('Spawn with Shield', False),
+            ba.BoolSetting('Punching Only', False),
+## Add settings ##
         ]
+
 
         # In teams mode, a suicide gives a point to the other team, but in
         # free-for-all it subtracts from your own score. By default we clamp
@@ -77,12 +98,12 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
         return settings
 
     @classmethod
-    def supports_session_type(cls, sessiontype: type[ba.Session]) -> bool:
+    def supports_session_type(cls, sessiontype: Type[ba.Session]) -> bool:
         return (issubclass(sessiontype, ba.DualTeamSession)
                 or issubclass(sessiontype, ba.FreeForAllSession))
 
     @classmethod
-    def get_supported_maps(cls, sessiontype: type[ba.Session]) -> list[str]:
+    def get_supported_maps(cls, sessiontype: Type[ba.Session]) -> List[str]:
         return ba.getmaps('melee')
 
     def __init__(self, settings: dict):
@@ -90,7 +111,22 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
         self._scoreboard = Scoreboard()
         self._score_to_win: Optional[int] = None
         self._dingsound = ba.getsound('dingSmall')
+
+
+## Take applied settings ##
+        self._boxing_gloves = bool(settings['Enable Gloves'])
+        self._enable_powerups = bool(settings['Enable Powerups'])
+        self._night_mode = bool(settings['Night Mode'])
+        self._icy_floor = bool(settings['Icy Floor'])
+        self._one_punch_kill = bool(settings['One Punch Kill'])
+        self._shield_ = bool(settings['Spawn with Shield'])
+        self._only_punch = bool(settings['Punching Only'])
+## Take applied settings ##
+
+
         self._epic_mode = bool(settings['Epic Mode'])
+        self._kills_to_win_per_player = int(
+            settings['Kills to Win Per Player'])
         self._time_limit = float(settings['Time Limit'])
         self._allow_negative_scores = bool(
             settings.get('Allow Negative Scores', False))
@@ -101,59 +137,51 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
                               ba.MusicType.TO_THE_DEATH)
 
     def get_instance_description(self) -> Union[str, Sequence]:
-        return 'Collect Stars of your enemies.'
+        return 'Crush ${ARG1} of your enemies. byFREAK', self._score_to_win
 
     def get_instance_description_short(self) -> Union[str, Sequence]:
-        return 'Collect Stars of your enemies.'
+        return 'kill ${ARG1} enemies. byFREAK', self._score_to_win
 
     def on_team_join(self, team: Team) -> None:
         if self.has_begun():
             self._update_scoreboard()
 
+
+## Run settings related: IcyFloor ##
+    def on_transition_in(self) -> None:
+        super().on_transition_in()
+        activity = ba.getactivity()
+        if self._icy_floor:
+            activity.map.is_hockey = True
+        else:
+            return
+## Run settings related: IcyFloor ##
+
+
+
     def on_begin(self) -> None:
         super().on_begin()
         self.setup_standard_time_limit(self._time_limit)
-        self.setup_standard_powerup_drops()
+
+
+## Run settings related: NightMode,Powerups ##
+        if self._night_mode:
+            ba.getactivity().globalsnode.tint = (0.5, 0.7, 1)
+        else:
+            pass
+#-# Tried return here, pfft. Took me 30mins to figure out why pwps spawning only on NightMode
+#-# Now its fixed :)
+        if self._enable_powerups:
+            self.setup_standard_powerup_drops()
+        else:
+            pass
+## Run settings related: NightMode,Powerups ##
+
 
         # Base kills needed to win on the size of the largest team.
+        self._score_to_win = (self._kills_to_win_per_player *
+                              max(1, max(len(t.players) for t in self.teams)))
         self._update_scoreboard()
-
-    def spawn_player(self, player: Player) -> ba.Actor:
-        
-        spaz = self.spawn_player_spaz(player)
-
-        assert spaz.node
-        mathnode = ba.newnode('math',
-                              owner=spaz.node,
-                              attrs={
-                                  'input1': (0, 1.4, 0),
-                                  'operation': 'add'
-                              })
-        spaz.node.connectattr('torso_position', mathnode, 'input2')
-        players_star = ba.newnode('text',
-                                  owner=spaz.node,
-                                  attrs={
-                                      'text': '*',
-                                      'in_world': True,
-                                      'color': (1, 1, 0.4),
-                                      'scale': 0.02,
-                                      'h_align': 'center'
-                                  })
-        player.tag = players_star
-        mathnode.connectattr('output', players_star, 'position')
-        return spaz
-
-    def _update_stars(self, player: Player) -> None:
-    	oldstar = player.tag.text.count("*")
-    	if player.is_alive():
-    		if oldstar < 3:
-    			player.tag.text = "*" * (oldstar + 1)
-    		elif oldstar == 3:
-    			player.tag.text = "**\n**"
-    		elif oldstar == 4:
-    			player.tag.text = "**\n***"
-    		else:
-    			player.tag.text = player.tag.text
 
     def handlemessage(self, msg: Any) -> Any:
 
@@ -168,11 +196,6 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
             killer = msg.getkillerplayer(Player)
             if killer is None:
                 return None
-
-            try:
-            	star = player.tag.text.count("*")
-            except:
-            	star = 0
 
             # Handle team-kills.
             if killer.team is player.team:
@@ -189,19 +212,17 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
                     ba.playsound(self._dingsound)
                     for team in self.teams:
                         if team is not killer.team:
-                            team.score += star
-                            if not killer == player:
-                                self._update_stars(killer)
+                            team.score += 1
 
             # Killing someone on another team nets a kill.
             else:
-                killer.team.score += star
-                self._update_stars(killer)
+                killer.team.score += 1
                 ba.playsound(self._dingsound)
 
                 # In FFA show scores since its hard to find on the scoreboard.
                 if isinstance(killer.actor, PlayerSpaz) and killer.actor:
-                    killer.actor.set_score_text("+ 1",
+                    killer.actor.set_score_text(str(killer.team.score) + '/' +
+                                                str(self._score_to_win),
                                                 color=killer.team.color,
                                                 flash=True)
 
@@ -210,15 +231,35 @@ class BountyGame(ba.TeamGameActivity[Player, Team]):
             # If someone has won, set a timer to end shortly.
             # (allows the dust to clear and draws to occur if deaths are
             # close enough)
+            assert self._score_to_win is not None
+            if any(team.score >= self._score_to_win for team in self.teams):
+                ba.timer(0.5, self.end_game)
 
         else:
             return super().handlemessage(msg)
         return None
 
+
+## Run settings related: Spaz ##
+    def spawn_player(self, player: Player) -> ba.Actor:
+        spaz = self.spawn_player_spaz(player)
+        if self._boxing_gloves:
+            spaz.equip_boxing_gloves()
+        if self._one_punch_kill:
+            spaz._punch_power_scale = 15
+        if self._shield_:
+            spaz.equip_shields()
+        if self._only_punch:
+            spaz.connect_controls_to_player(enable_bomb=False, enable_pickup=False)
+
+        return spaz
+## Run settings related: Spaz ##
+
+
     def _update_scoreboard(self) -> None:
         for team in self.teams:
             self._scoreboard.set_team_value(team, team.score,
-                                            None)
+                                            self._score_to_win)
 
     def end_game(self) -> None:
         results = ba.GameResults()
