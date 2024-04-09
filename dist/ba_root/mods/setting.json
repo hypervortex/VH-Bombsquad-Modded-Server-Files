@@ -231,8 +231,11 @@
         "notify_role": "<notify_role_id_here>"
     },
     "autoadmin": {
-        "enable": true,
+        "enable": false,
+        "top_rank_count": 50,
+        "admin_rank": [1],        
         "score_for_admin": 40000,
+        "vip_rank": [2, 3],
         "score_for_vip": 30000
     },
     "CurrencyType": {
