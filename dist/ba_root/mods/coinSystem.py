@@ -1,7 +1,7 @@
 tag_customers = {}
 
 import _ba,ba,os,json
-import roles, set
+import set
 from set import *
 from random import randrange
 from playersData import pdata
@@ -16,59 +16,7 @@ correctAnswer = None
 answeredBy = None
 bankfile = bankFile
 
-def checkTagExpiry():
-    global tag_customers
-    flag = 0
-    tag_line = None
-    tag_type = None
-    for x in tag_customers:
-        y = tag_customers[x]['expiry']
-        tag_type = tag_customers[x]['type']
-        tag_line = tag_customers[x]['line']
-        now = datetime.now()
-        expiry = datetime.strptime(y, '%d-%m-%Y %H:%M:%S')
-        if expiry < now:
-            print('expired tag found')
-            flag = 1
-            tag_customers.pop(x)
-            break
-    if flag == 1:
-        with open(python_path + '/roles.py') as (file):
-            s = [ row for row in file ]
-            if tag_type == 'customTag':
-                roles.customTag.pop(x)
-                s[tag_line] = 'customTag = ' + str(roles.customTag) + '\n'
-            if tag_type == 'customList':
-                roles.customList.remove(x)
-                s[tag_line] = 'customList = ' + str(roles.customList) + '\n'
-            f = open(python_path + '/roles.py', 'w')
-            for i in s:
-                f.write(i)
-            f.close()
-
-def checkExpiredItems():
-    #EFFECTS
-    customers = roles.effectCustomers
-    flag = 0
-    for x in customers:
-        y = customers[x]['expiry']
-        now = datetime.now()
-        expiry = datetime.strptime(y, '%d-%m-%Y %H:%M:%S')
-        if expiry < now:
-            print("expired effect found")
-            flag = 1
-            customers.pop(x)
-            break
-    if flag == 1:
-        with open(python_path + '/roles.py') as (file):
-            s = [ row for row in file ]
-            s[0] = 'effectCustomers = ' + str(customers) + '\n'
-            f = open(python_path + '/roles.py', 'w')
-            for i in s:
-                f.write(i)
-            f.close()
-
-
+ 
 def askQuestion():
     global answeredBy
     global correctAnswer
