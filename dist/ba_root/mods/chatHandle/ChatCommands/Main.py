@@ -79,8 +79,9 @@ def Command(msg, clientid):
     elif role in ['leadstaff', 'lead-staff', 'leads']:
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED LEAD-STAFF\ue00c ||\ue049'
     elif role in ['staff', 'cs', 'complaintstaff', 'complaint-staff']:
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED STAFF\ue00c ||\ue049'
-    
+        reply = '\ue049|| \ue00cCOMMAND ACCEPTED CS\ue00c ||\ue049'
+    elif role in ['tcs', 'trail-complaint-staff', 't-cs', 't-complaint-staff']:
+        reply = '\ue049|| \ue00cCOMMAND ACCEPTED T-CS\ue00c ||\ue049'     
     else:
         reply = None
 
