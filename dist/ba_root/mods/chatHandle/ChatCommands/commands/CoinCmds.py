@@ -10,7 +10,6 @@ import setting
 import ba.internal
 import _thread
 import set
-import roles
 import random
 import setting
 from stats import mystats
