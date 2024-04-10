@@ -19,7 +19,6 @@ from bastd.actor.powerupbox import PowerupBoxFactory
 import ba
 import _ba
 import bastd
-import roles
 import weakref
 import random
 import math
