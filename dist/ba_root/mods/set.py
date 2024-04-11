@@ -1,5 +1,7 @@
 #
 #
+#
+coin = True
 tell_time = True
 #
 #
