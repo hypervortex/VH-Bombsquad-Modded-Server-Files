@@ -16,6 +16,10 @@
              "moderator",
              "whitelist"
          ]
+    },
+    "JoiningFast": {
+        "enable": true,
+        "JoiningCount": 3
     },    
     "ChatCommands": {
         "BrodcastCommand": true
@@ -27,10 +31,6 @@
             "server"
         ]
     },
-    "JoiningFast": {
-        "enable": true,
-        "JoiningCount": 3
-    },    
     "textonmap": {
         "top watermark": "",
         "bottom left watermark": "\n____________________________________\n\n\n____________________________________\n",
