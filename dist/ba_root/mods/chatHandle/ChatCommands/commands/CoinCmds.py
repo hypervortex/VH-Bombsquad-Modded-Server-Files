@@ -255,12 +255,18 @@ def buy(arguments, clientid, accountid):
        if havecoins >= costofeffect:
            customers = pdata.get_custom()['paideffects']
            if accountid not in customers:
-               dayss = settings["Paideffects"]["timedelta"]
-               settime = settings["Paideffects"]["ExpriyPaideffectTime"]
-               expiry = datetime.now() + timedelta(dayss=settime)
-               customers[accountid] = {'effect': effect, 'expiry': expiry.strftime('%d-%m-%Y %H:%M:%S')}
-               addcoins(accountid, costofeffect * -1)         
-               _ba.chatmessage(f"Success! That cost you {str(costofeffect)}{tic}")
+               setdate = settings["Paideffects"]["timedelta"]
+               settime = int(settings["Paideffects"]["ExpriyPaideffectTime"])
+               # Map unit string to timedelta attribute
+               unit_map = {'years': 'years', 'days': 'days', 'hours': 'hours', 'minutes': 'minutes', 'seconds': 'seconds'}
+               if setdate in unit_map:
+                   setdate_attr = unit_map[setdate]
+                   expiry = datetime.now() + timedelta(**{setdate_attr: settime})
+                   customers[accountid] = {'effect': effect, 'expiry': expiry.strftime('%d-%m-%Y %H:%M:%S')}
+                   addcoins(accountid, costofeffect * -1)         
+                   _ba.chatmessage(f"Success! That cost you {str(costofeffect)}{tic}")
+               else:
+                   _ba.chatmessage("Invalid timedelta unit in settings.")     
            else:
                activeeffect = customers[accountid]['effect']
                till = customers[accountid]['expiry']
