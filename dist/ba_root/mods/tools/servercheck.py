@@ -250,8 +250,6 @@ def on_player_join_server(pbid, player_data, ip, device_id):
                     return
             else:
                 joincount = 0
-        else:
-            print("Fast joining is disabled...")
 
         ipjoin[ip]["count"] = joincount
         ipjoin[ip]["lastJoin"] = now
