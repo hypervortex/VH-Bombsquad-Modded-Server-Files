@@ -1,4 +1,5 @@
 {
+    "CoinSystem": true,    
     "JoinClaim": true,
     "NotifyPlayer": false,
     "compChatText": false,
@@ -26,6 +27,10 @@
             "server"
         ]
     },
+    "JoiningFast": {
+        "enable": true,
+        "JoiningCount": 3
+    },    
     "textonmap": {
         "top watermark": "",
         "bottom left watermark": "\n____________________________________\n\n\n____________________________________\n",
