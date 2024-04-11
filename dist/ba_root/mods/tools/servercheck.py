@@ -235,18 +235,23 @@ def on_player_join_server(pbid, player_data, ip, device_id):
     if ip in ipjoin:
         lastjoin = ipjoin[ip]["lastJoin"]
         joincount = ipjoin[ip]["count"]
-        if now - lastjoin < 15:
-            joincount += 1
-            if joincount > 2:
-                _ba.screenmessage("Joining too fast , slow down dude",  # its not possible now tho, network layer will catch it before reaching here
-                                  color=(1, 0, 1), transient=True,
-                                  clients=[clid])
-                logger.log(f'{pbid} || kicked for joining too fast')
-                ba.internal.disconnect_client(clid)
-                _thread.start_new_thread(reportSpam, (pbid,))
-                return
+        #Check if fast joining is enabled
+        if settings["JoiningFast"]["enable"]:
+            max_join_count = int(settings["JoiningFast"]["JoiningCount"])
+            if now - lastjoin < 15:
+                joincount += 1
+                if joincount > max_join_count:
+                    _ba.screenmessage("Joining too fast , slow down dude",  # its not possible now tho, network layer will catch it before reaching here
+                                      color=(1, 0, 1), transient=True,
+                                      clients=[clid])
+                    logger.log(f'{pbid} || kicked for joining too fast')
+                    ba.internal.disconnect_client(clid)
+                    _thread.start_new_thread(reportSpam, (pbid,))
+                    return
+            else:
+                joincount = 0
         else:
-            joincount = 0
+            print("Fast joining is disabled...")
 
         ipjoin[ip]["count"] = joincount
         ipjoin[ip]["lastJoin"] = now
@@ -261,7 +266,7 @@ def on_player_join_server(pbid, player_data, ip, device_id):
         serverdata.recents = serverdata.recents[-20:]
         if check_ban(ip, device_id, pbid):
             _ba.chatmessage(
-                'sad ,you are banned kid, join discord for unban appeal', clients=[clid])
+                f'sad ,you are banned kid, join discord for unban appeal', clients=[clid])
             ba.internal.disconnect_client(clid)
             return
         if check_ban_mongo(clid,pbid):
@@ -270,14 +275,14 @@ def on_player_join_server(pbid, player_data, ip, device_id):
             ba.internal.disconnect_client(clid)
             return
         #to check expired effect :)
-        if set.coin:
+        if settings["CoinSystem"]:
            pdata.checkExpiredItems()
            pdata.checkExpiredclaim()
-        # auto admin system code :D
+        #to check autoadmin enable 
         if settings["autoadmin"]["enable"]:
-          aa.update_admins_and_vips()
-          aa.remove_outdated_admins()
-          aa.remove_outdated_vips()
+           aa.update_admins_and_vips()
+           aa.remove_outdated_admins()
+           aa.remove_outdated_vips()
         # to check expired complainter xD
         if settings["ComplainterExpired"]:    
            pdata.checkExpiredcomp()
@@ -345,7 +350,7 @@ def on_player_join_server(pbid, player_data, ip, device_id):
             jc.join_claim(device_string, clid, pbid)
         # notify players
         if settings["NotifyPlayer"]:
-            check_notify_mongo(clid,pbid)              
+            check_notify_mongo(clid,pbid)
     # pdata.add_profile(pbid,d_string,d_string)
 
 
