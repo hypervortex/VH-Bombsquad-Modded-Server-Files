@@ -17,6 +17,16 @@
              "whitelist"
          ]
     },
+    "OwnDefaultBackground": {
+        "enable": false,
+        "color": [0.2, 1, 1]
+    },
+    "Snowfall": {
+        "enable": true,
+        "SnowCount": 2,
+        "SnowFallingSpeed": 0.1,
+        "SnowScale": 0.4
+    },        
     "JoiningFast": {
         "enable": true,
         "JoiningCount": 3
@@ -107,8 +117,9 @@
         "enable": true,
         "startTime": "18:30",
         "endTime": "06:00",
-        "fireflies": true,
-        "fireflies_random_color": true
+        "Snowfall": true,        
+        "fireflies": false,
+        "fireflies_random_color": false
     },
     "colorfullMap": false,
     "playlists": {
