@@ -24,7 +24,7 @@ from bastd.activity.coopscore import CoopScoreScreen
 import setting
 from tools import account
 from chatHandle import handlechat
-from features import team_balancer, afk_check, fire_flies, hearts, dual_team_score as newdts
+from features import team_balancer, afk_check, fire_flies, snow_fall, hearts, dual_team_score as newdts
 from stats import mystats
 from spazmod import modifyspaz
 from tools import servercheck, ServerUpdate, logger, playlist, servercontroller
@@ -268,10 +268,27 @@ ba._activity.Activity.on_player_join = on_player_join
 def night_mode() -> None:
     """Checks the time and enables night mode."""
     #Night Mode for permanently
+    if not settings["ShiningPlayers"]:
+       activity = _ba.get_foreground_host_activity()
+       activity.globalsnode.ambient_color = (1.15, 1.25, 1.6)      
+## 
+    #Night Mode for permanently
     if settings['NightMode']:
        activity = _ba.get_foreground_host_activity()
        activity.globalsnode.tint = (0.5, 0.7, 1.0)
-
+##
+    #set your own deflaut colour
+    if settings["OwnDefaultBackground"]["enable"]:
+       activity = _ba.get_foreground_host_activity()
+       color = settings["OwnDefaultBackground"]["color"]
+       activity.globalsnode.tint = tuple(color)
+##
+    #Snowfall in map permanently
+    if settings["Snowfall"]["enable"]:
+       activity = _ba.get_foreground_host_activity()
+       activity.snowfall_generator(settings["Snowfall"]["SnowCount"], 
+           settings["Snowfall"]["SnowFallingSpeed"], settings["Snowfall"]["SnowScale"])       
+###
     #Auto Night Mode with start and end time
     if settings['autoNightMode']['enable']:
 
@@ -288,7 +305,10 @@ def night_mode() -> None:
             if settings['autoNightMode']['fireflies']:
                 activity.fireflies_generator(
                     20, settings['autoNightMode']["fireflies_random_color"])
-
+            if settings["autoNightMode"]["Snowfall"]:
+                activity.snowfall_generator(settings["Snowfall"]["SnowCount"], 
+                    settings["Snowfall"]["SnowFallingSpeed"], settings["Snowfall"]["SnowScale"])         
+  
 
 def kick_vote_started(started_by: str, started_to: str) -> None:
     """Logs the kick vote."""
