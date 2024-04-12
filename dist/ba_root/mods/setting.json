@@ -22,7 +22,7 @@
         "color": [0.2, 1, 1]
     },
     "Snowfall": {
-        "enable": true,
+        "enable": false,
         "SnowCount": 2,
         "SnowFallingSpeed": 0.1,
         "SnowScale": 0.4
@@ -309,6 +309,7 @@
     "enablestats": true,
     "enableHitTexts": true,
     "enableeffects": true,
+    "ShiningPlayers": true,
     "enableTop5effects": true,
     "EnablePlayerProfilesTag": true,
     "enableTagAnimation": true
