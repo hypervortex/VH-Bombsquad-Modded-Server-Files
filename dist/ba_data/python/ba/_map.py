@@ -307,7 +307,7 @@ class Map(Actor):
              loop=True,
        )            
                  
-        if settings["TopMapText"]["enable"]
+        if settings["TopMapText"]["enable"]:
                                                
             ba.timer(0.1, ba.Call(self.show_date_time), repeat = True)
         
