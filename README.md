@@ -27,7 +27,7 @@ Requirements
 
 Download files on terminal -
 ```
-sudo git clone https://github.com/hypervortex/VH-Bombsquad-Modded-Server-Files &&
+git clone https://github.com/hypervortex/VH-Bombsquad-Modded-Server-Files &&
 cd VH-Bombsquad-Modded-Server-Files &&
 sudo chown -R ubuntu:ubuntu /home/ubuntu/VH-Bombsquad-Modded-Server-Files
 ```
