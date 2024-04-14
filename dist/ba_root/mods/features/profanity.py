@@ -1,58 +1,135 @@
 # ported from ankit scripts 
 # need to update in future with easy to add custom list and more deep analysis .
 # working on other features rn, will update this later , for now lets use this
+#recreated by SARA
 import re
 
-PATTERN = (
-    r"fu+c+k|"
-    r"fu+c+($|)|"
-    r"fu+k+($|)|"
-    r"\w*ph+u*c+k\w*\b|"
-    r"\b\w+ch+o+d|"
-    r"randi+|"
-    r"chu+t\w*\b|"
-    r"chh+a+k+[ae]|"
-    r"hijd\w|"
-    r"lund\b|"
-    r"\bass\b|"
-    r"asshole|"
-    r"bi*tch|"
-    r"cock|"
-    r"\bga+nd\b|"
-    r"ga+ndu|"
-    r"tharki|"
-    r"tatti|"
-    r"lod\w\b|"
-    r"jha+nt|"
-    r"pu+s+y|"
-    r"pu+z+y|"
-    r"di+c+k|"
-    r"\b([mb]+c+)+\b|"
-    r"\b[mb]+[^a-zA-Z]?c+\b|"
-    r"f.u.c.k|"
-    r"b\w*s\w?d\w?k|"
-    r"m.{0,4}d.?a.{0,8}c.?h.?o.?d|"
-    r"b.+n.?c.?h.?o.?d|"
-    r"cunt|"
-    r"my+r+e|"
-    r"th+y+r|"
-    r"th+y+i+r|"
-    r"th+aa+y+o+l+i|"
-    r"th+a+y+o+l+i|"
-    r"ku+nn+a+n|"
-    r"na+y+i+n+t+e|"
-    r"pu+ll+u|"
-    r"la+(u|v)+d+\w\b|"
-    r"chu+d\w*\b|"
-    "sex+($|)|"
-    r"bo+b(s|z)|"
-    r"po+r+n|"
-    r"ni+p+le+"
-)
+blacklist_word = [
+    "fuck", 
+    "shit", 
+    "bitch", 
+    "asshole", 
+    "cunt", 
+    "dick", 
+    "cock", 
+    "pussy", 
+    "whore", 
+    "bastard", 
+    "slut", 
+    "motherfucker", 
+    "douchebag", 
+    "wanker", 
+    "asshat", 
+    "twat", 
+    "bollocks", 
+    "crap", 
+    "damn", 
+    "goddamn", 
+    "hell", 
+    "bugger", 
+    "arse", 
+    "prick", 
+    "idiot", 
+    "moron", 
+    "loser", 
+    "jerk", 
+    "dipshit", 
+    "dumbass", 
+    "nigger", 
+    "retard", 
+    "fucktard", 
+    "douche", 
+    "fuckface", 
+    "fuckhead", 
+    "shithead", 
+    "cockhead", 
+    "dickhead", 
+    "asshead", 
+    "bitchass", 
+    "cuntface", 
+    "pisshead", 
+    "assclown", 
+    "bullshit", 
+    "piss off", 
+    "suck", 
+    "sucker", 
+    "fuck off", 
+    "jackass", 
+    "son of a bitch", 
+    "arsehole", 
+    "fuckwit", 
+    "asswipe", 
+    "turd", 
+    "fuckface", 
+    "fucknut", 
+    "shitface", 
+    "shitbag", 
+    "shit-for-brains", 
+    "dickwad", 
+    "dickweed", 
+    "piss off", 
+    "motherfucking", 
+    "cockgobbler", 
+    "twatwaffle", 
+    "cumstain", 
+    "fuckery", 
+    "fucker", 
+    "fucked", 
+    "shitstorm", 
+    "shitshow", 
+    "bullshit", 
+    "bullshitter", 
+    "clusterfuck", 
+    "cunthammer", 
+    "cuntlicker", 
+    "cumdumpster", 
+    "fucktastic", 
+    "shitload", 
+    "shitbag", 
+    "shitfaced", 
+    "shitload", 
+    "shitfucker", 
+    "fuckface", 
+    "fucknugget", 
+    "fuckstick", 
+    "fucktard", 
+    "fuckup", 
+    "motherfucker", 
+    "motherfucking", 
+    "motherfucked", 
+    "motherfuck", 
+    "motherfucks", 
+    "pissed off", 
+    "pissed", 
+    "pissing", 
+    "pisses", 
+    "pisshead", 
+    "pisshead", 
+    "pissed off", 
+    "son of a bitch", 
+    "son of a whore", 
+    "son of a cunt", 
+    "son of a dick", 
+    "son of an ass", 
+    "twat", 
+    "twat", 
+    "twatted", 
+    "twatting", 
+    "twats", 
+    "whore", 
+    "whore", 
+    "whored", 
+    "whoring", 
+    "whores",
+    "ass",
+    # Add more words as needed
+]
 
 def censor(message):
+    profane_list = blacklist_word
+    pattern = "|".join(r"\b{}\b".format(re.escape(word)) for word in profane_list)
     censored_message = re.sub(
-        PATTERN,
+        pattern,
         lambda match: "*" * len(match.group()),
         message,
         flags=re.IGNORECASE
