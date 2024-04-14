@@ -541,7 +541,7 @@ def reportSpam(id):
         count = profiles[id]["spamCount"]
         if now - profiles[id]["lastSpam"] < 2 * 24 * 60 * 60:
             count += 1
-            if count > 3:
+            if count > 5:
                 logger.log(id+" auto banned for spamming")
                 # by default ban for 1 day , change here if you want
                 pdata.ban_player(id, 1, "auto ban exceed warn count")
