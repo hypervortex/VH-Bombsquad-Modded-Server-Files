@@ -232,25 +232,34 @@ def on_player_join_server(pbid, player_data, ip, device_id):
         if ros["account_id"] == pbid:
             clid = ros["client_id"]
             device_string = ros['display_string']
+    # Check if the IP is in the join dictionary
     if ip in ipjoin:
         lastjoin = ipjoin[ip]["lastJoin"]
         joincount = ipjoin[ip]["count"]
-        #Check if fast joining is enabled
-        if settings["JoiningFast"]["enable"]:
-            max_join_count = int(settings["JoiningFast"]["JoiningCount"])
+        # Check if fast joining is enabled
+        if settings.get("JoiningFast", {}).get("enable", False):
+            # Get the maximum allowed join count from settings
+            max_join_count = int(settings["JoiningFast"].get("JoiningCount", 5))  # Adjust this value as needed
+            # Check if the player is joining too fast
             if now - lastjoin < 15:
+                # Increment the join count
                 joincount += 1
-                if joincount > max_join_count:
-                    _ba.screenmessage("Joining too fast , slow down dude",  # its not possible now tho, network layer will catch it before reaching here
-                                      color=(1, 0, 1), transient=True,
-                                      clients=[clid])
-                    logger.log(f'{pbid} || kicked for joining too fast')
+                # Send a warning message to player
+                ba.screenmessage(f"You are joining too fast ({joincount}/{max_join_count}). "
+                                    "Slow down or you will be kicked.",
+                                    color=(1, 0, 1), transient=True,
+                                    clients=[clid])
+                if joincount == max_join_count:  # This line checks against the maximum allowed join count
+                    # Kick the player
+                    ba.screenmessage("You were kicked for joining too fast.",
+                                     color=(1, 0, 0), transient=True,
+                                     clients=[clid])
                     ba.internal.disconnect_client(clid)
                     _thread.start_new_thread(reportSpam, (pbid,))
-                    return
+                    return  # Exit the function after kicking the player
             else:
                 joincount = 0
-
+        # Update the join count and time for the IP
         ipjoin[ip]["count"] = joincount
         ipjoin[ip]["lastJoin"] = now
     else:
