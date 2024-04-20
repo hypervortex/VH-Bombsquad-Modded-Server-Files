@@ -1,4 +1,6 @@
 # Released under the MIT License. See LICENSE for details.
+
+
 from .commands import NormalCommands
 from .commands import Management
 from .commands import Fun
@@ -79,9 +81,8 @@ def Command(msg, clientid):
     elif role in ['leadstaff', 'lead-staff', 'leads']:
         reply = '\ue049|| \ue00cCOMMAND ACCEPTED LEAD-STAFF\ue00c ||\ue049'
     elif role in ['staff', 'cs', 'complaintstaff', 'complaint-staff']:
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED CS\ue00c ||\ue049'
-    elif role in ['tcs', 'trail-complaint-staff', 't-cs', 't-complaint-staff']:
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED T-CS\ue00c ||\ue049'     
+        reply = '\ue049|| \ue00cCOMMAND ACCEPTED STAFF\ue00c ||\ue049'
+    
     else:
         reply = None
 
@@ -98,15 +99,19 @@ def Command(msg, clientid):
             if reply is not None:
                 _ba.screenmessage(reply, color=(0,1,0), transient=True)
         else:
-            if command in set.availablecommands:
-                cost_of_command = set.availablecommands[command]
-                have_coins = nc.getcoins(accountid)
-                if have_coins >= cost_of_command:
-                    Management.ExcelCommand(command, arguments, clientid, accountid)
-                    cc.addcoins(accountid, cost_of_command * -1)
-                    sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
+            if settings.get("paidCommands", False):
+                if command in set.availablecommands:
+                    cost_of_command = set.availablecommands[command]
+                    have_coins = nc.getcoins(accountid)
+                    if have_coins >= cost_of_command:
+                        Management.ExcelCommand(command, arguments, clientid, accountid)
+                        cc.addcoins(accountid, cost_of_command * -1)                    
+                        sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
+                    else:
+                        send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
                 else:
-                    send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
+                    _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                                  clients=[clientid])
             else:
                 _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                               clients=[clientid])
@@ -118,15 +123,19 @@ def Command(msg, clientid):
             if reply is not None:
                 _ba.screenmessage(reply, color=(0,1,0), transient=True)
         else:
-            if command in set.availablecommands:
-                cost_of_command = set.availablecommands[command]
-                have_coins = nc.getcoins(accountid)
-                if have_coins >= cost_of_command:
-                    Fun.ExcelCommand(command, arguments, clientid, accountid)
-                    cc.addcoins(accountid, cost_of_command * -1)
-                    sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
+            if settings.get("paidCommands", False):
+                if command in set.availablecommands:
+                    cost_of_command = set.availablecommands[command]
+                    have_coins = nc.getcoins(accountid)
+                    if have_coins >= cost_of_command:
+                        Fun.ExcelCommand(command, arguments, clientid, accountid)
+                        cc.addcoins(accountid, cost_of_command * -1)                    
+                        sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
+                    else:
+                        send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
                 else:
-                    send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
+                    _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                                  clients=[clientid])
             else:
                 _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                               clients=[clientid])
@@ -138,15 +147,19 @@ def Command(msg, clientid):
             if reply is not None:
                 _ba.screenmessage(reply, color=(0,1,0), transient=True)
         else:
-            if command in set.availablecommands:
-                cost_of_command = set.availablecommands[command]
-                have_coins = nc.getcoins(accountid)
-                if have_coins >= cost_of_command:
-                    Cheats.ExcelCommand(command, arguments, clientid, accountid)
-                    cc.addcoins(accountid, cost_of_command * -1)
-                    sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
+            if settings.get("paidCommands", False):
+                if command in set.availablecommands:
+                    cost_of_command = set.availablecommands[command]
+                    have_coins = nc.getcoins(accountid)
+                    if have_coins >= cost_of_command:
+                        Cheats.ExcelCommand(command, arguments, clientid, accountid)
+                        cc.addcoins(accountid, cost_of_command * -1)                    
+                        sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
+                    else:
+                        send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
                 else:
-                    send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
+                    _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                                  clients=[clientid])
             else:
                 _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                               clients=[clientid])
@@ -158,22 +171,25 @@ def Command(msg, clientid):
             if reply is not None:
                 _ba.screenmessage(reply, color=(0,1,0), transient=True)
         else:
-            if command in set.availablecommands:
-                cost_of_command = set.availablecommands[command]
-                have_coins = nc.getcoins(accountid)
-                if have_coins >= cost_of_command:
-                    NewCmds.NewCommands(command, arguments, clientid, accountid)    
-                    cc.addcoins(accountid, cost_of_command * -1)
-                    sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
+            if settings.get("paidCommands", False):
+                if command in set.availablecommands:
+                    cost_of_command = set.availablecommands[command]
+                    have_coins = nc.getcoins(accountid)
+                    if have_coins >= cost_of_command:
+                        NewCmds.NewCommands(command, arguments, clientid, accountid)
+                        cc.addcoins(accountid, cost_of_command * -1)                    
+                        sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
+                    else:
+                        send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
                 else:
-                    send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
+                    _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                                  clients=[clientid])
             else:
                 _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
-                              clients=[clientid])                       
+                              clients=[clientid])            
     now = datetime.now()
     if accountid in pdata.get_blacklist()["muted-ids"] and now < datetime.strptime(pdata.get_blacklist()["muted-ids"][accountid]["till"], "%Y-%m-%d %H:%M:%S"):
-
-        _ba.screenmessage("You are on mute", transient=True,
+        _ba.screenmessage(f"You are on mute", transient=True,
                           clients=[clientid])
         return None
 
