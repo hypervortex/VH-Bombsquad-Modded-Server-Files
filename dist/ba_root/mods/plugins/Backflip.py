@@ -7,9 +7,7 @@ import setting
 import random
 
 settings = setting.get_settings_data()
-backflip = settings['backflip']['enable']
-turn = backflip  # Set turn based on the value fetched from settings
-
+ 
 def myOnJumpPress(Slade):
     def wrapper(self):
         is_moving = abs(self.node.move_up_down) >= 0.75 or abs(self.node.move_left_right) >= 0.75
@@ -22,7 +20,7 @@ def myOnJumpPress(Slade):
         if t - self.last_jump_time_ms >= self._jump_cooldown:
             self.node.jump_pressed = True
 
-            if turn and t - self.last_punch_time_ms <= 95 and is_moving and self.node.jump_pressed and self.node.punch_pressed:
+            if t - self.last_punch_time_ms <= 95 and is_moving and self.node.jump_pressed and self.node.punch_pressed:
                 # Apply impulses for a backflip with reduced flip strength for bomb jumping
                 flip_strength = 160  # Adjust this value for the desired flip strength
                 self.node.handlemessage("impulse", self.node.position[0], self.node.position[1] + 3.5, self.node.position[2],
@@ -56,7 +54,5 @@ def myOnJumpPress(Slade):
 
     return wrapper
 
-# ba_meta export plugin
-class Sara(ba.Plugin):
-    def __init__(self):
-        spaz.Spaz.on_jump_press = myOnJumpPress(spaz.Spaz.on_jump_press)
+if settings["backflip"]["enable"]:
+      spaz.Spaz.on_jump_press = myOnJumpPress(spaz.Spaz.on_jump_press)
