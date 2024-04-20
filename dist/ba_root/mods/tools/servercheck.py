@@ -326,17 +326,21 @@ def on_player_join_server(pbid, player_data, ip, device_id):
             verify_account(pbid, player_data)  # checked for spoofed ids            
             logger.log(
                 f'{pbid} ip: {serverdata.clients[pbid]["lastIP"]} , Device id: {device_id}')
-            if settings["ServerForWhitelistplayers"]["enable"]:
-                check_whitelist_player(clid,pbid)      
-            _ba.screenmessage(settings["regularWelcomeMsg"] + " " + device_string,
-                              color=(0.60, 0.8, 0.6), transient=True,
-                              clients=[clid])
-            notification_manager.player_joined(pbid)
-            if settings["JoinClaim"]:
-                jc.join_claim(device_string, clid, pbid)
-            # notify players
-            if settings["NotifyPlayer"]:
-                check_notify_mongo(clid,pbid)
+            def player_join_logic():
+                if settings["ServerForWhitelistplayers"]["enable"]:
+                    check_whitelist_player(clid, pbid)        
+                # This logic should only be executed in the main thread
+                ba.screenmessage(settings["regularWelcomeMsg"] + " " + device_string,
+                                  color=(0.60, 0.8, 0.6), transient=True,
+                                  clients=[clid])         
+                notification_manager.player_joined(pbid)        
+                if settings["JoinClaim"]:
+                    jc.join_claim(device_string, clid, pbid)        
+                # Notify players
+                if settings["NotifyPlayer"]:
+                    check_notify_mongo(clid, pbid)    
+            # Ensure the logic is executed from the main thread
+            _ba.pushcall(Call(player_join_logic))
     else:
         # fetch id for first time.
         thread = FetchThread(
@@ -347,16 +351,20 @@ def on_player_join_server(pbid, player_data, ip, device_id):
         )
 
         thread.start()
-        if settings["ServerForWhitelistplayers"]["enable"]:
-            check_whitelist_player(clid,pbid)
-        _ba.screenmessage(settings["firstTimeJoinMsg"], color=(0.6, 0.8, 0.6),
-                          transient=True, clients=[clid])
-        notification_manager.player_joined(pbid)
-        if settings["JoinClaim"]:
-            jc.join_claim(device_string, clid, pbid)
-        # notify players
-        if settings["NotifyPlayer"]:
-            check_notify_mongo(clid,pbid)
+        def player_join_logic():
+            if settings["ServerForWhitelistplayers"]["enable"]:
+                check_whitelist_player(clid, pbid)        
+            # This logic should only be executed in the main thread
+            _ba.screenmessage(settings["firstTimeJoinMsg"], color=(0.6, 0.8, 0.6),
+                              transient=True, clients=[clid])         
+            notification_manager.player_joined(pbid)        
+            if settings["JoinClaim"]:
+                jc.join_claim(device_string, clid, pbid)        
+            # Notify players
+            if settings["NotifyPlayer"]:
+                check_notify_mongo(clid, pbid)    
+        # Ensure the logic is executed from the main thread
+        _ba.pushcall(Call(player_join_logic))
     # pdata.add_profile(pbid,d_string,d_string)
 
 
