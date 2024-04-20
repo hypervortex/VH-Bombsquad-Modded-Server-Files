@@ -1,5 +1,6 @@
 {
     "CoinSystem": true,    
+    "paidCommands": false,
     "JoinClaim": true,
     "NotifyPlayer": false,
     "compChatText": false,
