@@ -221,27 +221,22 @@ def QuickAccess(msg, client_id):
 
         return None
     elif msg.startswith("/dm"):
-       name = ""
-       a = msg.lower().split()[1:]
+       a = msg.split()[1:]
        if len(a) < 2:  # Check if there are enough arguments
            send(f"Usage: /dm [clientid] [message]", client_id)
        else:
-           clientid = int(a[0]) 
-           message = ' '.join(a[1:])  # Join the message list into a single string    
-
-           # Check if the specified client ID exists in the session players and lobby
-           player_found = False
+           clientid = int(a[0])
+           message = ' '.join(a[1:]) # Join the message list into a single string
            for me in ba.internal.get_game_roster():
                if me["client_id"] == client_id:
-                   pname = me["display_string"]
-                   player_found = True
+                    pname = me["display_string"]
+#=============================================================================================
+           for me in ba.internal.get_game_roster():
                if me["client_id"] == clientid:
                    name = me["display_string"]         
                    break
-
-           if player_found:
+           if name:
                try:
-                   # Send DM message to the specified client ID
                    send(f"{pname}: {message}", clientid)
                    send(f"DM sent successfully to {name}", client_id)
                except Exception as e:
