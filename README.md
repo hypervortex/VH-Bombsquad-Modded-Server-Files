@@ -76,7 +76,7 @@ Now you can edit rest files
 
 - [X] Join our Discord Server ---> [VORTEX](https://discord.com/invite/MUj97D2QMZ)
 
-### 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙑𝙊𝙍𝙏𝙀𝙓 𝘾𝙈𝘿𝙎 𝙗𝙮 𝙈𝙚:
+### 𝙎𝙥𝙚𝙘𝙞𝙖𝙡 𝙑H 𝘾𝙈𝘿𝙎 𝙗𝙮 𝙈𝙚:
 
 Special Commands
 ``
