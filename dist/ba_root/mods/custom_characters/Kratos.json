@@ -1,0 +1,43 @@
+{
+    "color_mask": "agentColorMask",
+    "color_texture": "kronk",
+    "head": "kronkHead",
+    "hand": "bonesHand",
+    "torso": "kronkTorso",
+    "pelvis": "kronkPelvis",
+    "upper_arm": "kronkUpperArm",
+    "forearm": "kronkForeArm",
+    "upper_leg": "kronkUpperLeg",
+    "lower_leg": "kronkLowerLeg",
+    "toes_model": "kronkToes",
+    "jump_sounds": [
+        "spazJump01",
+        "spazJump02",
+        "spazJump03",
+        "spazJump04"
+    ],
+    "attack_sounds": [
+        "spazAttack01",
+        "spazAttack02",
+        "spazAttack03",
+        "spazAttack04"
+    ],
+    "impact_sounds": [
+        "spazImpact01",
+        "spazImpact02",
+        "spazImpact03",
+        "spazImpact04"
+    ],
+    "death_sounds": [
+        "spazDeath01"
+    ],
+    "pickup_sounds": [
+        "spazPickup01"
+    ],
+    "fall_sounds": [
+        "spazFall01"
+    ],
+    "icon_texture": "kronkIcon",
+    "icon_mask_texture": "agentIconColorMask",
+    "style": "kronk"
+}

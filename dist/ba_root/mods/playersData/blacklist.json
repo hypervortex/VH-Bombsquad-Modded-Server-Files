@@ -1,0 +1,33 @@
+{
+    "ban": {
+        "ids": {
+            "pb-234": {
+                "till": "2023-06-07 21:59:20",
+                "reason": "auto ban for spam"
+            }
+        },
+        "ips": {},
+        "deviceids": {
+            "sdfdsfwr3": {
+                "till": "2023-06-07 21:59:20",
+                "reason": "auto ban for spam"
+            }
+        }
+    },
+    "muted-ids": {
+        "pb-IFNg==": {
+            "till": "2024-05-09 20:07:28",
+            "reason": "vortex_order"
+        }
+    },
+    "kick-vote-disabled": {
+        "pb-JiNJARBaXEE": {
+            "till": "2023-06-12 19:37:48",
+            "reason": "manually from website"
+        },
+        "pb-INg==": {
+            "till": "2418-05-04 20:08:48",
+            "reason": "vortex_order"
+        }
+    }
+}

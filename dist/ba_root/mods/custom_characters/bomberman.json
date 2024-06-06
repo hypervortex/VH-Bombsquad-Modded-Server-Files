@@ -1,0 +1,43 @@
+{
+    "color_mask": "pixieColorMask",
+    "color_texture": "powerupCurse",
+    "head": "bomb",
+    "hand": "melHand",
+    "torso": "zoeTorso",
+    "pelvis": "penguinPelvis",
+    "upper_arm": "aliUpperArm",
+    "forearm": "pixieForeArm",
+    "upper_leg": "bonesUpperLeg",
+    "lower_leg": "penguinLowerLeg",
+    "toes_model": "aliToes",
+    "jump_sounds": [
+        "spazJump01",
+        "spazJump02",
+        "spazJump03",
+        "spazJump04"
+    ],
+    "attack_sounds": [
+        "spazAttack01",
+        "spazAttack02",
+        "spazAttack03",
+        "spazAttack04"
+    ],
+    "impact_sounds": [
+        "spazImpact01",
+        "spazImpact02",
+        "spazImpact03",
+        "spazImpact04"
+    ],
+    "death_sounds": [
+        "spazDeath01"
+    ],
+    "pickup_sounds": [
+        "spazPickup01"
+    ],
+    "fall_sounds": [
+        "spazFall01"
+    ],
+    "icon_texture": "neoSpazIcon",
+    "icon_mask_texture": "neoSpazIconColorMask",
+    "style": "frosty"
+}

@@ -1,0 +1,327 @@
+{
+    "paidCommands": false,
+    "JoinClaim": false,
+    "NotifyPlayer": false,
+    "compChatText": false,
+    "NightMode": false,
+    "whitelist": false,
+    "useV2Account": false,
+    "Anti-IdRevealer": false,
+    "ServerForWhitelistplayers": {
+        "enable": false,
+        "AllowedRoles": [
+            "owner",
+            "staff",
+            "tcs",
+            "moderator",
+            "whitelist",
+            "tourney"
+        ]
+    },
+    "OwnDefaultBackground": {
+        "enable": false,
+        "color": [
+            0.2,
+            1,
+            1
+        ]
+    },
+    "Snowfall": {
+        "enable": false,
+        "SnowCount": 3,
+        "SnowFallingSpeed": 0.4,
+        "SnowScale": 0.5
+    },
+    "JoiningFast": {
+        "enable": true,
+        "JoiningCount": 6
+    },
+    "ChatCommands": {
+        "BrodcastCommand": true
+    },
+    "CmdChatDisable": {
+        "disable": true,
+        "Commands": [
+            "say",
+            "server"
+        ]
+    },
+    "textonmap": {
+        "top watermark": "",
+        "bottom left watermark": "\n____________________________________\n\n\n____________________________________\n",
+        "center highlights": {
+            "enable": false,
+            "color": [
+                1,
+                0,
+                0
+            ],
+            "randomColor": true,
+            "msg": [
+                "\ue048WELCOME TO VORTEX VS HONOR OFFICIAL\ue048",
+                "\ue043JOIN OUR DISCORD : VH PARADISE :)\ue043",
+                "\ue048TYPE (/vp) TO KNOW VOTING PLAYLIST\ue048",
+                "\ue048TYPE (/acl) TO KNOW ADMIN COMMANDS\ue048",
+                "\ue048TYPE (/coinhelp) TO KNOW HOW TO BUY EFFECTS AND MANY MORE..\ue048",
+                "\ue048TYPE (/vcl) TO KNOW VIP COMMANDS\ue048",
+                "\ue043TYPE END TO START END VOTE\ue043",
+                "\ue046START MSG WITH PREFIX .(dot) TO SEND IN GAME POPUP MSG\ue046",
+                "\ue048TYPE NV TO START NV VOTE\ue048",
+                "\ue048TYPE (/vp) TO KNOW VOTING PLAYLIST\ue048",
+                "\ue043TYPE (/cs) TO FIND OUT HOW TO COMPLAINT IN DISCORD SERVER FROM GAME",
+                "\ue043TYPE (/dclink) TO KNOW HOW TO LINK PBID TO DISCORD-ID & GET REWARDs",
+                "\ue049START MSG WITH PREFIX ,(comma) TO SEND MSG TO TEAMMATES\ue049",
+                "\ue043PLEASE RESPECT OTHER PLAYERS\ue043",
+                "\ue049JOIN OUR DISCORD SERVER BY CLICKING ON STATS BUTTON\ue049",
+                "\ue046DO NOT TEAMING WITH ANY PLAYER OR YOU WILL BE PUNISHED\ue046",
+                "\ue046TYPE (/shop effects) TO KNOW AVILABLE EFFECTS\ue046"
+            ]
+        }
+    },
+    "ScoreScreenAnnouncement": {
+        "enable": true,
+        "msg": [
+            "enjoy here :)",
+            "click stats button to join discord",
+            "type (/vp) to know voting playlist",
+            "download new mods from discord",
+            "use /ping all to check others ping.",
+            "start msg with prefix ,(comma) to send msg to teammates",
+            "type (/cs) to find out how to complaint in discord server from game",
+            "type (/coinhelp) to know how to buy effects and many more..",
+            "type (/dclink) to know how to link pbid to discord-id & get rewards",
+            "join our discord : vh paradise :)",
+            "type vp to know voting playlist",
+            "please respect other players :)",
+            "start msg with prefix .(dot) to send in game popup msg",
+            "click stats button to join discord server",
+            "get notification when friends join this server, checkout leaderboard",
+            "abusers, spammers will get auto ban",
+            "doesnt matter who starts fight, if you abuse- you will get ban too.",
+            "type (/shop effects) to know available effects"
+        ]
+    },
+    "TopMapText": {
+        "enable": true,
+        "msg": [
+            "\ue062VORTEX\ue062",
+            "\ue04bVORTEX x HONOR\ue04b",
+            "\ue048HONOR\ue048",
+            "\ue04bVORTEX x HONOR\ue04b",
+            "\ue062VORTEX\ue062",
+            "\ue048HONOR\ue048"
+        ]
+    },
+    "statsResetAfterDays": 45,
+    "leaderboard": {
+        "enable": true,
+        "barsBehindName": true
+    },
+    "autoNightMode": {
+        "enable": true,
+        "startTime": "18:30",
+        "endTime": "06:30",
+        "Snowfall": true,
+        "fireflies": false,
+        "fireflies_random_color": false
+    },
+    "colorfullMap": false,
+    "playlists": {
+        "team": 12345,
+        "epicteams": 442578,
+        "ffa": 412175,
+        "elim": 412172,
+        "soccer": 412160,
+        "smash": 412151,
+        "ffasmash": 412179,
+        "epic": 412173
+    },
+    "coopModeWithLessPlayers": {
+        "enable": false,
+        "minPlayerToExitCoop": 0
+    },
+    "mikirogQuickTurn": {
+        "enable": false
+    },
+    "timetext": {
+        "enable": true,
+        "timezone": "Asia/Kolkata"
+    },
+    "colorful_explosions": {
+        "enable": false
+    },
+    "backflip": {
+        "enable": false
+    },
+    "ballistica_web": {
+        "enable": false,
+        "server_password": "sercet_server_159"
+    },
+    "character_chooser": {
+        "enable": true
+    },
+    "custom_characters": {
+        "enable": true
+    },
+    "StumbledScoreScreen": true,
+    "elPatronPowerups": {
+        "enable": true,
+        "settings": {
+            "Powers Gravity": true,
+            "Tank Shield PTG": 96,
+            "Healing Damage PTG": 72,
+            "Powerup Style": "Auto",
+            "Powerup Scale": 1.0,
+            "Powerup Name": true,
+            "Powerup With Shield": false,
+            "Powerup Time": true,
+            "Powerups": {
+                "Shield": 0,
+                "Punch": 0,
+                "Mine Bombs": 2,
+                "Impact Bombs": 3,
+                "Ice Bombs": 3,
+                "Triple": 3,
+                "Sticky Bombs": 3,
+                "Curse": 1,
+                "Health": 1,
+                "Speed": 2,
+                "Healing Damage": 0,
+                "Goodbye": 2,
+                "Ice Man": 1,
+                "Tank Shield": 0,
+                "Impairment Bombs": 2,
+                "Fire Bombs": 3,
+                "Champion": 0,
+                "Spunch": 0,
+                "Radius": 0,
+                "Multi Bomb": 0,
+                "PWP": 0,
+                "ExtraLyfe": 2,
+                "False Bombs": 0,
+                "Fly Bombs": 2
+            }
+        },
+        "Quantity": {
+            "Shield": 0,
+            "Punch": 0,
+            "Mine Bombs": 2,
+            "Impact Bombs": 3,
+            "Ice Bombs": 3,
+            "Triple": 3,
+            "Sticky Bombs": 3,
+            "Curse": 1,
+            "Health": 1,
+            "Speed": 2,
+            "Healing Damage": 0,
+            "Goodbye": 2,
+            "Ice Man": 1,
+            "Tank Shield": 0,
+            "Impairment Bombs": 2,
+            "Fire Bombs": 3,
+            "Champion": 0,
+            "Spunch": 0,
+            "Radius": 0,
+            "Multi Bomb": 0,
+            "PWP": 0,
+            "ExtraLyfe": 2,
+            "False Bombs": 0,
+            "Fly Bombs": 2
+        }
+    },
+    "discordbot": {
+        "enable": false,
+        "database_name": "<database-name>",
+        "token": "<bot-token-herr>",
+        "liveChat": true,
+        "liveStatsChannelID": 1237851459899625512,
+        "logsChannelID": 1177676398803034153,
+        "complaintChannelID": "<complaint_channel_id>",
+        "notifyChannelID": "<notify_channel_id>",
+        "whitelisted_servers": [
+            803681951109873724
+        ],
+        "allowed_user_ids": [
+            803681951109873724,
+            856735876423483454
+        ],
+        "bot_prefix": "<bot-prefix-here>",
+        "commands_prefix": "<command-prefix-here>",
+        "complaint_role": "<complaint_role_id_here>",
+        "notify_role": "<notify_role_id_here>"
+    },
+    "autoadmin": {
+        "enable": false,
+        "top_rank_count": 50,
+        "admin_rank": [
+            1
+        ],
+        "score_for_admin": 40000,
+        "vip_rank": [
+            2,
+            3
+        ],
+        "score_for_vip": 30000
+    },
+    "CurrencyType": {
+        "CurrencyName": "tickets",
+        "Currency": "\ue01f",
+        "InDcCurrencySymbol": "\ue01f"
+    },
+    "Paideffects": {
+        "Expired": true,
+        "timedelta": "days",
+        "ExpriyPaideffectTime": "1"
+    },
+    "discordWebHook": {
+        "enable": false,
+        "webhookURL": "https://discord.com/api/webhooks/82649239/e7s0zyBJIuczXL7_CGSO5WM"
+    },
+    "afk_remover": {
+        "enable": true,
+        "ingame_idle_time_in_secs": 250,
+        "kick_idle_from_lobby": true,
+        "lobby_idle_time_in_secs": 150
+    },
+    "playermod": {
+        "default_boxing_gloves": true,
+        "default_shield": false,
+        "default_bomb": "normal",
+        "default_bomb_count": 2
+    },
+    "allowTeamChat": true,
+    "allowVotes": true,
+    "allowInGameChat": true,
+    "sameCharacterForTeam": false,
+    "allowInGameDm": true,
+    "newResultBoard": true,
+    "HostDeviceName": "v1.4",
+    "HostName": "VH-v2.0",
+    "ShowKickVoteStarterName": true,
+    "autoTeamBalance": true,
+    "KickVoteMsgType": "chat",
+    "minAgeToChatInHours": 78,
+    "minAgeToJoinInHours": 120,
+    "maxWarnCount": 2,
+    "WarnCooldownMinutes": 30,
+    "ComplainterExpired": true,
+    "complaintTimeoutInHours": 3,
+    "maxAccountPerIP": 3,
+    "maxPlayersPerDevice": 2,
+    "warnMsg": "WARNING !!! DONT DO AGAIN! :)",
+    "afterWarnKickMsg": "Enough warnings, Goodbye have a nice day :)",
+    "firstTimeJoinMsg": "\ud83c\udf1fWelcome to the vh paradise bang\ud83c\udf1f",
+    "regularWelcomeMsg": "\ud83d\udc4bWelcome back to vh paradise bang\ud83d\udc4b",
+    "contributeData": true,
+    "enabletags": true,
+    "enablehptag": true,
+    "enablerank": true,
+    "enablestats": true,
+    "enableOldHitTexts": true,
+    "enableNewHitTexts": true,
+    "enableeffects": true,
+    "ShiningPlayers": true,
+    "enableTop5effects": true,
+    "EnablePlayerProfilesTag": true,
+    "enableTagAnimation": true
+}

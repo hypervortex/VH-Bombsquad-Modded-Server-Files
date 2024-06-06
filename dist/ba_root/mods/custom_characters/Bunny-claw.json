@@ -1,0 +1,38 @@
+{
+    "color_mask": "neoSpazColorMask",
+    "color_texture": "explosion",
+    "head": "bunnyHead",
+    "hand": "aliHand",
+    "torso": "agentTorso",
+    "pelvis": "hairTuft4",
+    "upper_arm": "wing",
+    "forearm": "wizardForeArm",
+    "upper_leg": "ninjaUpperLeg",
+    "lower_leg": "bunnyLowerLeg",
+    "toes_model": "bunnyToes",
+    "jump_sounds": [
+        "bunnyJump"
+    ],
+    "attack_sounds": [
+        "bunny1",
+        "bunny2",
+        "bunny3",
+        "bunny4"
+    ],
+    "impact_sounds": [
+        "bunnyHit1",
+        "bunnyHit2"
+    ],
+    "death_sounds": [
+        "bunnyDeath"
+    ],
+    "pickup_sounds": [
+        "bunny1"
+    ],
+    "fall_sounds": [
+        "bunnyFall"
+    ],
+    "icon_texture": "bunnyIcon",
+    "icon_mask_texture": "bunnyIconColorMask",
+    "style": "cyborg"
+}
