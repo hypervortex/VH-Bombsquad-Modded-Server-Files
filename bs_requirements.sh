@@ -25,13 +25,11 @@ sudo apt-get install libpython3.10 -y
 #intall the pip
 sudo apt install python3-pip -y
 
-#install ping
-sudo pip3 install ping3 --target=/usr/lib/python3.10
-
 #fix the perms for aws ubuntu
 sudo chown -R ubuntu:ubuntu /home/ubuntu/VH-Bombsquad-Modded-Server-Files
 
-#install the pymongo and psutil
+#install the pymongo and psutil and ping3
+pip3 install ping3 --target=/usr/lib/python3.10
 pip3 install pymongo --target=/usr/lib/python3.10
 pip3 install psutil --target=/usr/lib/python3.10
 
