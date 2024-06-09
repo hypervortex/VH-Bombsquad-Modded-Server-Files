@@ -185,7 +185,7 @@ async def on_message(message):
                     print(f"Unauthorized attempt in server: {server_name}")
                 except Exception as e:
                     print(f"Error retrieving server name: {e}")
-                await message.channel.send("**Unauthorized server. This server is not whitelisted. Don't try to use cmds kid...!**")
+                    await message.channel.send("**Unauthorized server. This server is not whitelisted. Don't try to use cmds kid...!**")
                 return
 
             if message.author.id not in whitelisted_users:
