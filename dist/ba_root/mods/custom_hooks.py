@@ -110,6 +110,7 @@ def bootstraping():
     _thread.start_new_thread(notification_manager.dump_cache, ())
 
     # import plugins
+    import sara
     if settings["elPatronPowerups"]["enable"]:
         from plugins import elPatronPowerups
         elPatronPowerups.enable()
