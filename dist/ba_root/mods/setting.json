@@ -231,7 +231,7 @@
     },
     "discordbot": {
         "enable": false,
-        "database_name": "<database-name>",
+        "database_name": "default",
         "token": "<bot-token-herr>",
         "liveChat": true,
         "liveStatsChannelID": 1237851459899625512,
