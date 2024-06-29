@@ -135,10 +135,10 @@ def Command(msg, clientid):
                     else:
                         send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
                 else:
-                    _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                    _ba.screenmessage(u"\ue049|| \ue00cYou can't use this command\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                                   clients=[clientid])
             else:
-                _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                _ba.screenmessage(u"\ue049|| \ue00cYou can't use this command\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                               clients=[clientid])
 
 
@@ -159,10 +159,10 @@ def Command(msg, clientid):
                     else:
                         send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
                 else:
-                    _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                    _ba.screenmessage(u"\ue049|| \ue00cYou can't use this command\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                                   clients=[clientid])
             else:
-                _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                _ba.screenmessage(u"\ue049|| \ue00cYou can't use this commandS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                               clients=[clientid])
 
 
@@ -183,10 +183,10 @@ def Command(msg, clientid):
                     else:
                         send(f"You need {tic}{cost_of_command} for that. You have {tic}{have_coins} only.", clientid)
                 else:
-                    _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                    _ba.screenmessage(u"\ue049|| \ue00cYou can't use this command\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                                   clients=[clientid])
             else:
-                _ba.screenmessage(u"\ue049|| \ue00cCOMMAND NOT FOR KIDS\ue00c ||\ue049", color=(1, 0, 0), transient=True,
+                _ba.screenmessage(u"\ue049|| \ue00cYou can't use this command\ue00c ||\ue049", color=(1, 0, 0), transient=True,
                               clients=[clientid])            
     now = datetime.now()
     if accountid in pdata.get_blacklist()["muted-ids"] and now < datetime.strptime(pdata.get_blacklist()["muted-ids"][accountid]["till"], "%Y-%m-%d %H:%M:%S"):
