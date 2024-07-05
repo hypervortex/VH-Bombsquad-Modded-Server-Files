@@ -96,6 +96,7 @@ zoommessage (zm), fall, speedon, hug, icy, spaz, top, zombieall, boxall, texall,
 2. Introducing Daily Claim:
 Well, you can turn off questions and use the daily claim feature, so people can't use the auto-answer plugin, engaging players more to play daily.
 
+3. Introducing BetrayerSystem: We've added an Anti-BetrayWarn feature to enhance gameplay integrity. You can easily make adjustments through the settings.json file.
 
 # 𝘿𝙞𝙨𝙘𝙤𝙧𝙙 𝘽𝙤𝙩:
 
