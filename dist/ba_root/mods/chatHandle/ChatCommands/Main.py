@@ -71,22 +71,12 @@ def Command(msg, clientid):
     ARGUMENTS = msg.upper().split(" ")[1:]   
 
     role = return_role(accountid)
-    if role == 'owner':
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED OWNER\ue00c ||\ue049'
-    elif role == 'admin':
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED ADMIN\ue00c ||\ue049'
-    elif role == 'vip':
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED VIP\ue00c ||\ue049'
-    elif role in ['moderator', 'mods', 'mod']:
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED MODERATOR\ue00c ||\ue049'
-    elif role in ['leadstaff', 'lead-staff', 'leads']:
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED LEAD-STAFF\ue00c ||\ue049'
-    elif role in ['staff', 'cs', 'complaintstaff', 'complaint-staff']:
-        reply = '\ue049|| \ue00cCOMMAND ACCEPTED STAFF\ue00c ||\ue049'
-    
+    if role:
+        role_formatted = role.upper()  # Convert to uppercase
+        reply = f'\ue049|| \ue00c{role_formatted} COMMAND ACCEPTED\ue00c ||\ue049'
     else:
         reply = None
-
+        
 
     if command_type(command) == "Normal":
         NormalCommands.ExcelCommand(command, arguments, clientid, accountid, ARGUMENTS)                 
