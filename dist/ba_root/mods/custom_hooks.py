@@ -313,6 +313,13 @@ def night_mode() -> None:
                 activity.snowfall_generator(settings["Snowfall"]["SnowCount"], 
                     settings["Snowfall"]["SnowFallingSpeed"], settings["Snowfall"]["SnowScale"])     
 
+            if settings['autoNightMode']['colorfullMap']:
+                from plugins import colorfulmaps2      
+
+            if settings['autoNightMode']['colorful_explosions']:
+                from plugins import color_explosion
+                color_explosion.enable()      
+
 
 def kick_vote_started(started_by: str, started_to: str) -> None:
     """Logs the kick vote."""

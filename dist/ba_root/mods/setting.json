@@ -122,10 +122,12 @@
         "startTime": "18:30",
         "endTime": "06:30",
         "Snowfall": true,
+        "colorfullMap": true,
+        "colorful_explosions": true,
         "fireflies": false,
         "fireflies_random_color": false
     },
-    "colorfullMap": true,
+    "colorfullMap": false,
     "playlists": {
         "team": 12345,
         "epicteams": 442578,
@@ -148,7 +150,7 @@
         "timezone": "Asia/Kolkata"
     },
     "colorful_explosions": {
-        "enable": true
+        "enable": false
     },
     "backflip": {
         "enable": false
