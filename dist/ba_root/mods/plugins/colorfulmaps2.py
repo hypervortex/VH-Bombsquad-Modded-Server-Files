@@ -1,18 +1,21 @@
 # This plugin developed fro Bombsquad Server, and I don't know how to make UI
 # Just edit Config before starting server
-# by: Lirik
-# Further edited/Fixed by:Freak
-import ba
-import random
+#by SARA
+#api 7 new colourfulmaps
+
 from random import choice
+
+import ba
+from ba._map import Map
+
 CONFIGS = {
     "Radius": 2.0,
     "Blinking": False,
     "AdaptivePos": True,
     "IgnoreOnMaps": [],
     "Colors": {
-        "Intensity": 0.5,
-        "Animate": True,
+        "Intensity": 0.6,
+        "Animate": False,
         "Random": True,
         "LeftSide": (1, 0, 1),
         "RightSide": (0, 0, 1),
@@ -53,7 +56,7 @@ def get_adaptive_pos(name: str) -> tuple:
 
 
 def Map___init__(func):
-    """Redefined method for ba.Map"""
+    """Redefined method for babase.Map"""
 
     def wrapper(self, vr_overlay_offset=None):
         func(self, vr_overlay_offset)
@@ -120,4 +123,4 @@ def Map___init__(func):
     return wrapper
 
 
-ba.Map.__init__ = Map___init__(ba.Map.__init__)
+Map.__init__ = Map___init__(Map.__init__)

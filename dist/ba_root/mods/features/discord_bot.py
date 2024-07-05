@@ -7,7 +7,7 @@ from ba._general import Call
 from playersData import pdata
 from serverData import serverdata
 import setting
-from tools import mongo, pinfo
+from tools import mongo
 from chatHandle.ChatCommands.commands.Handlers import send
 from chatHandle.ChatCommands.commands import NormalCommands as nc
 from chatHandle.ChatCommands.commands import CoinCmds as cc
@@ -205,6 +205,7 @@ async def on_message(message):
             command = message.content
             userid = message.author.id
             username = message.author.name
+            from tools import pinfo
             pinfo.update_server_info(command, servers, dc_servername, dc_serverid, server_ip, server_port)
             dcl.log_command(userid, username, command)
             if len(m) > 0 and m[0] == 'bsunban':  #unban in all server xD

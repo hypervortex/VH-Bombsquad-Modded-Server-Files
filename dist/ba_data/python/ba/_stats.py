@@ -466,7 +466,8 @@ class Stats:
     ) -> None:
         """Should be called when a player is killed."""
         from ba._language import Lstr
-
+        from chatHandle.chatFilter.betrayerWarn import betrayer
+        betrayer(player, killer)
         name = player.getname()
         prec = self._player_records[name]
         prec.streak = 0

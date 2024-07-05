@@ -5,11 +5,11 @@
 # Uncomment any of these values to override defaults.
 
 # Name of our server in the public parties list.
-party_name: "VORTEX AND HONOR BANG xD" 
+party_name: "|-VORTEX BANG-|" 
 
 # If true, your party will show up in the global public party list
 # Otherwise it will still be joinable via LAN or connecting by IP address.
-party_is_public: false
+party_is_public: true
 
 # If true, all connecting clients will be authenticated through the master
 # server to screen for fake account info. Generally this should always
@@ -29,7 +29,7 @@ enable_default_kick_voting: true
 # servers on one machine.
 # 43210 is the default and the only port that will show up in the LAN
 # browser tab.
-port: 43222
+port: 43210
 
 # Max devices in the party. Note that this does *NOT* mean max players.
 # Any device in the party can have more than one player on it if they have

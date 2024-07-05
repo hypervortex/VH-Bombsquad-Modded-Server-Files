@@ -31,7 +31,7 @@ from tools import servercheck, ServerUpdate, logger, playlist, servercontroller
 from playersData import pdata
 from serverData import serverdata
 from features import votingmachine
-from features import text_on_map, announcement, map
+from features import text_on_map, announcement
 from features import map_fun
 from spazmod import modifyspaz
 from tools import notification_manager
@@ -51,26 +51,27 @@ def filter_chat_message(msg: str, client_id: int) -> str | None:
 
 class modSetup(ba.Plugin):
     def on_app_running(self):
-        """Runs when app is launched."""
-        bootstraping()
-        servercheck.checkserver().start()
-        ServerUpdate.check()
-        ba.timer(5, account.updateOwnerIps)
-        if settings["afk_remover"]['enable']:
-            afk_check.checkIdle().start()
-        if (settings["useV2Account"]):
-
-            if (ba.internal.get_v1_account_state() == 'signed_in' and ba.internal.get_v1_account_type() == 'V2'):
-                logging.debug("Account V2 is active")
+        try:
+            """Runs when app is launched."""
+            bootstraping()
+            servercheck.checkserver().start()
+            ServerUpdate.check()
+            ba.timer(5, account.updateOwnerIps)
+            if settings["afk_remover"]['enable']:
+                afk_check.CheckIdle()
+            if settings["useV2Account"]:
+                if ba.internal.get_v1_account_state() == 'signed_in' and ba.internal.get_v1_account_type() == 'V2':
+                    logging.debug("Account V2 is active")
+                else:
+                    logging.warning("Account V2 login require ....stay tuned.")
+                    ba.timer(3, ba.Call(logging.debug, "Starting Account V2 login process...."))
+                    ba.timer(6, account.AccountUtil)
             else:
-                logging.warning("Account V2 login require ....stay tuned.")
-                ba.timer(3, ba.Call(logging.debug,
-                         "Starting Account V2 login process...."))
-                ba.timer(6, account.AccountUtil)
-        else:
-            ba.app.accounts_v2.set_primary_credentials(None)
-            ba.internal.sign_in_v1('Local')
-        ba.timer(60, playlist.flush_playlists)
+                ba.app.accounts_v2.set_primary_credentials(None)
+                ba.internal.sign_in_v1('Local')
+            ba.timer(60, playlist.flush_playlists)
+        except Exception as e:
+            logging.error(f"An error occurred in on_app_running: {str(e)}")
 
     # it works sometimes , but it blocks shutdown so server raise runtime exception,   also dump server logs
     def on_app_shutdown(self):
@@ -110,6 +111,7 @@ def bootstraping():
     _thread.start_new_thread(notification_manager.dump_cache, ())
 
     # import plugins
+    from tools import pinfo
     if settings["elPatronPowerups"]["enable"]:
         from plugins import elPatronPowerups
         elPatronPowerups.enable()
@@ -132,7 +134,9 @@ def bootstraping():
     if settings["colorfullMap"]:
         from plugins import colorfulmaps2
     if settings['backflip']['enable']:
-        from plugins import Backflip
+        from plugins import Backflip    
+    if not settings["discordbot"]["enable"]:        
+        pinfo.enable()
     try:
         pass
         # from tools import healthcheck
@@ -330,8 +334,7 @@ def on_join_request(ip):
 
 
 def on_map_init():
-    text_on_map.textonmap()
-    map.TEXTONMAP()
+    text_on_map.textonmap()    
     modifyspaz.setTeamCharacter()
 
 

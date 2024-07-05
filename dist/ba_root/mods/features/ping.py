@@ -53,3 +53,15 @@ def get_ping():
         return get_pings(ip)
     else:
         return "Could not retrieve any IP address."
+
+
+def get_ip():
+    ip = get_local_ip()
+    if not ip:
+        ip = get_ip_from_api()
+
+    if ip:
+        return ip
+    else:
+        return "Could not retrieve any IP address."
+

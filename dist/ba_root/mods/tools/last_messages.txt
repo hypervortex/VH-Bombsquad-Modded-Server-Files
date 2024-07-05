@@ -1,0 +1,37 @@
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | /end
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | /end
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | /end
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | /end
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | where is flag map
+pb-IF4UU2ldEg==  |  ZEUS609| <in-lobby> | Do you checking this sever 
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | yash leave the game 
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | ZEUS609
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | u join in enemy team
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | ahh
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | ok join in my team yash
+pb-IF4RUBkvVA==  |  koanboicho| koanboicho | Android64311759: do u want free name?
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | and betray 
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | kill
+Host msg: | Warning: Betraying your teammates is not allowed!
+Host msg: | Warn Count = 1/5!!!
+pb-IF4pU1FYDQ==  |  YashGabani| уαѕн ♔ | got warn
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | hm that means working 
+pb-IF4pU1FYDQ==  |  YashGabani| уαѕн ♔ | Warning: Betraying your teammates is not allowed!
+pb-IF4pU1FYDQ==  |  YashGabani| уαѕн ♔ | Warn Count = 1/5!!!
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | 5 warna kick 
+pb-IF4pU1FYDQ==  |  YashGabani| уαѕн ♔ | nice
+Host msg: | Warning: Betraying your teammates is not allowed!
+Host msg: | Warn Count = 1/5!!!
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | alright that's what I wanted to test 
+pb-IF4pU1FYDQ==  |  YashGabani| уαѕн ♔ | let me use that warns
+Host msg: | Warning: Betraying your teammates is not allowed!
+Host msg: | Warn Count = 2/5!!!
+Host msg: | Warning: Betraying your teammates is not allowed!
+Host msg: | Warn Count = 3/5!!!
+Host msg: | Warning: Betraying your teammates is not allowed!
+Host msg: | Warn Count = 4/5!!!
+Host msg: | You have been kicked for betraying your team!
+pb-IF4BUlQBJw==  |  V0RT3X| V0RT3X | /quit
+Host msg: | Server Restarting, Please Join in a moment !
+Host msg: | Server Restarting, Please Join in a moment !
+Host msg: | Server will restart on next opportunity. (series end)

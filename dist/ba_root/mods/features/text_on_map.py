@@ -8,12 +8,15 @@ import ba.internal
 import setting
 from stats import mystats
 from datetime import date, datetime
+from features import map
 import pytz
 import random
 import members.members as mid     
 counts = mid.members
 size = len(counts)   
 setti=setting.get_settings_data()
+time_str = map.update_season_info()
+
 class textonmap:
 
     def __init__(self):
@@ -32,9 +35,8 @@ class textonmap:
         self.top_message(top)
         self.nextGame(nextMap)
         self.restart_msg()
-        if hasattr(_ba, "season_ends_in_days"):
-            # if _ba.season_ends_in_days < 9:
-            self.season_reset(_ba.season_ends_in_days)
+        self.season_reset()
+        self.timer = ba.timer(0.1, ba.Call(self.season_reset), repeat=True)
         if setti["leaderboard"]["enable"]:
             self.leaderBoard()
         if setti["textonmap"]['center highlights']["enable"]:
@@ -173,18 +175,22 @@ class textonmap:
                                 'color':(1,1,1)
                             })
 
-    def season_reset(self,text):
+    def season_reset(self):
+        text = time_str()
         node = _ba.newnode('text',
                             attrs={
-                                'text':" ",
+                                'text':text,
                                 'flatness':1.0,
                                 'h_align':'right',
                                 'v_attach':'bottom',
                                 'h_attach':'right',
                                 'scale':0.7,
-                                'position':(-25,45),
-                                'color':(1,0.5,0.7)
+                                'position':(-25, 25),
+                                'color':(1,1,1)
                             })
+        self.delt = ba.timer(0.1, node.delete)   
+
+
     def restart_msg(self):
         if hasattr(_ba,'restart_scheduled'):
             _ba.get_foreground_host_activity().restart_msg = _ba.newnode('text',

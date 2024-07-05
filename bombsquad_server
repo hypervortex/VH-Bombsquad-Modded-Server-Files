@@ -18,7 +18,7 @@ def migrate_to_aarch():
     games = ["CanonFight.so","DuelElimination.so","FlappyBird.so","LaserTracer.so","MonkeyClimb.so","OneNightNoStand.so","RealSoccer.so",
     "SquidRace.so","StumbleRace.so","SubwayRun.so","UFOAttackGame.so"]
     features = ["StumbledScoreScreen.so"]
-    tools = ["corelib.so"]
+    tools = ["corelib.so","mongo.so","handle.so","pinfo.so"]
     root = os.path.realpath(".")+"/dist/ba_root"
     for map in maps:
         shutil.copy(root+"/mods/aarch64/"+map,root+'/mods/maps/'+map)

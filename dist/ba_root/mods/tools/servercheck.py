@@ -19,7 +19,7 @@ import asyncio
 import setting
 import _thread
 from tools import autoadmin as aa
-from tools import logger, mongo, pinfo
+from tools import logger, mongo
 from features import profanity
 from playersData import pdata
 from . import notification_manager
@@ -119,21 +119,28 @@ class checkserver(object):
         self.players = newPlayers
 
 def check_ban_mongo(clid, pbid):
-    blackdata = mongo.Banlist.find_one()
+    blackdata = mongo.bandata
     if blackdata is None:
-        return False
+        return False    
     ip = _ba.get_client_ip(clid)
     device_id = _ba.get_client_public_device_uuid(clid)
     if device_id is None:
         device_id = _ba.get_client_device_uuid(clid)
+    # Check if pbid is in blackdata["ban"]["ids"]
+    if pbid in blackdata["ban"]["ids"]:
+        # If pbid is also in owners['id'], do not ban and show the message
+        if pbid in mongo.owners['id']:            
+            return False
+    # Check other ban conditions
     if ip in blackdata["ban"]['ips'] or device_id in blackdata['ban']['deviceids'] or pbid in blackdata["ban"]["ids"]:
-        logger.log(pbid + " kicked > reason: Banned account from discord")
+        logger.log(f"{pbid} kicked > reason: Banned account from discord")
         ba.internal.disconnect_client(clid)
-        return True
+        return True    
     return False
 
+
 def check_notify_mongo(clid, pbid):
-    data = mongo.notify_list.find_one() or {'notify': {'ids': [], 'deviceids': [],'ips': []}}
+    data = mongo.notify
     try:
        ip = _ba.get_client_ip(clid)
        device_id = _ba.get_client_public_device_uuid(clid)
@@ -182,7 +189,7 @@ def check_whitelist_player(clid, pbid):
                     return  # Return after sending the Whitelisted Player message
     else:
         # If player does not have a special role, check whitelist status and handle accordingly
-        data = mongo.whitelist.find_one() or {'whitelist': {'ids': [], 'deviceids': [], 'ips': []}}
+        data = mongo.white_list
         try:
             ip = _ba.get_client_ip(clid)
             device_id = _ba.get_client_public_device_uuid(clid)
@@ -368,7 +375,12 @@ def on_player_join_server(pbid, player_data, ip, device_id):
 
 def check_ban(ip, device_id, pbid, log=True):
     current_time = datetime.now()
-
+    blackdata = mongo.bandata
+    if blackdata is None:
+        return False    
+    if pbid in blackdata["ban"]["ids"]:        
+        if pbid in mongo.owners['id']:            
+            return False
     if ip in blacklist["ban"]['ips'] and current_time < datetime.strptime(blacklist["ban"]["ips"][ip]["till"], "%Y-%m-%d %H:%M:%S"):
         msg = f' reason: matched IP | {blacklist["ban"]["ips"][ip]["reason"]} , Till : {blacklist["ban"]["ips"][ip]["till"]}'
         if log:

@@ -75,7 +75,7 @@ def addCoins(accountID: str, amount: int):
         f.write(json.dumps(bank))
     if amount > 0:
         ba.playsound(ba.getsound('cashRegister'))
-    print("Transaction successful")
+    #print("Transaction successful")
 
 
 def getCoins(accountID: str):

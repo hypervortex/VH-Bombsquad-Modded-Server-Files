@@ -1,19 +1,21 @@
 """Define a simple example plugin."""
 
 # ba_meta require api 7
+#by SARA
 
 from __future__ import annotations
+
+import random
 
 from typing import TYPE_CHECKING
 
 import ba
-import random
 from bastd.actor import bomb
 from bastd.actor.bomb import BombFactory
 from bastd.gameutils import SharedObjects
 
 if TYPE_CHECKING:
-    from typing import Any, Sequence, Optional, Callable
+    from typing import Sequence
 
 
 def new_blast_init(
@@ -22,7 +24,7 @@ def new_blast_init(
     velocity: Sequence[float] = (0.0, 0.0, 0.0),
     blast_radius: float = 2.0,
     blast_type: str = "normal",
-    source_player: ba.Player = None,
+    source_player: bs.Player = None,
     hit_type: str = "explosion",
     hit_subtype: str = "normal",
 ):
@@ -71,6 +73,10 @@ def new_blast_init(
     )
     if self.blast_type == "ice":
         explosion.color = (0, 0.05, 0.4)
+    else:
+        explosion.color = (random.random() * 3,
+                           random.random() * 3,
+                           random.random() * 3)
 
     ba.timer(1.0, explosion.delete)
 
@@ -231,7 +237,6 @@ def new_blast_init(
 
             # TNT throws splintery chunks.
             if self.blast_type == "tnt":
-
                 def emit_splinters() -> None:
                     ba.emitfx(
                         position=position,
@@ -246,7 +251,6 @@ def new_blast_init(
 
             # Every now and then do a sparky one.
             if self.blast_type == "tnt" or random.random() < 0.1:
-
                 def emit_extra_sparks() -> None:
                     ba.emitfx(
                         position=position,
@@ -336,7 +340,7 @@ def new_blast_init(
         ba.playsound(factory.random_explode_sound(), position=lpos)
 
         def _extra_boom() -> None:
-            ba.playsound(factory.random_explode_sound(), position=lpos)
+             ba.playsound(factory.random_explode_sound(), position=lpos)
 
         ba.timer(0.25, _extra_boom)
 

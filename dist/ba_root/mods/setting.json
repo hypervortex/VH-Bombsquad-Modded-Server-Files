@@ -125,7 +125,7 @@
         "fireflies": false,
         "fireflies_random_color": false
     },
-    "colorfullMap": false,
+    "colorfullMap": true,
     "playlists": {
         "team": 12345,
         "epicteams": 442578,
@@ -148,7 +148,7 @@
         "timezone": "Asia/Kolkata"
     },
     "colorful_explosions": {
-        "enable": false
+        "enable": true
     },
     "backflip": {
         "enable": false
@@ -231,8 +231,8 @@
     },
     "discordbot": {
         "enable": false,
-        "database_name": "default1",
-        "token": "<bot-token-herr>",
+        "database_name": "default",
+        "token": "<bot-token-here>",
         "liveChat": true,
         "liveStatsChannelID": 1237851459899625512,
         "logsChannelID": 1177676398803034153,
@@ -288,6 +288,13 @@
         "default_shield": false,
         "default_bomb": "normal",
         "default_bomb_count": 2
+    },
+    "betrayerSystem": {
+        "enable": true,
+        "betrayWarnCooldownMinutes": 5,
+        "maxWarnCount": 5,
+        "afterBetrayWarnKickMsg": "You have been kicked for betraying your team!",
+        "betraywarnMsg": "Warning: Betraying your teammates is not allowed!"
     },
     "allowTeamChat": true,
     "allowVotes": true,

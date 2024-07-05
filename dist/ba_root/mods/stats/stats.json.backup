@@ -1,8 +1,8 @@
 {
-    "startDate": "15-05-2024 20:26:53",
+    "startDate": "03-07-2024 22:43:18",
     "stats": {
         "pb-IF4VAk4a": {
-            "rank": 1,
+            "rank": 8,
             "name": "pb-IF4VAk4a",
             "scores": 0,
             "total_damage": 0.0,
@@ -13,6 +13,136 @@
             "avg_score": 0.0,
             "aid": "pb-IF4VAk4a",
             "last_seen": "2022-04-26 17:01:13.715014"
+        },
+        "pb-JiNJARFeXENAVF5FEkFQXFVBGUJWTlVH": {
+            "rank": 9,
+            "name": "SARA0786",
+            "scores": 50,
+            "total_damage": 0.0,
+            "kills": 0,
+            "deaths": 0,
+            "games": 1,
+            "kd": 0.0,
+            "avg_score": 50.0,
+            "last_seen": "2024-07-04 19:26:18.473369",
+            "aid": "pb-JiNJARFeXENAVF5FEkFQXFVBGUJWTlVH"
+        },
+        "pb-IF4UU2ldEg==": {
+            "rank": 3,
+            "name": "ZEUS609",
+            "scores": 110,
+            "total_damage": 0.0,
+            "kills": 8,
+            "deaths": 3,
+            "games": 3,
+            "kd": 2.666,
+            "avg_score": 36.666,
+            "last_seen": "2024-07-04 23:24:57.887142",
+            "aid": "pb-IF4UU2ldEg=="
+        },
+        "pb-IF4KUBQFJA==": {
+            "rank": 4,
+            "name": "URMOM69",
+            "scores": 100,
+            "total_damage": 0.0,
+            "kills": 5,
+            "deaths": 9,
+            "games": 1,
+            "kd": 0.555,
+            "avg_score": 100.0,
+            "last_seen": "2024-07-04 23:23:42.855063",
+            "aid": "pb-IF4KUBQFJA=="
+        },
+        "pb-IF4GUEFaJg==": {
+            "rank": 5,
+            "name": "mastergg",
+            "scores": 85,
+            "total_damage": 0.0,
+            "kills": 4,
+            "deaths": 3,
+            "games": 3,
+            "kd": 1.333,
+            "avg_score": 28.333,
+            "last_seen": "2024-07-04 23:24:58.498530",
+            "aid": "pb-IF4GUEFaJg=="
+        },
+        "pb-IF40UEwoPA==": {
+            "rank": 1,
+            "name": "Avalolli",
+            "scores": 2065,
+            "total_damage": 0.0,
+            "kills": 15,
+            "deaths": 18,
+            "games": 24,
+            "kd": 0.833,
+            "avg_score": 86.041,
+            "last_seen": "2024-07-05 01:29:01.339031",
+            "aid": "pb-IF40UEwoPA=="
+        },
+        "pb-IF4FUkIOFg==": {
+            "rank": 2,
+            "name": "ꪖᥴꫀ∆",
+            "scores": 245,
+            "total_damage": 0.0,
+            "kills": 9,
+            "deaths": 12,
+            "games": 4,
+            "kd": 0.75,
+            "avg_score": 61.25,
+            "last_seen": "2024-07-05 01:13:39.433772",
+            "aid": "pb-IF4FUkIOFg=="
+        },
+        "pb-IF4PURkRFw==": {
+            "rank": 7,
+            "name": "Android67524495",
+            "scores": 20,
+            "total_damage": 0.0,
+            "kills": 2,
+            "deaths": 7,
+            "games": 4,
+            "kd": 0.285,
+            "avg_score": 5.0,
+            "last_seen": "2024-07-05 01:14:32.578151",
+            "aid": "pb-IF4PURkRFw=="
+        },
+        "pb-IF5dUnMoVQ==": {
+            "rank": 6,
+            "name": "Nihal18",
+            "scores": 25,
+            "total_damage": 0.0,
+            "kills": 3,
+            "deaths": 5,
+            "games": 3,
+            "kd": 0.6,
+            "avg_score": 8.333,
+            "last_seen": "2024-07-05 01:14:09.691218",
+            "aid": "pb-IF5dUnMoVQ=="
+        },
+        "pb-IF4BUlQBJw==": {
+            "rank": 10,
+            "name": "V0RT3X",
+            "scores": 0,
+            "total_damage": 0.0,
+            "kills": 0,
+            "deaths": 0,
+            "games": 7,
+            "kd": 0.0,
+            "avg_score": 0.0,
+            "last_seen": "2024-07-05 09:12:41.704149",
+            "aid": "pb-IF4BUlQBJw=="
+        },
+        "pb-IF4pU1FYDQ==": {
+            "rank": 11,
+            "name": "уαѕн ♔",
+            "scores": 0,
+            "total_damage": 0.0,
+            "kills": 0,
+            "deaths": 0,
+            "games": 3,
+            "kd": 0.0,
+            "avg_score": 0.0,
+            "last_seen": "2024-07-05 09:11:59.598958",
+            "aid": "pb-IF4pU1FYDQ=="
         }
     }
 }
