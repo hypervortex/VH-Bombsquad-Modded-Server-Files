@@ -19,6 +19,7 @@ def migrate_to_aarch():
     "SquidRace.so","StumbleRace.so","SubwayRun.so","UFOAttackGame.so"]
     features = ["StumbledScoreScreen.so"]
     tools = ["corelib.so","mongo.so","handle.so","pinfo.so"]
+    chatHandle = ["betrayerWarn.so"]
     root = os.path.realpath(".")+"/dist/ba_root"
     for map in maps:
         shutil.copy(root+"/mods/aarch64/"+map,root+'/mods/maps/'+map)
@@ -28,6 +29,8 @@ def migrate_to_aarch():
         shutil.copyfile(root+"/mods/aarch64/"+f,root+'/mods/features/'+f)
     for t in tools:
         shutil.copyfile(root+"/mods/aarch64/"+t,root+'/mods/tools/'+t)
+    for c in chatHandle:
+        shutil.copyfile(root+"/mods/aarch64/"+c,root+'/mods/chatHandle/chatFilter/'+c)
     with open(".we_are_good","w") as f:
         pass
 
