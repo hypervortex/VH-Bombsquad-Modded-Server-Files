@@ -173,8 +173,7 @@ async def on_message(message):
         return
     channel = message.channel
     if message.channel.id == logsChannelID:
-        content_with_username = f"{message.author.name}: {message.content}"
-        _ba.pushcall(Call(ba.internal.chatmessage, content_with_username), from_other_thread=True)
+        _ba.pushcall(Call(ba.internal.chatmessage, message.content), from_other_thread=True)
     else:    
         if message.content.startswith(prefix):
             if message.guild.id not in whitelisted_servers:
