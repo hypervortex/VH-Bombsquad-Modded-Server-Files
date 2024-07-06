@@ -32,6 +32,7 @@ sudo chown -R ubuntu:ubuntu /home/ubuntu/VH-Bombsquad-Modded-Server-Files
 pip3 install ping3 --target=/usr/lib/python3.10
 pip3 install pymongo --target=/usr/lib/python3.10
 pip3 install psutil --target=/usr/lib/python3.10
+pip3 install --upgrade discord.py --target=/usr/lib/python3.10
 
 
 # Additional commands or post-installation actions can be added here
