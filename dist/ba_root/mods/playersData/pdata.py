@@ -40,6 +40,7 @@ class CacheData:  # pylint: disable=too-few-public-methods
     profiles: dict = {}
     whitelist: list[str] = []
     blacklist: dict = {}
+    deviceid: dict = {}
 
 
 def get_info(account_id: str) -> dict | None:
