@@ -34,5 +34,5 @@ def log_command(user_id, user_name, command):
     with open(file_path, "w") as f:
         json.dump(logs_data, f, indent=4)
 
-    print("Command logged successfully.")
+    #print("Command logged successfully.")
 
