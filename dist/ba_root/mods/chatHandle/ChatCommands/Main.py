@@ -95,7 +95,7 @@ def Command(msg, clientid):
                     cost_of_command = set.availablecommands[command]
                     have_coins = nc.getcoins(accountid)
                     if have_coins >= cost_of_command:
-                        Management.ExcelCommand(command, arguments, clientid, accountid)
+                        Management.ExcelCommand(command, arguments, clientid, accountid, Arguments)
                         cc.addcoins(accountid, cost_of_command * -1)                    
                         sendall(f"Success! /{command} cost you {tic}{cost_of_command}.")
                     else:
