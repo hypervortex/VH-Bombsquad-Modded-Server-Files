@@ -7,6 +7,7 @@ repo_url = "https://github.com/Mikahael/VH-Bombsquad-Modded-Server-Files.git"
 if not os.path.exists(folder_name):
     os.system(f"git clone {repo_url}")  # Clone the repo if the folder is missing
     print("Repository cloned:", repo_url)
+    # install when all the other stuff installing as well
     os.system("pip3 install requests pytz psutil pymongo discord.py ping3")
 
 # Change directory to the cloned folder
