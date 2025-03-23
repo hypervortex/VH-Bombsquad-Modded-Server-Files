@@ -1,1 +1,21 @@
+import os
+#os.system("chmod 555 bs")
 
+folder_name = "VH-Bombsquad-Modded-Server-Files"
+repo_url = "https://github.com/Mikahael/VH-Bombsquad-Modded-Server-Files.git"
+
+# Check if the folder exists
+if not os.path.exists(folder_name):
+    os.system("git clone " + repo_url)  # Clone the repo if the folder is missing
+    print("Repository cloned:", repo_url)
+
+# Change directory to the cloned folder
+os.chdir(folder_name)
+
+# Give execute permissions
+os.system("chmod 777 bombsquad_server")
+#os.system("chmod 777 bs_headless")
+#os.system("chmod 777 config.py")
+
+# Run BombSquad server
+#os.system("./bombsquad_server --port {{SERVER_PORT}}")
