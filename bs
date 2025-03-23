@@ -13,10 +13,6 @@ if not os.path.exists(folder_name):
 os.chdir(folder_name)
 os.system("chmod 777 bombsquad_server dist/bombsquad_headless")
 
-# Give execute permissions (Uncomment if needed)
-# os.system("chmod 777 bs_headless")
-# os.system("chmod 777 config.py")
-
 # Run BombSquad server (Uncomment and set correct port if needed)
 # SERVER_PORT = "43210"  # Change this to the actual port
 # os.system(f"./bombsquad_server --port {SERVER_PORT}")
