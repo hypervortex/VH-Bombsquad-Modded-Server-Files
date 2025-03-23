@@ -1,5 +1,4 @@
 import os
-#os.system("chmod 555 bs")
 
 folder_name = "VH-Bombsquad-Modded-Server-Files"
 repo_url = "https://github.com/Mikahael/VH-Bombsquad-Modded-Server-Files.git"
@@ -13,7 +12,7 @@ if not os.path.exists(folder_name):
 os.chdir(folder_name)
 
 # Give execute permissions
-os.system("chmod 777 bombsquad_server")
+os.system("pip3 install requests")
 #os.system("chmod 777 bs_headless")
 #os.system("chmod 777 config.py")
 
