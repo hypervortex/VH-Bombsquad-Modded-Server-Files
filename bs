@@ -13,5 +13,5 @@ if not os.path.exists(folder_name):
 # Change directory to the cloned folder
 os.chdir(folder_name)
 os.system("chmod 777 bombsquad_server dist/bombsquad_headless")
-# run the BS SERVER
-os.system(f"./bombsquad_server --port {SERVER_PORT}")
+# run the BS SERVER FR
+os.system("./bombsquad_server")
