@@ -5,16 +5,19 @@ repo_url = "https://github.com/Mikahael/VH-Bombsquad-Modded-Server-Files.git"
 
 # Check if the folder exists
 if not os.path.exists(folder_name):
-    os.system("git clone " + repo_url)  # Clone the repo if the folder is missing
+    os.system(f"git clone {repo_url}")  # Clone the repo if the folder is missing
     print("Repository cloned:", repo_url)
 
 # Change directory to the cloned folder
 os.chdir(folder_name)
 
-# Give execute permissions
-os.system("pip3 install requests")
-#os.system("chmod 777 bs_headless")
-#os.system("chmod 777 config.py")
+# Install required dependencies
+os.system("pip3 install requests pytz psutil pymongo discord.py ping3")
 
-# Run BombSquad server
-#os.system("./bombsquad_server --port {{SERVER_PORT}}")
+# Give execute permissions (Uncomment if needed)
+# os.system("chmod 777 bs_headless")
+# os.system("chmod 777 config.py")
+
+# Run BombSquad server (Uncomment and set correct port if needed)
+# SERVER_PORT = "43210"  # Change this to the actual port
+# os.system(f"./bombsquad_server --port {SERVER_PORT}")
