@@ -193,3 +193,11 @@ site/
 # ==========================================
 .envrc
 .direnv/
+# Python bytecode and cache directories
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+
+# Ignore generated distribution directory (optional)
+# dist/
