@@ -1,0 +1,195 @@
+
+# ==========================================
+# Python bytecode and cache
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.pytype/
+.ruff_cache/
+.pyre/
+.dmypy.json
+dmypy.json
+
+# ==========================================
+# Virtual environments
+# ==========================================
+.venv/
+venv/
+env/
+ENV/
+.virtualenv/
+.python-version
+
+# ==========================================
+# Environment variables and secrets
+# ==========================================
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+*.pem
+*.key
+secrets/
+secrets.json
+
+# ==========================================
+# Python packaging and distribution
+# ==========================================
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg
+*.egg-info/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+MANIFEST
+*.manifest
+*.spec
+
+# ==========================================
+# Testing and coverage
+# ==========================================
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+nosetests.xml
+junit.xml
+.tox/
+.nox/
+.hypothesis/
+test-results/
+.pytest_cache/
+
+# ==========================================
+# Logs and temporary files
+# ==========================================
+*.log
+logs/
+log/
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.orig
+*~
+temp/
+tmp/
+
+# ==========================================
+# Jupyter Notebook
+# ==========================================
+.ipynb_checkpoints/
+profile/
+.ipython/
+jupyter_runtime/
+
+# ==========================================
+# IDEs and editors
+# ==========================================
+.vscode/
+.idea/
+*.iml
+.spyproject/
+.spyderproject/
+.ropeproject/
+.project
+.pydevproject
+
+# ==========================================
+# Operating system files
+# ==========================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Thumbs.db:encryptable
+Desktop.ini
+$RECYCLE.BIN/
+
+# ==========================================
+# Type checking and linting
+# ==========================================
+.pyright/
+.pyre/
+.mypy_cache/
+.ruff_cache/
+
+# ==========================================
+# Python application frameworks
+# ==========================================
+instance/
+.webassets-cache/
+
+# Django
+*.pot
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# Flask
+instance/
+
+# ==========================================
+# Databases and local data
+# ==========================================
+*.sqlite
+*.sqlite3
+*.db
+
+# ==========================================
+# Async and task queues
+# ==========================================
+celerybeat-schedule
+celerybeat.pid
+
+# ==========================================
+# Profiling and debugging
+# ==========================================
+.prof
+.profile
+.profiler/
+*.prof
+.dmypy.json
+
+# ==========================================
+# PyInstaller
+# ==========================================
+# *.manifest and *.spec already covered above
+
+# ==========================================
+# Local package managers
+# ==========================================
+.pdm-python
+.pdm-build/
+__pypackages__/
+
+# Poetry
+poetry.toml
+
+# Pipenv
+# Keep Pipfile and Pipfile.lock tracked
+
+# ==========================================
+# Documentation builds
+# ==========================================
+docs/_build/
+site/
+
+# ==========================================
+# Local configuration
+# ==========================================
+.envrc
+.direnv/
