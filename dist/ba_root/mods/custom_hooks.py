@@ -111,7 +111,7 @@ def bootstraping():
     _thread.start_new_thread(notification_manager.dump_cache, ())
 
     # import plugins
-    from tools import pinfo
+    # from tools import pinfo
     if settings["elPatronPowerups"]["enable"]:
         from plugins import elPatronPowerups
         elPatronPowerups.enable()
@@ -135,8 +135,8 @@ def bootstraping():
         from plugins import colorfulmaps2
     if settings['backflip']['enable']:
         from plugins import Backflip    
-    if not settings["discordbot"]["enable"]:        
-        pinfo.enable()
+    # if not settings["discordbot"]["enable"]:        
+    #     pinfo.enable()
     try:
         pass
         # from tools import healthcheck

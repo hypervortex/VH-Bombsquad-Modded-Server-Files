@@ -19,7 +19,7 @@ import asyncio
 import setting
 import _thread
 from tools import autoadmin as aa
-from tools import logger, mongo
+from tools import logger
 from features import profanity
 from playersData import pdata
 from . import notification_manager
@@ -280,11 +280,11 @@ def on_player_join_server(pbid, player_data, ip, device_id):
                 f'sad ,you are banned kid, join discord for unban appeal', clients=[clid])
             ba.internal.disconnect_client(clid)
             return
-        if check_ban_mongo(clid,pbid):
-            _ba.chatmessage(
-                'sad ,you are banned kid, join discord for unban appeal', clients=[clid])
-            ba.internal.disconnect_client(clid)
-            return
+        # if check_ban_mongo(clid,pbid):
+        #     _ba.chatmessage(
+        #         'sad ,you are banned kid, join discord for unban appeal', clients=[clid])
+        #     ba.internal.disconnect_client(clid)
+        #     return
         #to check expired effect :)
         if settings["Paideffects"]["Expired"]:
            pdata.checkExpiredItems()
@@ -375,12 +375,12 @@ def on_player_join_server(pbid, player_data, ip, device_id):
 
 def check_ban(ip, device_id, pbid, log=True):
     current_time = datetime.now()
-    blackdata = mongo.bandata
-    if blackdata is None:
-        return False    
-    if pbid in blackdata["ban"]["ids"]:        
-        if pbid in mongo.owners['id']:            
-            return False
+    # blackdata = mongo.bandata
+    # if blackdata is None:
+    #     return False    
+    # if pbid in blackdata["ban"]["ids"]:        
+    #     if pbid in mongo.owners['id']:            
+    #         return False
     if ip in blacklist["ban"]['ips'] and current_time < datetime.strptime(blacklist["ban"]["ips"][ip]["till"], "%Y-%m-%d %H:%M:%S"):
         msg = f' reason: matched IP | {blacklist["ban"]["ips"][ip]["reason"]} , Till : {blacklist["ban"]["ips"][ip]["till"]}'
         if log:

@@ -17,7 +17,7 @@ from tools.file_handle import OpenJson
 import _ba
 import ba.internal
 import json
-from tools import mongo
+# from tools import mongo
 from tools.ServerUpdate import checkSpammer
 import setting
 from datetime import datetime, timedelta

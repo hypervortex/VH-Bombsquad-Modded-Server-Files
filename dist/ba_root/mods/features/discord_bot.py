@@ -7,7 +7,7 @@ from ba._general import Call
 from playersData import pdata
 from serverData import serverdata
 import setting
-from tools import mongo
+# from tools import mongo
 from chatHandle.ChatCommands.commands.Handlers import send
 from chatHandle.ChatCommands.commands import NormalCommands as nc
 from chatHandle.ChatCommands.commands import CoinCmds as cc

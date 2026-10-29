@@ -15,7 +15,7 @@ import setting
 from stats import mystats
 from bastd.gameutils import SharedObjects
 from tools import playlist
-from tools import logger, mongo
+from tools import logger
 import set
 import threading
 import json

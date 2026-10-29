@@ -1,4 +1,4 @@
-from tools import mongo
+# from tools import mongo
 #by SARA
 
 #check the complaint of player and add in mongoDB xD
